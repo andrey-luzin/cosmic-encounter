@@ -1,8 +1,8 @@
 
-export default function Home() {
+export default function Home1() {
   return (
     <main>
-      New magic app
+      New magic app1
     </main>
   )
 }
