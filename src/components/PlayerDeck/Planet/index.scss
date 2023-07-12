@@ -1,0 +1,40 @@
+@import '@/styles/mixins.scss';
+
+.planet {
+  @extend %before;
+  
+  &__atmosphere {
+    height: 190px;
+    width: 190px;
+    position: relative;
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,.3) 0%, rgba(255,255,255,0) 65%);
+    border-radius: 100%;
+    overflow: hidden;
+
+    // be random
+    box-shadow: inset 10px 0 12px -2px rgba(255, 255, 255, 0.2), inset -70px 0 50px 0 black, -5px 0 10px -4px #999999;
+  }
+
+  &__surface{
+    position: absolute; 
+    height: 100%;
+    width: 100%; 
+    z-index: -1;
+    background-size: cover;
+
+    // be random
+    background-image: url('/images/textures/earth.jpg');
+    transform: rotate(24.3deg) scale(1.1);
+    animation: planetRotate calc(50*.1s) linear infinite; 
+  }
+}
+
+@keyframes planetRotate {
+  0%{
+    background-position: 0% center;
+  }
+
+  100%{
+    background-position: -200% center;
+  }
+}
