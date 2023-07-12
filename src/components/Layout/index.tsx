@@ -8,8 +8,8 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
   children
 }) => {
   return(
-    <>
+    <main className='layout'>
       {children}
-    </>
+    </main>
   );
 };
