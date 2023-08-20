@@ -1,5 +1,8 @@
+@import '@/styles/mixins.scss';
+
 .player-deck {
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
+  position: relative;
 }

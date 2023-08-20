@@ -1,7 +1,19 @@
 @import '@/styles/mixins.scss';
 
+@mixin circular-position() {
+  transform: translate(
+    calc(50% + var(--circle-radius) * cos(var(--angle))),
+    calc(50% + var(--circle-radius) * sin(var(--angle)))
+  );
+}
+
 .planet {
+  transform-origin: 50% 50%;
+  @include circular-position;
+
   @extend %before;
+
+  position: absolute;
   
   &__atmosphere {
     height: 190px;
@@ -25,7 +37,8 @@
     // be random
     background-image: url('/images/textures/earth.jpg');
     transform: rotate(24.3deg) scale(1.1);
-    animation: planetRotate calc(50*.1s) linear infinite; 
+
+    // animation: planetRotate calc(50 * .1s) linear infinite; 
   }
 }
 
