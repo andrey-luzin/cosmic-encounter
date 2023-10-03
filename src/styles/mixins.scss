@@ -42,11 +42,18 @@
 
 %after {
   position: relative;
-  z-index: var(--z-2);
+  z-index: 2;
 
   &:after {
     position: absolute;
     content: '';
-    z-index: var(--z-3);
+    z-index: 3;
   }
+}
+
+@mixin circularPosition($size, $angle) {
+  transform: translate(
+    calc(#{$size} * 2.15 * cos(#{$angle})),
+    calc(#{$size} * 2.15 * sin(#{$angle}))
+  );
 }

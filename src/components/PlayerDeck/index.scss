@@ -1,8 +1,25 @@
 @import '@/styles/mixins.scss';
 
 .player-deck {
+  $root: &;
+
   display: flex;
   flex-wrap: wrap;
-  gap: 50px;
   position: relative;
+  gap: 50px;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  background-color: pink;
+  @include transition;
+
+  margin: auto;
+
+  &--current {
+    background-color: green;
+    grid-column: 2 / span 1;
+    grid-row: 3;
+  }
 }
