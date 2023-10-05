@@ -2,20 +2,23 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
 import { Planet } from './Planet';
-import { CSSDeckIndex } from '@/const/css-consts';
+import { CSSDeckIndex, CSSDeckColor } from '@/const/css-consts';
+import { PlayerColor } from '@/types/PlayerTypes';
+import Image from 'next/image';
 
 import './index.scss';
 
-type PlayerDeckProps = { index: number };
+type PlayerDeckProps = { index: number, color: PlayerColor };
 
 const countOfPlanets = 5;
 
-export const PlayerDeck: FC<PlayerDeckProps> = ({ index }) => {
+export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color }) => {
   const deckRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (deckRef.current) {
       deckRef.current.style.setProperty(CSSDeckIndex, String(index));
+      deckRef.current.style.setProperty(CSSDeckColor, color);
     }
   }, [index]);
 

@@ -51,7 +51,7 @@
   &--total-count-5 > * {
     &:nth-child(2) {
       grid-column-start: 1;
-      grid-row-start: 2;
+      grid-row: 2 / span 2;
     }
 
     &:nth-child(3) {
@@ -66,7 +66,15 @@
 
     &:nth-child(5) {
       grid-column-start: 3;
-      grid-row-start: 2;
+      grid-row: 2 / span 2;
     }
+  }
+
+  &__warp {
+    position: relative !important;
+    width: auto !important;
+    grid-column: 2;
+    grid-row: 2;
+    margin: auto;
   }
 }

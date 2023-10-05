@@ -19,17 +19,24 @@
   @extend %before;
 
   position: absolute;
+  font-size: 4px;
   
   &__atmosphere {
     height: var(--circle-radius);
     width: var(--circle-radius);
+    min-width: 54px;
+    min-height: 54px;
     position: relative;
     background: radial-gradient(circle at 30% 50%, rgba(255,255,255,.3) 0%, rgba(255,255,255,0) 65%);
     border-radius: 100%;
     overflow: hidden;
 
     // be random
-    box-shadow: inset 10px 0 12px -2px rgba(255, 255, 255, 0.2), inset -70px 0 50px 0 black, -5px 0 10px -4px #999999;
+    box-shadow:
+      inset .625em 0 2em -.125em var(--deck-color),
+      inset -4.375em 0 3.125em 0 black,
+      -0.3125em 0 0.625em -.25em var(--deck-color),
+      0 0 45em 0 var(--deck-color);
   }
 
   &__surface{
@@ -40,10 +47,8 @@
     background-size: cover;
 
     // be random
-    background-image: url('/images/textures/earth.jpg');
     transform: rotate(24.3deg) scale(1.1);
-
-    // animation: planetRotate calc(50 * .1s) linear infinite; 
+    animation: planetRotate calc(50 * .1s) linear infinite; 
   }
 }
 
