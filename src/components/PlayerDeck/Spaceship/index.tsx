@@ -1,11 +1,18 @@
+"use client";
 import React, { FC } from 'react';
+import { PlayerColor } from '@/types/PlayerTypes';
 
 import './index.scss';
 
-type SpaceshipProps = unknown;
+type SpaceshipProps = { color: PlayerColor };
 
-export const Spaceship: FC<SpaceshipProps> = () => {
+export const Spaceship: FC<SpaceshipProps> = ({ color }) => {
   return(
-    <div className="spaceship"></div>
+    <div
+      className="spaceship"
+      style={{
+        backgroundColor: color,
+      }}
+    />
   );
 };

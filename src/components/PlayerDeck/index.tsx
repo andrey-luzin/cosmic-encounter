@@ -3,16 +3,15 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
 import { Planet } from './Planet';
 import { CSSDeckIndex, CSSDeckColor } from '@/const/css-consts';
-import { PlayerColor } from '@/types/PlayerTypes';
-import Image from 'next/image';
+import { PlayerType } from '@/types/PlayerTypes';
 
 import './index.scss';
 
-type PlayerDeckProps = { index: number, color: PlayerColor };
+type PlayerDeckProps = { index: number } & PlayerType;
 
 const countOfPlanets = 5;
 
-export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color }) => {
+export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, name }) => {
   const deckRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -20,7 +19,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color }) => {
       deckRef.current.style.setProperty(CSSDeckIndex, String(index));
       deckRef.current.style.setProperty(CSSDeckColor, color);
     }
-  }, [index]);
+  }, [color, index]);
 
   return(
     <div
@@ -34,7 +33,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color }) => {
       {
         [...Array(countOfPlanets)].map((_, index) => {
           return(
-            <Planet key={index} />
+            <Planet key={index} color={color} name={name} />
           );
         })
       }

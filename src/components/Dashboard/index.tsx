@@ -40,7 +40,7 @@ export const Dashboard: FC<DashboardProps> = () => {
   return(
     <div className={`dashboard dashboard--total-count-${players.length}`}>
       {players.map((player, index) => {
-        return <PlayerDeck index={index} key={index} color={player.color} />;
+        return <PlayerDeck index={index} key={index} color={player.color} name={player.name} />;
       })}
        <Image
           fill

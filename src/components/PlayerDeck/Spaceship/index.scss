@@ -1,6 +1,10 @@
 .spaceship {
-  width: 20px;
-  height: 20px;
+  $size: 20px;
+
+  width: $size;
+  height: $size;
   border-radius: 100%;
-  background-color: var(--deck-color);
+  border: 2px solid white;
+  flex-shrink: 0;
+  margin-bottom: -$size / 2;
 }
