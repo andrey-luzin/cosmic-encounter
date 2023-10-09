@@ -1,5 +1,5 @@
 "use client"; 
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { Planet } from './Planet';
 import { CSSDeckIndex, CSSDeckColor } from '@/const/css-consts';
@@ -11,7 +11,7 @@ type PlayerDeckProps = { index: number } & PlayerType;
 
 const countOfPlanets = 5;
 
-export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, name }) => {
+export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, playerName }) => {
   const deckRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, name }) => {
       {
         [...Array(countOfPlanets)].map((_, index) => {
           return(
-            <Planet key={index} color={color} name={name} />
+            <Planet key={index} color={color} playerName={playerName} />
           );
         })
       }

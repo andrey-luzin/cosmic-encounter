@@ -1,56 +1,79 @@
 "use client"; 
 import React, { FC, useEffect } from 'react';
+import cx from 'classnames';
 import Image from 'next/image';
+import { useDrop } from 'react-dnd';
 
 import { CSSDecksCount } from '@/const/css-consts';
 import { PlayerDeck } from '@/components/PlayerDeck';
 
-import './index.scss';
 import { PlayerColor, PlayerType } from '@/types/PlayerTypes';
+import { ItemTypes } from '@/types/DnDTypes';
+
+import './index.scss';
 
 type DashboardProps = unknown;
 
 const players: PlayerType[] = [
   {
-    name: "1",
+    playerName: "1",
     color: PlayerColor.Blue
   },
   {
-    name: "1",
+    playerName: "1",
     color: PlayerColor.Yellow
   },
   {
-    name: "1",
+    playerName: "1",
     color: PlayerColor.Red
   },
   {
-    name: "1",
+    playerName: "1",
     color: PlayerColor.Purple
   },
   // {
-  //   name: "1",
+  //   playerName: "1",
   //   color: PlayerColor.Green
   // },
 ];
 
 export const Dashboard: FC<DashboardProps> = () => {
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.SPACESHIP,
+    drop: () => ({ toWarp: true }),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
+
   useEffect(() => {
     document.documentElement.style.setProperty(CSSDecksCount, String(players.length));
   }, []);
+
   return(
     <div className={`dashboard dashboard--total-count-${players.length}`}>
       {players.map((player, index) => {
-        return <PlayerDeck index={index} key={index} color={player.color} name={player.name} />;
+        return <PlayerDeck index={index} key={index} color={player.color} playerName={player.playerName} />;
       })}
-       <Image
+      <div
+        className={cx(
+          'dashboard__warp-container',
+          { 'dashboard__warp-container--can-drop': canDrop },
+          { 'dashboard__warp-container--is-active': canDrop && isOver },
+        )}
+        ref={drop}
+      >
+        <Image
           fill
           alt=''
           src="/images/warp.png"
           style={{
             objectFit: 'cover',
           }}
-          className='dashboard__warp'
+          className="dashboard__warp"
         />
+      </div>
     </div>
   );
 };

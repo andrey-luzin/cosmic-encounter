@@ -7,6 +7,6 @@ export enum PlayerColor {
 }
 
 export type PlayerType = {
-  name: string,
+  playerName: string,
   color: PlayerColor
 };

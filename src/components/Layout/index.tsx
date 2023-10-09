@@ -1,5 +1,8 @@
+"use client";
 import React, { FC, PropsWithChildren } from 'react';
 import Image from 'next/image';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import './index.scss';
 
@@ -20,7 +23,9 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
           }}
         />
       </div>
-      {children}
+      <DndProvider backend={HTML5Backend}>
+        {children}
+      </DndProvider>
     </main>
   );
 };

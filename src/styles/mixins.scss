@@ -57,3 +57,11 @@
     calc(-100% + #{$size} * 2.15 * sin(#{$angle}))
   );
 }
+
+@mixin dropShadow($strength: 0.65rem, $color: #fff) {
+  filter: drop-shadow(0 0 $strength $color);
+}
+
+@mixin boxShadow($strength: 0.65rem, $color: #fff) {
+  box-shadow: 0 0 $strength $color;
+}

@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .dashboard {
   height: 100%;
   padding: 6rem 2rem;
@@ -70,11 +72,24 @@
     }
   }
 
-  &__warp {
-    position: relative !important;
-    width: auto !important;
+  &__warp-container {
     grid-column: 2;
     grid-row: 2;
+    position: relative;
+    @include transition(filter);
+
+    &--can-drop {
+      @include dropShadow;
+    }
+
+    &--is-active {
+      @include dropShadow(1.15rem);
+    }
+  }
+
+  &__warp {
+    position: relative !important;
     margin: auto;
+    pointer-events: none;
   }
 }
