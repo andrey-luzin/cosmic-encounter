@@ -1,0 +1,33 @@
+@import '@/styles/mixins.scss';
+
+.warp {
+  grid-column: 2;
+  grid-row: 2;
+  position: relative;
+  @include transition(filter);
+
+  user-select: none;
+
+  &--can-drop {
+    @include dropShadow;
+  }
+
+  &--is-active {
+    @include dropShadow(1.15rem);
+  }
+
+  &__image {
+    position: relative !important;
+    margin: auto;
+    pointer-events: none;
+  }
+
+  &__ship-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+}

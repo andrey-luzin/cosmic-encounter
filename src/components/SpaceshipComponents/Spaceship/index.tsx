@@ -8,16 +8,18 @@ import { ItemTypes } from '@/types/DnDTypes';
 import './index.scss';
 
 type SpaceshipProps = {
-  onDrag: (color: PlayerColor) => void;
-  planetId: string;
-} & PlayerType;
+  onDrag: (color?: PlayerColor) => void;
+  objectId: string;
+  color?: PlayerType['color'],
+  isInWarp?: boolean,
+};
 
-export const Spaceship: FC<SpaceshipProps> = ({ color, onDrag, planetId }) => {
+export const Spaceship: FC<SpaceshipProps> = ({ color, onDrag, objectId, isInWarp = false }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.SPACESHIP,
     item: {
       color,
-      planetId,
+      objectId,
     },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
@@ -29,11 +31,15 @@ export const Spaceship: FC<SpaceshipProps> = ({ color, onDrag, planetId }) => {
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  }), [color, planetId, onDrag]);
+  }), [color, objectId, onDrag]);
 
   return(
     <div
-      className={cx('spaceship', { 'spaceship--is-dragging': isDragging })}
+      className={cx(
+        'spaceship',
+        { 'spaceship--is-dragging': isDragging },
+        { 'spaceship--is-warp': isInWarp }
+      )}
       ref={drag}
       style={{
         backgroundColor: color,

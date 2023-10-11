@@ -1,86 +1,34 @@
 "use client"; 
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { useDrop } from 'react-dnd';
+import React, { FC, useEffect, useState } from 'react';
 import cx from 'classnames';
 import { nanoid } from 'nanoid';
 
-import { Spaceship } from '@/components/PlayerDeck/Spaceship';
 import { PlayerType } from '@/types/PlayerTypes';
-import { ItemTypes } from '@/types/DnDTypes';
 
 import './index.scss';
+import { SpaceshipContainer, DropStateType } from '@/components/SpaceshipComponents/SpaceshipContainer';
 
 type PlanetProps = PlayerType;
 
 const imagesCount = 36;
 const initSpaceshipsCount = 4;
 
-export const Planet: FC<PlanetProps> = ({ color, playerName }) => {
+export const Planet: FC<PlanetProps> = ({ color }) => {
   const [planetImage, setPlanetImage] = useState<string>();
-  const [spaceshipsGroup, setSpaceshipsGroup] = useState<({ count: number } & PlayerType)[]>(
-    [{ count: initSpaceshipsCount, color, playerName }]
+  const [dropState, setDropState] = useState<DropStateType>(
+    { canDrop: false, isOver: false, drop: () => null }
   );
-  const [planetId] = useState<string>(nanoid());
+  const { canDrop, isOver, drop } = dropState;
+
+  const [objectId] = useState<string>(nanoid());
 
   useEffect(() => {
     setPlanetImage(`url('/images/textures/texture${Math.ceil(Math.random() * imagesCount)}.webp')`);
   }, []);
 
-  const onSpaceShipDrag = useCallback((currentColor: PlayerType['color']) => {
-    const updatedSpaceshipsGroup = spaceshipsGroup.map(group => {
-      if (group.color === currentColor && group.count) {
-        return {
-          ...group,
-          count: group.count - 1,
-        };
-      }
-      return group;
-    });
-
-    setSpaceshipsGroup(updatedSpaceshipsGroup);
-  }, [spaceshipsGroup]);
-
-  const onSpaceShipDrop = useCallback((
-    currentColor: PlayerType['color'],
-    currentPlayerName: PlayerType['playerName']
-  ) => {
-    let updatedSpaceshipsGroup = [];
-
-    if (spaceshipsGroup.find(group => group.color === currentColor)) {
-      updatedSpaceshipsGroup = spaceshipsGroup.map(group => {
-        if (group.color === currentColor) {
-          return {
-            ...group,
-            count: group.count + 1,
-          };
-        }
-        return group;
-      });
-    } else {
-      const newSpaceshipsGroup = { count: 1, color: currentColor, playerName: currentPlayerName };
-      updatedSpaceshipsGroup = [...spaceshipsGroup, newSpaceshipsGroup];
-    }
-
-    setSpaceshipsGroup(updatedSpaceshipsGroup);
-  }, [spaceshipsGroup]);
-
-  const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.SPACESHIP,
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-      handlerId: monitor.getHandlerId(),
-    }),
-    drop: (item: { planetId: string } & PlayerType)  => {
-      onSpaceShipDrop(item.color, item.playerName);
-    },
-    canDrop(item) {
-      if (item.planetId === planetId) {
-        return false;
-      }
-      return true;
-    },
-  }), [onSpaceShipDrop, color, planetId]);
+  const onLoadHandler = ({ canDrop, isOver, drop }: DropStateType) => {
+    setDropState({ canDrop, isOver, drop });
+  };
 
   return(
     <div
@@ -92,32 +40,13 @@ export const Planet: FC<PlanetProps> = ({ color, playerName }) => {
       )}
     >
       <div className="planet__atmosphere">
-        <div className="planet__surface" style={{
-          backgroundImage: planetImage
-        }} />
-        <div className="planet__ships-container">
-          {
-            spaceshipsGroup.map((group, index) => {
-              return(
-                <div className="planet__ships-group" key={index}>
-                  {
-                    [...Array(group.count)].map((_, index) => {
-                      return (
-                        <Spaceship
-                          key={index}
-                          color={group.color}
-                          playerName={group.playerName}
-                          onDrag={onSpaceShipDrag}
-                          planetId={planetId}
-                        />
-                      );
-                    })
-                  }
-                </div>
-              );
-            })
-          }
-        </div>
+        <div className="planet__surface" style={{ backgroundImage: planetImage }} />
+          <SpaceshipContainer
+            spaceshipsCount={initSpaceshipsCount}
+            color={color}
+            onLoad={onLoadHandler}
+            objectId={objectId}
+          />
       </div>
     </div>
   );

@@ -71,25 +71,4 @@
       grid-row: 2 / span 2;
     }
   }
-
-  &__warp-container {
-    grid-column: 2;
-    grid-row: 2;
-    position: relative;
-    @include transition(filter);
-
-    &--can-drop {
-      @include dropShadow;
-    }
-
-    &--is-active {
-      @include dropShadow(1.15rem);
-    }
-  }
-
-  &__warp {
-    position: relative !important;
-    margin: auto;
-    pointer-events: none;
-  }
 }

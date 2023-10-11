@@ -11,4 +11,9 @@
   &--is-dragging {
     opacity: 0.4;
   }
+
+  &--is-warp {
+    width: #{$size * 1.25};
+    height: #{$size * 1.25};
+  }
 }
