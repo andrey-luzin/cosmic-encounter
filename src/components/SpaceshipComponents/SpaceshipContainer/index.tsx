@@ -1,15 +1,13 @@
 "use client";
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import cx from 'classnames';
+import { useDrop } from 'react-dnd';
 
 import { Spaceship } from '../Spaceship';
-import { ItemTypes } from '@/types/DnDTypes';
-import { PlayerType } from '@/types/PlayerTypes';
-import { useDrop, ConnectDropTarget } from 'react-dnd';
+import { ItemTypes, DropStateType } from '@/types/DnDTypes';
+import { PlayerType,  } from '@/types/PlayerTypes';
 
 import './index.scss';
-
-export type DropStateType = { canDrop: boolean, isOver: boolean, drop: ConnectDropTarget };
 
 type SpaceshipContainerProps = {
   objectId: string,
@@ -17,12 +15,14 @@ type SpaceshipContainerProps = {
   color?: PlayerType['color'],
   isInWarp?: boolean,
   spaceshipsCount?: number,
+  className?: string,
 };
 
 export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
   color,
   objectId,
   onLoad,
+  className,
   isInWarp = false,
   spaceshipsCount = 0,
 }) => {
@@ -91,7 +91,11 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
   }, [canDrop, drop, isOver]);
 
   return(
-    <div className={cx('spaceship-container', { 'spaceship-container--is-warp': isInWarp })}>
+    <div className={cx(
+      'spaceship-container',
+      { 'spaceship-container--is-warp': isInWarp },
+      className
+    )}>
       {
         spaceshipsGroup.map((group, index) => {
           return(

@@ -3,17 +3,19 @@ import React, { FC, useEffect, useState } from 'react';
 import cx from 'classnames';
 import { nanoid } from 'nanoid';
 
+import { SpaceshipContainer } from '@/components/SpaceshipComponents/SpaceshipContainer';
+import { ConflictZone } from '../ConflctZone';
 import { PlayerType } from '@/types/PlayerTypes';
+import { DropStateType } from '@/types/DnDTypes';
 
 import './index.scss';
-import { SpaceshipContainer, DropStateType } from '@/components/SpaceshipComponents/SpaceshipContainer';
 
 type PlanetProps = PlayerType;
 
 const imagesCount = 36;
 const initSpaceshipsCount = 4;
 
-export const Planet: FC<PlanetProps> = ({ color }) => {
+export const Planet: FC<PlanetProps & { index: number}> = ({ color, index }) => {
   const [planetImage, setPlanetImage] = useState<string>();
   const [dropState, setDropState] = useState<DropStateType>(
     { canDrop: false, isOver: false, drop: () => null }
@@ -31,23 +33,27 @@ export const Planet: FC<PlanetProps> = ({ color }) => {
   };
 
   return(
-    <div
-      ref={drop}
-      className={cx(
-        'planet',
-        { 'planet--can-drop': canDrop },
-        { 'planet--is-active': canDrop && isOver },
-      )}
-    >
-      <div className="planet__atmosphere">
-        <div className="planet__surface" style={{ backgroundImage: planetImage }} />
-          <SpaceshipContainer
-            spaceshipsCount={initSpaceshipsCount}
-            color={color}
-            onLoad={onLoadHandler}
-            objectId={objectId}
-          />
+    <div className={cx('planet')}>
+      <div
+          ref={drop}
+          className={cx(
+          'planet__container',
+          { 'planet__container--can-drop': canDrop },
+          { 'planet__container--is-over': canDrop && isOver },
+        )}
+      >
+        <div className={cx('planet__atmosphere')}>
+          <div className="planet__surface" style={{ backgroundImage: planetImage }} />
+            <SpaceshipContainer
+              spaceshipsCount={initSpaceshipsCount}
+              color={color}
+              onLoad={onLoadHandler}
+              objectId={objectId}
+            />
+        </div>
       </div>
+
+      {/* <ConflictZone classname="planet__conflct-zone"  /> */}
     </div>
   );
 };

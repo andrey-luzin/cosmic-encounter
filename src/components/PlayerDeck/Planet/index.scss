@@ -1,31 +1,43 @@
 @import '@/styles/mixins.scss';
 
 .planet {
+  $root: &;
+
   border-radius: 100%;
   transform-origin: 50% 50%;
   @include circularPosition(var(--circle-radius), var(--angle));
   @include rotateToCenter;
-  @include transition(box-shadow);
+
+  z-index: 1;
 
   @for $i from 1 through 5 {
     &:nth-child(#{$i}) {
       --angle: calc(150deg / 5 * #{$i});
     }
-  }
 
-  @extend %before;
+    &__conflct-zone {
+      rotate: calc(var(--angle) + 90deg);
+    }
+  }
 
   position: absolute;
   font-size: 4px;
 
-  &--can-drop {
-    @include boxShadow(1rem, rgba(255, 255, 255, 0.5));
+  &__container {
+    border-radius: 100%;
+    position: relative;
+    z-index: 2;
+    @include transition(box-shadow);
+
+    &--can-drop {
+      @include boxShadow(1rem, rgba(255, 255, 255, 0.5));
+    }
+  
+    &--is-over {
+      @include boxShadow(1.25rem, rgba(255, 255, 255, 0.85));
+    }
   }
 
-  &--is-active {
-    @include boxShadow(1.25rem, rgba(255, 255, 255, 0.85));
-  }
-  
   &__atmosphere {
     height: var(--circle-radius);
     width: var(--circle-radius);

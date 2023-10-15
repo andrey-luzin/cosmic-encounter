@@ -2,14 +2,14 @@
 import React, { FC, useState } from 'react';
 import cx from 'classnames';
 import Image from 'next/image';
-import { SpaceshipContainer, DropStateType } from '@/components/SpaceshipComponents/SpaceshipContainer';
+import { SpaceshipContainer } from '@/components/SpaceshipComponents/SpaceshipContainer';
+import { DropStateType } from '@/types/DnDTypes';
 
 import './index.scss';
 
 type WarpProps = unknown;
 
 export const Warp: FC<WarpProps> = () => {
-  // const [objectId] = useState<string>('warp');
   const [dropState, setDropState] = useState<DropStateType>(
     { canDrop: false, isOver: false, drop: () => null }
   );
@@ -33,7 +33,7 @@ export const Warp: FC<WarpProps> = () => {
       className={cx(
         'warp',
         { 'warp--can-drop': canDrop },
-        { 'warp--is-active': canDrop && isOver },
+        { 'warp--is-over': canDrop && isOver },
       )}
       ref={drop}
     >

@@ -33,7 +33,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, playerName }) =>
       {
         [...Array(countOfPlanets)].map((_, index) => {
           return(
-            <Planet key={index} color={color} playerName={playerName} />
+            <Planet key={index} index={index} color={color} playerName={playerName} />
           );
         })
       }
