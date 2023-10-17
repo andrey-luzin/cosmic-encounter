@@ -1,74 +1,75 @@
 @import '@/styles/mixins.scss';
 
 .dashboard {
-  height: 100%;
-  padding: 6rem 2rem;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  &__deck {
+    padding: 6rem 2rem;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 
-  & > * {
-    grid-column-end: span 1;
-    grid-row-end: span 1;
-  }
-
-  &--total-count-2 > * {
-    &:nth-child(2) {
-      grid-column-start: 2;
-    }
-  }
-
-  &--total-count-3 > * {
-    &:nth-child(2) {
-      grid-column-start: 1;
-      grid-row-start: 1;
+    & > * {
+      grid-column-end: span 1;
+      grid-row-end: span 1;
     }
 
-    &:nth-child(3) {
-      grid-column-start: 3;
-      grid-row-start: 1;
-    }
-  }
-
-  &--total-count-4 > * {
-    &:nth-child(2) {
-      grid-column-start: 1;
-      grid-row-start: 2;
+    &--total-count-2 > * {
+      &:nth-child(2) {
+        grid-column-start: 2;
+      }
     }
 
-    &:nth-child(3) {
-      grid-column-start: 2;
-      grid-row-start: 1;
+    &--total-count-3 > * {
+      &:nth-child(2) {
+        grid-column-start: 1;
+        grid-row-start: 1;
+      }
+
+      &:nth-child(3) {
+        grid-column-start: 3;
+        grid-row-start: 1;
+      }
     }
 
-    &:nth-child(4) {
-      grid-column-start: 3;
-      grid-row-start: 2;
-    }
-  }
+    &--total-count-4 > * {
+      &:nth-child(2) {
+        grid-column-start: 1;
+        grid-row-start: 2;
+      }
 
-  &--total-count-5 > * {
-    &:nth-child(2) {
-      grid-column-start: 1;
-      grid-row: 2 / span 2;
-    }
+      &:nth-child(3) {
+        grid-column-start: 2;
+        grid-row-start: 1;
+      }
 
-    &:nth-child(3) {
-      grid-column: 1 / span 2;
-      grid-row-start: 1;
-    }
-
-    &:nth-child(4) {
-      grid-column: 2 / span 2;
-      grid-row-start: 1;
+      &:nth-child(4) {
+        grid-column-start: 3;
+        grid-row-start: 2;
+      }
     }
 
-    &:nth-child(5) {
-      grid-column-start: 3;
-      grid-row: 2 / span 2;
+    &--total-count-5 > * {
+      &:nth-child(2) {
+        grid-column-start: 1;
+        grid-row: 2 / span 2;
+      }
+
+      &:nth-child(3) {
+        grid-column: 1 / span 2;
+        grid-row-start: 1;
+      }
+
+      &:nth-child(4) {
+        grid-column: 2 / span 2;
+        grid-row-start: 1;
+      }
+
+      &:nth-child(5) {
+        grid-column-start: 3;
+        grid-row: 2 / span 2;
+      }
     }
   }
 }

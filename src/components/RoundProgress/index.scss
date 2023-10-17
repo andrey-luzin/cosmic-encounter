@@ -1,0 +1,27 @@
+.round-progress {
+  display: flex;
+  background-color: var(--color-bg-main);
+  z-index: 100;
+
+  &__current-player {
+    width: 200px;
+    padding: 1rem;
+    color: var(--color-deck-text);
+  }
+
+  &__steps-list {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    background-color: var(--color-passive);
+    padding-right: 3rem;
+  }
+
+  &__step {
+    padding: 1rem;
+
+    &--is-active {
+      background-color: var(--color-active);
+    }
+  }
+}

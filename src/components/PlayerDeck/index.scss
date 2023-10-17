@@ -16,6 +16,7 @@
 
   user-select: none;
   margin: auto;
+  color: var(--color-deck-text);
 
   &--current {
     grid-column: 2 / span 1;

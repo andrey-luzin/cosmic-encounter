@@ -8,6 +8,7 @@ import { Warp } from '../Warp';
 import { PlayerColor, PlayerType } from '@/types/PlayerTypes';
 
 import './index.scss';
+import { RoundProgress } from '../RoundProgress';
 
 type DashboardProps = unknown;
 
@@ -40,11 +41,14 @@ export const Dashboard: FC<DashboardProps> = () => {
   }, []);
 
   return(
-    <div className={`dashboard dashboard--total-count-${players.length}`}>
-      {players.map((player, index) => {
-        return <PlayerDeck index={index} key={index} color={player.color} playerName={player.playerName} />;
-      })}
-      <Warp />
+    <div className="dashboard">
+      <RoundProgress />
+      <div className={`dashboard__deck dashboard__deck--total-count-${players.length}`}>
+        {players.map((player, index) => {
+          return <PlayerDeck index={index} key={index} color={player.color} playerName={player.playerName} />;
+        })}
+        <Warp />
+      </div>
     </div>
   );
 };
