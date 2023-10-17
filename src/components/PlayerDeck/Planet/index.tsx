@@ -4,7 +4,6 @@ import cx from 'classnames';
 import { nanoid } from 'nanoid';
 
 import { SpaceshipContainer } from '@/components/SpaceshipComponents/SpaceshipContainer';
-import { ConflictZone } from '../ConflctZone';
 import { PlayerType } from '@/types/PlayerTypes';
 import { DropStateType } from '@/types/DnDTypes';
 

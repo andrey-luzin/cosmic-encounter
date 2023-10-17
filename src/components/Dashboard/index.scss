@@ -1,7 +1,12 @@
 @import '@/styles/mixins.scss';
 
 .dashboard {
+  overflow: hidden;
+  height: 100vh;
+
   &__deck {
+    height: 100%;
+    overflow: auto;
     padding: 6rem 2rem;
     position: relative;
     align-items: center;
@@ -9,6 +14,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+
+    &--is-dragging {
+      cursor: move;
+    }
 
     & > * {
       grid-column-end: span 1;
