@@ -1,5 +1,5 @@
 .spaceship {
-  $size: 20px;
+  $size: 30px;
 
   width: $size;
   height: $size;
@@ -7,6 +7,7 @@
   border: 2px solid white;
   flex-shrink: 0;
   margin-bottom: -$size / 2;
+  background-color: var(--deck-color);
 
   &--is-dragging {
     opacity: 0.4;

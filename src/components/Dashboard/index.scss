@@ -4,16 +4,19 @@
   overflow: hidden;
   height: 100vh;
 
-  &__deck {
+  &__deck-wrapper {
+    overflow: hidden;
     height: 100%;
-    overflow: auto;
-    padding: 6rem 2rem;
+  }
+
+  &__deck {
+    padding: 0 4rem;
     position: relative;
     align-items: center;
     justify-content: center;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 40vw);
+    grid-template-rows: repeat(3, 60vh);
 
     &--is-dragging {
       cursor: move;
