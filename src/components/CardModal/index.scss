@@ -1,0 +1,31 @@
+@import '@/styles/mixins.scss';
+
+.card-modal {
+  $offset: 2rem;
+
+  position: fixed;
+  z-index: 50;
+  width: calc(50vw - #{$offset});
+  height: calc(100vh - #{$offset * 2});
+  top: $offset;
+  bottom: $offset;
+  @include transition(opacity);
+
+  opacity: 0;
+
+  &--right {
+    right: $offset;
+  }
+
+  &--left {
+    left: $offset;
+  }
+
+  &--is-visible {
+    opacity: 1;
+  }
+
+  &__image {
+    @include dropShadow(1rem, rgba(0,0,0,1))
+  }
+}
