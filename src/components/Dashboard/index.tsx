@@ -13,6 +13,7 @@ import { RoundProgress } from '../RoundProgress';
 import { ItemTypes } from '@/types/DnDTypes';
 
 import './index.scss';
+import { PlayerHand } from '../PlayerHand';
 
 type DashboardProps = unknown;
 
@@ -57,7 +58,6 @@ export const Dashboard: FC<DashboardProps> = () => {
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
-    console.log('isDragging', isDragging);
     if (!isDragging) {
         e.preventDefault();
         const deltaY = -e.deltaY;
@@ -114,17 +114,22 @@ export const Dashboard: FC<DashboardProps> = () => {
   return(
     <div className="dashboard">
       <RoundProgress />
-      <div className="dashboard__deck-wrapper" ref={deckRef} onWheel={handleWheel}>
+      <PlayerHand />
+      <div
+        className="dashboard__deck-wrapper"
+        ref={deckRef}
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+      >
         <div
           className={cx(
             `dashboard__deck dashboard__deck--total-count-${players.length}`,
             { 'dashboard__deck--is-dragging': isDragging }
           )}
           style={{ scale }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseLeave}
         >
           {players.map((player, index) => {
             return <PlayerDeck index={index} key={index} color={player.color} playerName={player.playerName} />;

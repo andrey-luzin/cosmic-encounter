@@ -45,6 +45,7 @@ export const Warp: FC<WarpProps> = () => {
           objectFit: 'cover',
         }}
         className="warp__image"
+        priority
       />
       <div className="warp__ship-container">
         <SpaceshipContainer objectId={'warp'} onLoad={onLoadHandler} isInWarp />

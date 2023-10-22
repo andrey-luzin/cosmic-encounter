@@ -8,9 +8,11 @@
   flex-shrink: 0;
   margin-bottom: -$size / 2;
   background-color: var(--deck-color);
+  cursor: grab;
 
   &--is-dragging {
     opacity: 0.4;
+    cursor: grabbing;
   }
 
   &--is-warp {
