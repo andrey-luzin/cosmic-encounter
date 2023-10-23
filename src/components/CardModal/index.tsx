@@ -27,8 +27,7 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
 
   useEffect(() => {
     const clientWidth = window.innerWidth;
-    console.log(clientWidth, clientWidth/2, clientX);
-    
+
     if (clientWidth / 2 > clientX) {
       setModalPosition('right');
     } else {

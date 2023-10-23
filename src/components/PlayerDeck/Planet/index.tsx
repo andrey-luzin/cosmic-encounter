@@ -11,7 +11,7 @@ import './index.scss';
 
 type PlanetProps = PlayerType;
 
-const imagesCount = 36;
+const imagesCount = 67;
 const initSpaceshipsCount = 4;
 
 export const Planet: FC<PlanetProps & { index: number}> = ({ color, index }) => {

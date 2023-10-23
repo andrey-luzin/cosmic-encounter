@@ -7,10 +7,10 @@ import { CardModal } from '../CardModal';
 
 type PlayerHandProps = unknown;
 
-const cards = [1,2,3,5,10,11,12,13,14,15];
+const cards: number[] = [1,3];
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
-  const [isFullView, setIsFullView] = useState<boolean>(true);
+  const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
   const [clientX, setClientX] = useState<number>(0);
 
