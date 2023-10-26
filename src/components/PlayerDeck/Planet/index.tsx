@@ -8,11 +8,13 @@ import { PlayerType } from '@/types/PlayerTypes';
 import { DropStateType } from '@/types/DnDTypes';
 
 import './index.scss';
+import { ConflictZone } from '../ConflctZone';
 
 type PlanetProps = PlayerType;
 
 const imagesCount = 67;
 const initSpaceshipsCount = 4;
+
 
 export const Planet: FC<PlanetProps & { index: number}> = ({ color, index }) => {
   const [planetImage, setPlanetImage] = useState<string>();
@@ -51,7 +53,6 @@ export const Planet: FC<PlanetProps & { index: number}> = ({ color, index }) => 
             />
         </div>
       </div>
-
       {/* <ConflictZone classname="planet__conflct-zone"  /> */}
     </div>
   );

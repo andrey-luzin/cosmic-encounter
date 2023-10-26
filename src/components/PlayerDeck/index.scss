@@ -9,9 +9,8 @@
   gap: 50px;
   align-items: center;
   justify-content: center;
-  height: 100px;
-  width: 100px;
   border-radius: 100%;
+  z-index: 1;
   @include transition;
 
   user-select: none;
@@ -21,5 +20,30 @@
   &--current {
     grid-column: 2 / span 1;
     grid-row: 3;
+  }
+
+  &__icon {
+    display: flex;
+    flex-shrink: 0;
+    height: calc(var(--circle-radius) / 2);
+    width: calc(var(--circle-radius) / 2);
+    overflow: hidden;
+    border-radius: 100%;
+    border-width: 3px;
+    border-style: solid;
+    transform-origin: 50% 50%;
+    @include circularPosition(215px, 90deg);
+    @include rotateToCenter;
+    @include transition;
+
+    cursor: pointer;
+
+    &:hover, &:focus {
+      border-width: 6px;
+    }
+  }
+
+  &__icon-image {
+    @include rotateToCenter(-1);
   }
 }

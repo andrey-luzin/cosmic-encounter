@@ -1,7 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import cx from 'classnames';
 import Image from 'next/image';
 import { Transition } from 'react-transition-group';
+import { useClickAway } from 'react-use';
 
 import './index.scss';
 
@@ -24,6 +26,11 @@ const transitionStyles = {
 export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
   const nodeRef = useRef(null);
   const [modalPosition, setModalPosition] = useState<'left' | 'right'>('right');
+  const [modalIsVisible, setModalIsVisible] = useState<boolean>(isVisible);
+
+  useEffect(() => {
+    setModalIsVisible(isVisible);
+  }, [isVisible]);
 
   useEffect(() => {
     const clientWidth = window.innerWidth;
@@ -35,30 +42,42 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
     }
   }, [clientX]);
 
+  useClickAway(nodeRef, () => {
+    setModalIsVisible(false);
+  });
+
+  const handleOnClick = () => {
+    setModalIsVisible(false);
+  };
+
   return(
-    <Transition nodeRef={nodeRef} in={isVisible} timeout={duration} unmountOnExit>
-      {state => (
-        <div
-          ref={nodeRef}
-          style={{
-            ...transitionStyles[state]
-          }}
-          className={cx('card-modal', `card-modal--${modalPosition}` )}
-        >
-          {
-            src &&
-            <Image
-                fill
-                alt=''
-                src={src}
-                style={{
-                  objectFit: 'contain',
-                }}
-                className='card-modal__image'
-            />
-          }
-        </div>
-      )}
-    </Transition>
+    createPortal(
+      <Transition nodeRef={nodeRef} in={modalIsVisible} timeout={duration} unmountOnExit>
+        {state => (
+          <div
+            ref={nodeRef}
+            style={{
+              ...transitionStyles[state]
+            }}
+            className={cx('card-modal', `card-modal--${modalPosition}` )}
+            onClick={handleOnClick}
+          >
+            {
+              src &&
+              <Image
+                  fill
+                  alt=''
+                  src={src}
+                  style={{
+                    objectFit: 'contain',
+                  }}
+                  className='card-modal__image'
+              />
+            }
+          </div>
+        )}
+      </Transition>,
+      document.body
+    )
   );
 };

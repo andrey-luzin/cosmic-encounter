@@ -6,7 +6,7 @@
   top: 0;
   translate: 0% -25%;
 
-  $zone-size: 80px;
+  $zone-size: 130px;
 
   // @for $i from 1 through 5 {
   //   &:nth-child(#{$i}) {
@@ -17,8 +17,8 @@
   // }
 
   &__area {
-    height: $zone-size;
-    width: $zone-size;
+    height: var(--circle-radius);
+    width: var(--circle-radius);
     translate: 0% calc(#{$zone-size/2} + var(--circle-radius));
     @include transition;
 

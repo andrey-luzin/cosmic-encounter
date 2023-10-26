@@ -66,6 +66,6 @@
   box-shadow: 0 0 $strength $color;
 }
 
-@mixin rotateToCenter() {
-  rotate: calc(360deg / var(--decks-count) * (var(--deck-index)));
+@mixin rotateToCenter($inverse: 1) {
+  rotate: calc(360deg / var(--decks-count) * (var(--deck-index)) * $inverse);
 }

@@ -1,9 +1,12 @@
+"use client";
 import React, { FC, useCallback, useState } from 'react';
 import cx from 'classnames';
+
+import { CardModal } from '../CardModal';
+
 import ArrowIcon from '../../../public/icons/arrow-down.svg';
 
 import './index.scss';
-import { CardModal } from '../CardModal';
 
 type PlayerHandProps = unknown;
 
@@ -22,12 +25,11 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
     setClientX(event.clientX);
     setTimeout(() => {
       setHoveredSrc(src);
-    }, 800);
+    }, 500);
   };
 
   const handleCardHoverLeave = () => {
     setHoveredSrc('');
-    setClientX(0);
   };
 
   return(
