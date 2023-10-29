@@ -92,8 +92,8 @@ export const Dashboard: FC<DashboardProps> = () => {
     document.documentElement.style.setProperty(CSSDecksCount, String(players.length));
   }, []);
 
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (deckRef.current) {
+  const handleMouseDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (deckRef.current && !(event.target as HTMLElement)?.draggable) {
       setIsDragging(true);
       setStartY(event.clientY);
       setStartX(event.clientX);
@@ -102,7 +102,7 @@ export const Dashboard: FC<DashboardProps> = () => {
     }
   };
 
-  const handleMouseMove = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     if (isDragging && deckRef.current) {
       const deltaY = event.clientY - startY;
       const deltaX = event.clientX - startX;
@@ -130,10 +130,10 @@ export const Dashboard: FC<DashboardProps> = () => {
         )}
         ref={deckRef}
         onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
+        onPointerDown={handleMouseDown}
+        onPointerMove={handleMouseMove}
+        onPointerUp={handleMouseUp}
+        onPointerLeave={handleMouseLeave}
       >
         <div className="dashboard__scrolling-area" ref={scrollingAreaRef}>
           <div
