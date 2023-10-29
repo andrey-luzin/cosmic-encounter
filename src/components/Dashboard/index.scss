@@ -7,22 +7,24 @@
   &__deck-wrapper {
     overflow: hidden;
     height: 100%;
-  }
-
-  &__deck {
-    margin: auto;
-    min-width: 2000px;
-    padding: 20rem 4rem;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    display: grid;
-    grid-template-columns: repeat(3, 40vw);
-    grid-template-rows: repeat(3, 60vh);
 
     &--is-dragging {
       cursor: move;
     }
+  }
+
+  &__scrolling-area {
+    min-width: 2400px;
+    padding: 12rem 0;
+  }
+
+  &__deck {
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
 
     & > * {
       grid-column-end: span 1;

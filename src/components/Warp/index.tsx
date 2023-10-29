@@ -40,7 +40,8 @@ export const Warp: FC<WarpProps> = () => {
       <Image
         fill
         alt=''
-        src="/images/warp.png"
+        sizes='100%'
+        src="/images/warp.webp"
         style={{
           objectFit: 'cover',
         }}

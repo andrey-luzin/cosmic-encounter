@@ -32,10 +32,11 @@
     border-width: 3px;
     border-style: solid;
     transform-origin: 50% 50%;
-    @include circularPosition(215px, 90deg);
+    @include circularPosition(200px, 90deg);
     @include rotateToCenter;
     @include transition;
 
+    position: relative;
     cursor: pointer;
 
     &:hover, &:focus {

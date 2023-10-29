@@ -50,6 +50,10 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
     setModalIsVisible(false);
   };
 
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
   return(
     createPortal(
       <Transition nodeRef={nodeRef} in={modalIsVisible} timeout={duration} unmountOnExit>
@@ -77,7 +81,7 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
           </div>
         )}
       </Transition>,
-      document.body
+      document?.body
     )
   );
 };

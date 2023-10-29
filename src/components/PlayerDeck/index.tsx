@@ -74,6 +74,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, playerName }) =>
           <Image
               className='player-deck__icon-image'
               fill
+              sizes='100%'
               alt=''
               src={iconImage}
               style={{

@@ -34,27 +34,35 @@ const players: PlayerType[] = [
     playerName: "1",
     color: PlayerColor.Purple
   },
-  // {
-  //   playerName: "1",
-  //   color: PlayerColor.Green
-  // },
+  {
+    playerName: "1",
+    color: PlayerColor.Green
+  },
 ];
 
-const minScale = 0.4;
-const maxScale = 1.5;
+const minScale = 0.3;
+const maxScale = 1;
 
 export const Dashboard: FC<DashboardProps> = () => {
   const deckRef = useRef<HTMLDivElement>(null);
+  const scrollingAreaRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [startY, setStartY] = useState<number>(0);
   const [scrollTop, setScrollTop] = useState<number>(0);
   const [startX, setStartX] = useState<number>(0);
   const [scrollLeft, setScrollLeft] = useState<number>(0);
-  const [scale, setScale] = useState(1); // начальный масштаб
+  const [scale, setScale] = useState(minScale); // init scal
 
   const dragDropManager = useDragDropManager();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const collectedProps = useDragLayer((monitor: any) => monitor.store.getState());
+
+  useEffect(() => {
+    if (deckRef.current && scrollingAreaRef.current) {
+      deckRef.current.scrollLeft = (scrollingAreaRef.current.offsetWidth - deckRef.current.offsetWidth) / 2;
+      deckRef.current.scrollTop = (scrollingAreaRef.current.offsetHeight - deckRef.current.offsetHeight) / 2;
+    }
+  }, []);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
@@ -116,7 +124,10 @@ export const Dashboard: FC<DashboardProps> = () => {
       <RoundProgress />
       <PlayerHand />
       <div
-        className="dashboard__deck-wrapper"
+        className={cx(
+          "dashboard__deck-wrapper",
+          { 'dashboard__deck-wrapper--is-dragging': isDragging }
+        )}
         ref={deckRef}
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
@@ -124,17 +135,16 @@ export const Dashboard: FC<DashboardProps> = () => {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
       >
-        <div
-          className={cx(
-            `dashboard__deck dashboard__deck--total-count-${players.length}`,
-            { 'dashboard__deck--is-dragging': isDragging }
-          )}
-          style={{ scale }}
-        >
-          {players.map((player, index) => {
-            return <PlayerDeck index={index} key={index} color={player.color} playerName={player.playerName} />;
-          })}
-          <Warp />
+        <div className="dashboard__scrolling-area" ref={scrollingAreaRef}>
+          <div
+            className={cx(`dashboard__deck dashboard__deck--total-count-${players.length}`)}
+            style={{ scale }}
+          >
+            {players.map((player, index) => {
+              return <PlayerDeck index={index} key={index} color={player.color} playerName={player.playerName} />;
+            })}
+            <Warp />
+          </div>
         </div>
       </div>
     </div>
