@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .round-progress {
   display: flex;
   background-color: var(--color-bg-main);
@@ -23,5 +25,12 @@
     &--is-active {
       background-color: var(--color-active);
     }
+  }
+
+  &__settings-btn {
+    @extend %clear-button;
+
+    padding: 0.1rem 1rem;
+    font-size: 2rem;
   }
 }

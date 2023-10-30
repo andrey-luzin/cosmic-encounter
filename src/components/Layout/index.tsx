@@ -13,6 +13,7 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
 }) => {
   return(
     <main className='layout'>
+
       <div className="layout__bcg">
         <Image
           fill

@@ -1,5 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import cx from 'classnames';
+
+import { SettingsMenu } from '../SettingsMenu';
 
 import './index.scss';
 
@@ -41,6 +43,12 @@ const steps = [
 ];
 
 export const RoundProgress: FC<RoundProgressProps> = () => {
+  const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
+
+  const handleSettingsClick = (val: boolean) => {
+    setSettingsIsVisible(val);
+  };
+
   return(
     <div className="round-progress">
       <div className="round-progress__current-player">
@@ -50,7 +58,7 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
           style={{ color: 'var(--active-player-name)' }}
         > Player</span>
       </div>
-      <nav className="round-progress__steps-list">
+      <div className="round-progress__steps-list">
         {
           steps.map((step) => {
             return (
@@ -61,7 +69,14 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
             );
           })
         }
-      </nav>
+      </div>
+      <button className="round-progress__settings-btn" onClick={() => handleSettingsClick(true)}>
+        👾
+      </button>
+      <SettingsMenu
+        isVisible={settingsIsVisible}
+        onClose={() => handleSettingsClick(false)}
+      />
     </div>
   );
 };

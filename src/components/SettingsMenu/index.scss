@@ -1,0 +1,32 @@
+@import '@/styles/mixins.scss';
+
+.settings-menu {
+  transform: translateX(100%);
+  width: 340px;
+  max-width: 80vw;
+  height: 100dvh;
+  background-color: var(--color-bg-main);
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  padding: 2rem;
+  box-shadow: 10px 10px 20px 20px rgba(0, 0, 0, .75);
+  border-left-style: solid;
+  border-left-width: 3px;
+  border-image: linear-gradient(to bottom, var(--color-passive-secondary), var(--color-passive)) 1% 100%;
+  color: var(--color-deck-text);
+  @include transition(transform);
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__close-btn {
+    margin-left: auto;
+    @extend %clear-button;
+
+    color: inherit;
+  }
+}
