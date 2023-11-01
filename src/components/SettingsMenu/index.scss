@@ -28,5 +28,16 @@
     @extend %clear-button;
 
     color: inherit;
+    @include transition(transform);
+
+    &:hover, &:focus {
+      transform: scale(1.2);
+    }
+  }
+
+  &__children {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
   }
 }

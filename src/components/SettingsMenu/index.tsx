@@ -1,10 +1,13 @@
-import React, { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { FC, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { Transition } from 'react-transition-group';
 import { useClickAway } from 'react-use';
-
+import {useFullscreen, useToggle} from 'react-use';
 import CloseIcon from '../../../public/icons/x-marks.svg';
+import { useStore } from "@/store";
+import { Checkbox } from '../FormComponents/Checkbox';
 
 import './index.scss';
+import { ActionTypes } from '@/store/types';
 
 type SettingsMenuProps = {
   isVisible: boolean,
@@ -12,28 +15,38 @@ type SettingsMenuProps = {
 };
 
 const duration = 240;
+const activeStyle = { transform: 'translateX(100%)' };
+const disableStyle = { transform: 'translateX(0)' };
 
 const transitionStyles = {
-  entering: { transform: 'translateX(0)' },
-  entered:  { transform: 'translateX(0)' },
-  exiting:  { transform: 'translateX(100%)' },
-  exited:  { transform: 'translateX(100%)' },
-  unmounted:  { transform: 'translateX(100%)' },
+  entering: disableStyle,
+  entered: disableStyle,
+  exiting: activeStyle,
+  exited: activeStyle,
+  unmounted: activeStyle,
 };
 
-export const SettingsMenu: FC<PropsWithChildren<SettingsMenuProps>> = ({
-  isVisible,
-  onClose,
-  children,
-}) => {
-  const nodeRef = useRef(null);
+export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
+  const { state, dispatch } = useStore();
+  const settingModalRef = useRef(null);
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(isVisible);
+  const [showFullScreen, toggleShowFullScreen] = useToggle(false);
+
+  const handleFullScreen = useCallback((val?: boolean) => {
+    toggleShowFullScreen(val || !showFullScreen);
+  }, [showFullScreen, toggleShowFullScreen]);
+
+  const isFullscreen = useFullscreen(
+    state.layoutRef as RefObject<Element>,
+    showFullScreen,
+    { onClose: () => handleFullScreen(false)}
+  );
 
   useEffect(() => {
     setModalIsVisible(isVisible);
   }, [isVisible]);
 
-  useClickAway(nodeRef, () => {
+  useClickAway(settingModalRef, () => {
     setModalIsVisible(false);
     onClose();
   });
@@ -43,14 +56,23 @@ export const SettingsMenu: FC<PropsWithChildren<SettingsMenuProps>> = ({
     onClose();
   };
 
+  const changeAnimation = useCallback(() => {
+    dispatch({
+      type: ActionTypes.SET_SETTINGS,
+      payload: {
+        animation: !state.settings.animation
+      }
+    });
+  }, [dispatch, state]);
+
   return(
-    <Transition nodeRef={nodeRef} in={modalIsVisible} timeout={duration} unmountOnExit>
-      {state => (
+    <Transition settingModalRef={settingModalRef} in={modalIsVisible} timeout={duration} unmountOnExit>
+      {transitionState => (
         <div
           className="settings-menu"
-          ref={nodeRef}
+          ref={settingModalRef}
           style={{
-            ...transitionStyles[state]
+            ...transitionStyles[transitionState]
           }}
         >
           <header className="settings-menu__header">
@@ -59,7 +81,10 @@ export const SettingsMenu: FC<PropsWithChildren<SettingsMenuProps>> = ({
               <CloseIcon />
             </button>
           </header>
-          {children}
+          <div className="settings-menu__children">
+            <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Full Screen</Checkbox>
+            <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Animation</Checkbox>
+          </div>
         </div>
       )}
     </Transition>

@@ -1,0 +1,20 @@
+.checkbox {
+  font-size: 1.15rem;
+  display: block;
+
+  &:not(&:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  &:disabled {
+    opacity: .75;
+  }
+
+  &__input {
+    accent-color: var(--color-passive);
+  }
+
+  &__text {
+    padding-left: .5rem;
+  }
+}

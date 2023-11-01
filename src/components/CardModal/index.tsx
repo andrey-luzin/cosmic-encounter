@@ -6,6 +6,7 @@ import { Transition } from 'react-transition-group';
 import { useClickAway } from 'react-use';
 
 import './index.scss';
+import { useStore } from '@/store';
 
 type CardModalProps = {
   src: string,
@@ -24,6 +25,7 @@ const transitionStyles = {
 };
 
 export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
+  const { state } = useStore();
   const nodeRef = useRef(null);
   const [modalPosition, setModalPosition] = useState<'left' | 'right'>('right');
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(isVisible);
@@ -81,7 +83,7 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
           </div>
         )}
       </Transition>,
-      document?.body
+      state.layoutRef?.current || document?.body
     )
   );
 };

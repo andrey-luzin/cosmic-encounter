@@ -32,5 +32,10 @@
 
     padding: 0.1rem 1rem;
     font-size: 2rem;
+    @include transition(transform);
+
+    &:hover, &:focus {
+      transform: scale(1.2);
+    }
   }
 }

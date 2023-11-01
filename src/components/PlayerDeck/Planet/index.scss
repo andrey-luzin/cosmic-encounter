@@ -63,8 +63,8 @@
 
     // be random
     transform: rotate(24.3deg) scale(1.1);
-
-    // animation: planetRotate calc(50 * .1s) linear infinite; 
+    animation: planetRotate calc(50 * .1s) linear infinite;
+    animation-play-state: paused;
   }
 }
 

@@ -6,6 +6,7 @@ import { useDragDropManager, useDragLayer } from 'react-dnd';
 import { CSSDecksCount } from '@/const/css-consts';
 import { PlayerDeck } from '@/components/PlayerDeck';
 import { Warp } from '../Warp';
+import { PlayerHand } from '../PlayerHand';
 
 import { PlayerColor, PlayerType } from '@/types/PlayerTypes';
 
@@ -13,7 +14,6 @@ import { RoundProgress } from '../RoundProgress';
 import { ItemTypes } from '@/types/DnDTypes';
 
 import './index.scss';
-import { PlayerHand } from '../PlayerHand';
 
 type DashboardProps = unknown;
 

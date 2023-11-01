@@ -1,4 +1,5 @@
 import { Layout } from '@/components/Layout';
+import { StoreProvider } from "@/store";
 import '../styles/globals.scss';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -8,9 +9,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>Cosmic Encounnter</title>
       </head>
       <body>
-        <Layout>
-          {children}
-        </Layout>
+        <StoreProvider>
+          <Layout>
+            {children}
+          </Layout>
+        </StoreProvider>
       </body>
     </html>
   );
