@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import cx from 'classnames';
-import Image from 'next/image';
 import { Transition } from 'react-transition-group';
 import { useClickAway } from 'react-use';
 
@@ -70,14 +69,10 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
           >
             {
               src &&
-              <Image
-                  fill
-                  alt=''
-                  src={src}
-                  style={{
-                    objectFit: 'contain',
-                  }}
-                  className='card-modal__image'
+              <img
+                alt=''
+                src={src}
+                className='card-modal__image'
               />
             }
           </div>

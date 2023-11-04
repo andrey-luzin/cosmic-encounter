@@ -26,6 +26,11 @@
   }
 
   &__image {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    inset: 0;
+    margin: auto;
     @include dropShadow(1rem, rgba(0,0,0,1))
   }
 }

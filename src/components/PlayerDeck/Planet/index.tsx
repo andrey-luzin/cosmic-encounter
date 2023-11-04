@@ -10,11 +10,11 @@ import { DropStateType } from '@/types/DnDTypes';
 
 import { ConflictZone } from '../ConflctZone';
 
+import { TEXTURES_COUNT } from '@/const';
 import './index.scss';
 
 type PlanetProps = PlayerType;
 
-const imagesCount = 67;
 const initSpaceshipsCount = 4;
 const minAnimDuration = 5;
 const maxAnimDuration = 12;
@@ -35,7 +35,7 @@ export const Planet: FC<PlanetProps & { index: number}> = ({ color, index }) => 
   }, []);
 
   useEffect(() => {
-    setPlanetImage(`url('/images/textures/texture${Math.ceil(Math.random() * imagesCount)}.webp')`);
+    setPlanetImage(`url('/images/textures/texture${Math.ceil(Math.random() * TEXTURES_COUNT)}.webp')`);
   }, []);
 
   const onLoadHandler = ({ canDrop, isOver, drop }: DropStateType) => {
