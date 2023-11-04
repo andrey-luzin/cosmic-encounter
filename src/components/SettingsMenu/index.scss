@@ -12,9 +12,8 @@
   right: 0;
   padding: 2rem;
   box-shadow: 10px 10px 20px 20px rgba(0, 0, 0, .75);
-  border-left-style: solid;
-  border-left-width: 3px;
-  border-image: linear-gradient(to bottom, var(--color-passive-secondary), var(--color-passive)) 1% 100%;
+  @include gradientBorder('left');
+
   color: var(--color-deck-text);
   @include transition(transform);
 

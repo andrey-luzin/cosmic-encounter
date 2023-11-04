@@ -69,3 +69,17 @@
 @mixin rotateToCenter($inverse: 1) {
   rotate: calc(360deg / var(--decks-count) * (var(--deck-index)) * $inverse);
 }
+
+@mixin gradientBorder($position: 'all') {
+  @if $position == 'all' {
+    border-style: solid;
+    border-width: 3px;
+  }
+
+  @if $position == 'left' {
+    border-left-style: solid;
+    border-left-width: 3px;
+  }
+
+  border-image: linear-gradient(to bottom, var(--color-passive-secondary), var(--color-passive)) 1% 1%;
+}

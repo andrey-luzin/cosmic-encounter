@@ -26,6 +26,8 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
     setTimeout(() => {
       setHoveredSrc(src);
     }, 500);
+
+    return setHoveredSrc('');
   };
 
   const handleCardHoverLeave = () => {

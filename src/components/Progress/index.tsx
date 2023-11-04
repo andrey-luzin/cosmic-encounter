@@ -10,8 +10,10 @@ type ProgressProps = {
 export const Progress: FC<ProgressProps> = ({ value }) => {
   return(
     <div className="progress">
-      <div className="progress__text">Resources are loading</div>
+      <h1 className="progress__title">Cosmic Encounter</h1>
+      <span className="progress__text">Resources are loading</span>
       <span className="progress__value">{value.toFixed(2)}%</span>
+      <span className="progress__emoji">👾</span>
     </div>
   );
 };

@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { SettingsMenu } from '../SettingsMenu';
 
 import './index.scss';
+import { Modal } from '../Modal';
 
 type RoundProgressProps = unknown;
 
@@ -45,8 +46,8 @@ const steps = [
 export const RoundProgress: FC<RoundProgressProps> = () => {
   const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
 
-  const handleSettingsClick = (val: boolean) => {
-    setSettingsIsVisible(val);
+  const handleSettingsClick = (isVisible: boolean) => {
+    setSettingsIsVisible(isVisible);
   };
 
   return(
@@ -71,8 +72,9 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
         }
       </div>
       <button className="round-progress__settings-btn" onClick={() => handleSettingsClick(true)}>
-        👾
+        ⚙️
       </button>
+      {/* <Modal isVisible={settingsIsVisible} onClose={() => handleSettingsClick(false)} title='title'>test</Modal> */}
       <SettingsMenu
         isVisible={settingsIsVisible}
         onClose={() => handleSettingsClick(false)}

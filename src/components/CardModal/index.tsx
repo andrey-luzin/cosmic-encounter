@@ -57,7 +57,7 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
 
   return(
     createPortal(
-      <Transition nodeRef={nodeRef} in={modalIsVisible} timeout={duration} unmountOnExit>
+      <Transition in={modalIsVisible} timeout={duration} unmountOnExit>
         {state => (
           <div
             ref={nodeRef}
