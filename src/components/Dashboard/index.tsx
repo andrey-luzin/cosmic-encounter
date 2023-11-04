@@ -12,8 +12,10 @@ import { PlayerColor, PlayerType } from '@/types/PlayerTypes';
 
 import { RoundProgress } from '../RoundProgress';
 import { ItemTypes } from '@/types/DnDTypes';
+import { usePreload } from '@/hooks/usePreload';
 
 import './index.scss';
+import { Progress } from '../Progress';
 
 type DashboardProps = unknown;
 
@@ -56,13 +58,14 @@ export const Dashboard: FC<DashboardProps> = () => {
   const dragDropManager = useDragDropManager();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const collectedProps = useDragLayer((monitor: any) => monitor.store.getState());
+  const preloadState = usePreload();
 
   useEffect(() => {
     if (deckRef.current && scrollingAreaRef.current) {
       deckRef.current.scrollLeft = (scrollingAreaRef.current.offsetWidth - deckRef.current.offsetWidth) / 2;
       deckRef.current.scrollTop = (scrollingAreaRef.current.offsetHeight - deckRef.current.offsetHeight) / 2;
     }
-  }, []);
+  }, [preloadState]);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
@@ -118,6 +121,10 @@ export const Dashboard: FC<DashboardProps> = () => {
   const handleMouseLeave = () => {
     setIsDragging(false);
   };
+
+  if (preloadState.loading) {
+    return <Progress value={preloadState.progress} />;
+  }
 
   return(
     <div className="dashboard">

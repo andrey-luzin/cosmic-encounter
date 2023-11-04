@@ -1,7 +1,6 @@
 "use client"; 
 import React, { FC, useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
-import Image from 'next/image';
 
 import { Planet } from './Planet';
 import { CSSDeckIndex, CSSDeckColor } from '@/const/css-consts';
@@ -10,12 +9,12 @@ import { CardModal } from '../CardModal';
 
 import { ConflictZone } from './ConflctZone';
 
+import { RACES_COUNT } from '@/const';
 import './index.scss';
 
 type PlayerDeckProps = { index: number } & PlayerType;
 
 const countOfPlanets = 5;
-const racesCount = 50;
 
 export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, playerName }) => {
   const deckRef = useRef<HTMLDivElement | null>(null);
@@ -36,7 +35,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, playerName }) =>
   };
 
   useEffect(() => {
-    const race = Math.ceil(Math.random() * racesCount);
+    const race = Math.ceil(Math.random() * RACES_COUNT);
     setHoveredSrc(`/images/races/${race}.webp`);
     setIconImage(`/images/races_preview/${race}.webp`);
   }, []);
@@ -71,15 +70,10 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({ index, color, playerName }) =>
           onPointerEnter={event => handleCardHoverEnter(event)}
           onPointerLeave={handleCardHoverLeave}
         >
-          <Image
-              className='player-deck__icon-image'
-              fill
-              sizes='100%'
-              alt=''
-              src={iconImage}
-              style={{
-                objectFit: 'contain',
-              }}
+          <img
+            className='player-deck__icon-image'
+            alt=''
+            src={iconImage}
           />
         </button>
       }
