@@ -78,7 +78,6 @@ export const Dashboard: FC<DashboardProps> = () => {
         if (newScale >= minScale && newScale <= maxScale) {
           setScale(newScale);
         }
-
     }
   }, [isDragging, scale]);
 

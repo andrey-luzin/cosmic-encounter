@@ -1,44 +1,52 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useState } from 'react';
 import cx from 'classnames';
 
 import { SettingsMenu } from '../SettingsMenu';
 
 import './index.scss';
-import { Modal } from '../Modal';
+import { Phases } from '@/types/PhaseTypes';
 
 type RoundProgressProps = unknown;
 
 const steps = [
   {
-    name: 'Starting the Turn',
+    phase: Phases.StartingTheTurn,
+    name: 'Начало хода',
     isActive: true
   },
   {
-    name: 'Regroup',
+    phase: Phases.Regroup,
+    name: 'Перегруппировка',
     isActive: false
   },
   {
-    name: 'Destiny',
+    phase: Phases.Destiny,
+    name: 'Судьба',
     isActive: false
   },
   {
-    name: 'Launch',
+    phase: Phases.Launch,
+    name: 'Запуск',
     isActive: false
   },
   {
-    name: 'Alliance',
+    phase: Phases.Alliance,
+    name: 'Союзы',
     isActive: false
   },
   {
-    name: 'Planning',
+    phase: Phases.Planning,
+    name: 'Планирование',
     isActive: false
   },
   {
-    name: 'Reveal',
+    phase: Phases.Reveal,
+    name: 'Раскрытие',
     isActive: false
   },
   {
-    name: 'Resolution',
+    phase: Phases.Resolution,
+    name: 'Результат',
     isActive: false
   },
 ];
@@ -53,11 +61,11 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
   return(
     <div className="round-progress">
       <div className="round-progress__current-player">
-        Player:
+        Активный игрок:
         <span
           className="round-progress__player-name"
           style={{ color: 'var(--active-player-name)' }}
-        > Player</span>
+        >Player</span>
       </div>
       <div className="round-progress__steps-list">
         {
@@ -71,10 +79,13 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
           })
         }
       </div>
-      <button className="round-progress__settings-btn" onClick={() => handleSettingsClick(true)}>
+      <button
+        className="round-progress__settings-btn"
+        onClick={() => handleSettingsClick(true)}
+        title='Настройки'
+      >
         ⚙️
       </button>
-      {/* <Modal isVisible={settingsIsVisible} onClose={() => handleSettingsClick(false)} title='title'>test</Modal> */}
       <SettingsMenu
         isVisible={settingsIsVisible}
         onClose={() => handleSettingsClick(false)}

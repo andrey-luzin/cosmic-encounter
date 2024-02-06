@@ -1,0 +1,30 @@
+@import '@/styles/mixins.scss';
+
+.select {
+  position: relative;
+  z-index: var(--z-20);
+  max-width: 200px;
+
+  &:not(&:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  &__label {
+    margin-bottom: .55rem;
+  }
+
+  & [class*='control'] {
+    @include controlBorderGradient;
+  }
+
+  & [class*='MenuList'] {
+    border: 1px solid transparent;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: gradient();
+  }
+
+  & [class*='indicatorSeparator'] {
+    background-image: gradient(85deg);
+  }
+}

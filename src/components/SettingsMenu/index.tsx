@@ -76,14 +76,14 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
           }}
         >
           <header className="settings-menu__header">
-            <h2>Settings</h2>
+            <h2>Настройки</h2>
             <button className="settings-menu__close-btn" onClick={handleOnClose}>
               <CloseIcon />
             </button>
           </header>
           <div className="settings-menu__children">
-            <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Full Screen</Checkbox>
-            <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Animation</Checkbox>
+            <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Полный экран</Checkbox>
+            <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Анимации</Checkbox>
           </div>
         </div>
       )}

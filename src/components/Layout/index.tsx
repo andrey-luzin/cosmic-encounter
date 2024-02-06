@@ -26,7 +26,6 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
   }, [dispatch]);
   return(
     <main className="layout" ref={layoutRef}>
-
       <div className="layout__bcg">
         <Image
           fill

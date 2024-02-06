@@ -22,7 +22,7 @@ export const usePreload = () => {
 
   useEffect(() => {
     const list: string[] = [];
-    list.push(`/images/textures/warp.webp`);
+    list.push(`/images/warp.webp`);
     [...Array(TEXTURES_COUNT)].forEach((_, index) => {
       list.push(`/images/textures/texture${index + 1}.webp`);
     });
@@ -52,7 +52,6 @@ export const usePreload = () => {
       }));
 
       if (loadedImagesCount === imagesList.length) {
-        console.log(112);
         setState((prevState) => ({
           ...prevState,
           loading: false,

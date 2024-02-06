@@ -1,6 +1,6 @@
 .checkbox {
   font-size: 1.15rem;
-  display: block;
+  display: flex;
 
   &:not(&:last-child) {
     margin-bottom: 1rem;

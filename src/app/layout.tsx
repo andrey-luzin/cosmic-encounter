@@ -1,4 +1,3 @@
-import { Layout } from '@/components/Layout';
 import { StoreProvider } from "@/store";
 import '../styles/globals.scss';
 
@@ -10,9 +9,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <StoreProvider>
-          <Layout>
-            {children}
-          </Layout>
+          {children}
         </StoreProvider>
       </body>
     </html>

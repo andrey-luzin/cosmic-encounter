@@ -1,4 +1,5 @@
-@import 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;900&family=Unbounded:wght@300;400;500;600;700;900&display=swap';
+
 @import 'variables';
 @import 'mixins';
 
@@ -9,19 +10,23 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 body {
   color: var(--color-text);
   background-color: var(--color-bg-main);
   max-width: 100vw;
-  font-family: 'Road Radio', Montserrat, Roboto, Arial, -apple-system, sans-serif;
+  font-family: Raleway, Montserrat, Roboto, Arial, -apple-system, sans-serif;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Road Radio', 'ITC Blair W02 Medium', Unbounded, Raleway, Montserrat, Roboto, Arial, -apple-system, sans-serif;;
 }
 
 /* 
