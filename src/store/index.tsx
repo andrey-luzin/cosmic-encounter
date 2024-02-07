@@ -7,7 +7,10 @@ const initialState: AppState = {
   settings: {
     animation: false,
   },
-  layoutRef: null
+  layoutRef: null,
+  gameLog: {
+    logIsOpen: false,
+  }
 };
 
 type StoreContextType = {

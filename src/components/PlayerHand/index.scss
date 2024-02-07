@@ -10,11 +10,14 @@
   align-items: flex-end;
   height: 0;
   max-width: 100%;
+  transform: translateX(var(--log-width));
+  width: calc(100% - var(--log-width));
+  @include transition;
 
   &__hide-button {
     @extend %clear-button;
 
-    padding: .5rem;
+    padding: .15rem .5rem;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -3,7 +3,6 @@
 .round-progress {
   display: flex;
   background-color: var(--color-bg-main);
-  z-index: 100;
 
   &__current-player {
     width: 200px;
@@ -30,7 +29,7 @@
     }
   }
 
-  &__settings-btn {
+  &__tool-btn {
     @extend %clear-button;
 
     padding: 0.1rem 1rem;
@@ -40,5 +39,13 @@
     &:hover, &:focus {
       transform: scale(1.2);
     }
+  }
+
+  &__tool-wrapper {
+    display: flex;
+    border-right: 2px solid transparent;
+    border-image-slice: 1;
+    border-width-right: 2px;
+    border-image-source: gradient();
   }
 }

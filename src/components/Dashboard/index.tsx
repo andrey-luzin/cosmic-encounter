@@ -16,6 +16,7 @@ import { usePreload } from '@/hooks/usePreload';
 
 import './index.scss';
 import { Progress } from '../Progress';
+import { GameLog } from '../GameLog';
 
 type DashboardProps = unknown;
 
@@ -128,6 +129,7 @@ export const Dashboard: FC<DashboardProps> = () => {
   return(
     <div className="dashboard">
       <RoundProgress />
+      <GameLog />
       <PlayerHand />
       <div
         className={cx(

@@ -1,10 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import cx from 'classnames';
 
 import { SettingsMenu } from '../SettingsMenu';
 
-import './index.scss';
+import { CSSTopPanelHeight } from '@/const/css-consts';
 import { Phases } from '@/types/PhaseTypes';
+import { useStore } from '@/store';
+import { ActionTypes } from '@/store/types';
+
+import './index.scss';
 
 type RoundProgressProps = unknown;
 
@@ -52,14 +56,45 @@ const steps = [
 ];
 
 export const RoundProgress: FC<RoundProgressProps> = () => {
+  const divRef = useRef<HTMLDivElement>(null);
   const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
+  const { state, dispatch } = useStore();
+
+  useLayoutEffect(() => {
+    const updateTopPanelHeight = () => {
+      if (divRef.current) {
+        document.documentElement.style.setProperty(
+          CSSTopPanelHeight, `${divRef.current.offsetHeight}px`
+        );
+      }
+    };
+    updateTopPanelHeight();
+    window.addEventListener('resize', updateTopPanelHeight);
+    return () => window.removeEventListener('resize', updateTopPanelHeight);
+  }, []);
 
   const handleSettingsClick = (isVisible: boolean) => {
     setSettingsIsVisible(isVisible);
   };
 
+  const handleLogClick = useCallback(() => {
+    dispatch({
+      type: ActionTypes.SET_GAMELOG,
+      payload: {
+        logIsOpen: !state.gameLog.logIsOpen
+      }
+    });
+  }, [dispatch, state]);
+
   return(
-    <div className="round-progress">
+    <div className="round-progress" ref={divRef}>
+      <span className='round-progress__tool-wrapper'>
+        <button
+          className="round-progress__tool-btn"
+          onClick={handleLogClick}
+          title='Лог'
+        >📝</button>
+      </span>
       <div className="round-progress__current-player">
         Активный игрок:
         <span
@@ -80,12 +115,10 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
         }
       </div>
       <button
-        className="round-progress__settings-btn"
+        className="round-progress__tool-btn"
         onClick={() => handleSettingsClick(true)}
         title='Настройки'
-      >
-        ⚙️
-      </button>
+      >⚙️</button>
       <SettingsMenu
         isVisible={settingsIsVisible}
         onClose={() => handleSettingsClick(false)}

@@ -90,6 +90,11 @@
     border-left-width: 3px;
   }
 
+  @if $position == 'right' {
+    border-right-style: solid;
+    border-right-width: 3px;
+  }
+
   border-image: gradient(40deg) 1% 1%;
 }
 
