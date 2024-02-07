@@ -14,6 +14,7 @@ const dot = (color?: string) => ({
     marginRight: 8,
     height: 10,
     width: 10,
+    flexShrink: 0,
   },
 });
 
@@ -50,7 +51,10 @@ export const styles: StylesConfig<ISelectOptions> = {
       ':active': {
         ...styles[':active'],
         backgroundColor: !isDisabled
-          ? isSelected : data.color || undefined,
+          ? isSelected
+            ? data.color
+            : color.alpha(0.3).css()
+          : undefined,
       },
     };
   },
@@ -64,6 +68,7 @@ export const styles: StylesConfig<ISelectOptions> = {
   valueContainer: (styles) => ({
     ...styles,
     zIndex: 'var(--z-20)',
+    padding: '0rem 1rem'
   }),
   indicatorsContainer: (styles) => ({
     ...styles,

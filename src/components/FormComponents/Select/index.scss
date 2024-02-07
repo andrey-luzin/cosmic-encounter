@@ -3,7 +3,6 @@
 .select {
   position: relative;
   z-index: var(--z-20);
-  max-width: 200px;
 
   &:not(&:last-child) {
     margin-bottom: 2rem;

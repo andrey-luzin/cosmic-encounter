@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
+import { Property } from 'csstype';
 import ReactSelect from 'react-select';
 import { styles } from './styles';
+
 import './index.scss';
 
 export interface ISelectOptions {
   value: string | number,
   label?: string | number,
-  color?: any,
+  color?: Property.Color,
 }
 
 type SelectProps = {
