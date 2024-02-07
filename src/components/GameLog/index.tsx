@@ -12,12 +12,20 @@ export const GameLog: FC<GameLogProps> = () => {
 
   useEffect(() => {
     document.documentElement.style.setProperty(
-      CSSLogWidth, state.gameLog.logIsOpen ? '340px' : '0px'
+      CSSLogWidth, state.gameLogIsOpen ? '340px' : '0px'
     );
   }, [state]);
 
   return(
-    <div className={cn('game-log', {'game-log--is-visible': state.gameLog.logIsOpen })}>
+    <div className={cn('game-log', {'game-log--is-visible': state.gameLogIsOpen })}>
+      <h2>Игровой лог:</h2>
+      <ul>
+        {state.gameLog.map((logItem, index) => (
+          <li key={index}>
+            {logItem.timestamp} - {logItem.message}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

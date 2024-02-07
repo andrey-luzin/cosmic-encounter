@@ -8,9 +8,8 @@ const initialState: AppState = {
     animation: false,
   },
   layoutRef: null,
-  gameLog: {
-    logIsOpen: false,
-  }
+  gameLogIsOpen: false,
+  gameLog: [],
 };
 
 type StoreContextType = {

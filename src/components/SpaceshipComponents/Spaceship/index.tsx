@@ -14,7 +14,12 @@ type SpaceshipProps = {
   isInWarp?: boolean,
 };
 
-export const Spaceship: FC<SpaceshipProps> = ({ color, onDrag, objectId, isInWarp = false }) => {
+export const Spaceship: FC<SpaceshipProps> = ({
+  color,
+  onDrag,
+  objectId,
+  isInWarp = false,
+}) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.SPACESHIP,
     item: {

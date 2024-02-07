@@ -79,10 +79,8 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
 
   const handleLogClick = useCallback(() => {
     dispatch({
-      type: ActionTypes.SET_GAMELOG,
-      payload: {
-        logIsOpen: !state.gameLog.logIsOpen
-      }
+      type: ActionTypes.SET_GAMELOG_VISIBILITY,
+      payload: !state.gameLogIsOpen
     });
   }, [dispatch, state]);
 
