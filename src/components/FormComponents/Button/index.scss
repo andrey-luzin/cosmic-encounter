@@ -1,6 +1,8 @@
 @import '@/styles/mixins.scss';
 
 .button {
+  $root: &;
+
   @extend %clear-button;
 
   position: relative;
@@ -20,5 +22,32 @@
     position: relative;
     z-index: 2;
     color: var(--color-deck-text);
+    font-weight: 600;
+  }
+
+  &:disabled {
+    cursor:  not-allowed;
+
+    #{$root}__children {
+      opacity: .65;
+    }
+  }
+
+  &--view {
+    &-filled {
+      &:after {
+        background-color: transparent;
+      }
+
+      #{$root}__children {
+        color: var(--color-text); 
+      }
+
+      &:hover {
+        &:before {
+          background-position: 0 0;
+        }
+      }
+    }
   }
 }

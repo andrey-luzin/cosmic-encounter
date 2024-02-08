@@ -1,4 +1,4 @@
-import React, { FC, InputHTMLAttributes, useState } from 'react';
+import React, { FC, InputHTMLAttributes } from 'react';
 import cx from 'classnames';
 import { nanoid } from 'nanoid';
 
@@ -22,8 +22,7 @@ export const Checkbox: FC<React.PropsWithChildren<CheckboxProps>> = ({
   disabled,
   children,
 }) => {
-  const [checkboxId, _setCheckboxId] =
-    useState<InputHTMLAttributes<HTMLInputElement>['id']>(id || nanoid());
+  const checkboxId = id || nanoid();
 
   return(
     <label className={cx('checkbox', className)}>

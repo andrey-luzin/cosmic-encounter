@@ -8,6 +8,8 @@ import { Checkbox } from '../FormComponents/Checkbox';
 
 import './index.scss';
 import { ActionTypes } from '@/store/types';
+import { Button } from '../FormComponents/Button';
+import { NewGameModal } from '../Modals/NewGameModal';
 
 type SettingsMenuProps = {
   isVisible: boolean,
@@ -31,6 +33,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
   const settingModalRef = useRef(null);
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(isVisible);
   const [showFullScreen, toggleShowFullScreen] = useToggle(false);
+  const [newGameModalIsVisible, setNewGameModalIsVisible] = useState<boolean>(false);
 
   const handleFullScreen = useCallback((val?: boolean) => {
     toggleShowFullScreen(val || !showFullScreen);
@@ -65,28 +68,39 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
     });
   }, [dispatch, state]);
 
+  const handleNewGameClick = (isVisible: boolean) => {
+    setNewGameModalIsVisible(isVisible);
+  };
+
   return(
-    <Transition settingModalRef={settingModalRef} in={modalIsVisible} timeout={duration} unmountOnExit>
-      {transitionState => (
-        <div
-          className="settings-menu"
-          ref={settingModalRef}
-          style={{
-            ...transitionStyles[transitionState]
-          }}
-        >
-          <header className="settings-menu__header">
-            <h2>Настройки</h2>
-            <button className="settings-menu__close-btn" onClick={handleOnClose}>
-              <CloseIcon />
-            </button>
-          </header>
-          <div className="settings-menu__children">
-            <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Полный экран</Checkbox>
-            <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Анимации</Checkbox>
+    <>
+      <Transition settingModalRef={settingModalRef} in={modalIsVisible} timeout={duration} unmountOnExit>
+        {transitionState => (
+          <div
+            className="settings-menu"
+            ref={settingModalRef}
+            style={{
+              ...transitionStyles[transitionState]
+            }}
+          >
+            <header className="settings-menu__header">
+              <h2>Настройки</h2>
+              <button className="settings-menu__close-btn" onClick={handleOnClose}>
+                <CloseIcon />
+              </button>
+            </header>
+            <div className="settings-menu__children">
+              <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Полный экран</Checkbox>
+              <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Анимации</Checkbox>
+              <Button className='settings-menu__new-game-btn' onClick={() => handleNewGameClick(true)}>Новая игра</Button>
+            </div>
           </div>
-        </div>
-      )}
-    </Transition>
+        )}
+      </Transition>
+      <NewGameModal 
+        isVisible={newGameModalIsVisible}
+        onClose={() => handleNewGameClick(false)}
+      />
+    </>
   );
 };

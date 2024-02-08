@@ -14,6 +14,8 @@
   box-shadow: 10px 10px 20px 20px rgba(0, 0, 0, .75);
   @include gradientBorder('left');
 
+  display: flex;
+  flex-direction: column;
   color: var(--color-deck-text);
   @include transition(transform);
 
@@ -38,5 +40,10 @@
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__new-game-btn {
+    margin-top: auto !important;
   }
 }

@@ -1,0 +1,27 @@
+@import '@/styles/mixins.scss';
+
+.input {
+  position: relative;
+
+  &__label {
+    display: inline-block;
+    margin-bottom: .55rem;
+  }
+
+  &__field-wrapper {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+
+  &__field {
+    background-color: transparent;
+    position: relative;
+    z-index: var(--z-20);
+    @include gradientBorder('all', 2px);
+
+    color: var(--color-deck-text);
+    font-size: 1rem;
+    padding: 0.78125rem 1rem;
+    outline-offset: -4px;
+  }
+}

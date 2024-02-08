@@ -4,3 +4,4 @@ export const CSSDeckIndex = '--deck-index';
 export const CSSDeckColor = '--deck-color';
 export const CSSTopPanelHeight = '--top-panel-height';
 export const CSSLogWidth = '--log-width';
+export const CSSLogOffset = '--log-offset';

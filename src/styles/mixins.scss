@@ -79,26 +79,28 @@
   );
 }
 
-@mixin gradientBorder($position: 'all') {
+@mixin gradientBorder($position: 'all', $width: 3px) {
   @if $position == 'all' {
     border-style: solid;
-    border-width: 3px;
+    border-width: $width;
   }
 
   @if $position == 'left' {
     border-left-style: solid;
-    border-left-width: 3px;
+    border-left-width: $width;
   }
 
   @if $position == 'right' {
     border-right-style: solid;
-    border-right-width: 3px;
+    border-right-width: $width;
   }
 
   border-image: gradient(40deg) 1% 1%;
 }
 
 @mixin controlBorderGradient() {
+  position: relative;
+
   &:before,
   &:after {
     content: '';
@@ -127,7 +129,7 @@
     @include transition(all, ease, .5s);
   }
 
-  &:hover {
+  &:not(&:disabled):hover {
     &:before {
       background-position: 100% 0;
     }

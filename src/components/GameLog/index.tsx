@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import './index.scss';
 import { useStore } from '@/store';
-import { CSSLogWidth } from '@/const/css-consts';
+import { CSSLogOffset, CSSLogWidth } from '@/const/css-consts';
 
 type GameLogProps = unknown;
 
@@ -11,8 +11,12 @@ export const GameLog: FC<GameLogProps> = () => {
   const { state } = useStore();
 
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      CSSLogWidth, state.gameLogIsOpen ? '340px' : '0px'
+    const { documentElement } = document;
+
+    documentElement.style.setProperty(
+      CSSLogOffset, state.gameLogIsOpen ?
+      getComputedStyle(documentElement).getPropertyValue(CSSLogWidth) :
+        '0px'
     );
   }, [state]);
 

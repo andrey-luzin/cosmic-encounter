@@ -10,8 +10,8 @@
   align-items: flex-end;
   height: 0;
   max-width: 100%;
-  transform: translateX(var(--log-width));
-  width: calc(100% - var(--log-width));
+  transform: translateX(var(--log-offset));
+  width: calc(100% - var(--log-offset));
   @include transition;
 
   &__hide-button {

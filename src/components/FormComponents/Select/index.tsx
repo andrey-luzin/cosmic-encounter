@@ -27,6 +27,7 @@ export const Select: FC<SelectProps> = ({ label, options }) => {
         options={options}
         defaultValue={options[0]}
         styles={styles}
+        isSearchable={false}
       />
     </div>
   );

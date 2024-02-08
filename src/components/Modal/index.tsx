@@ -9,10 +9,11 @@ import CloseIcon from '../../../public/icons/x-marks.svg';
 
 import './index.scss';
 
-type ModalProps = {
+export type ModalProps = {
   isVisible: boolean;
   title?: string;
   onClose: () => void,
+  className?: string,
 };
 
 const duration = 300;
@@ -29,6 +30,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
   isVisible,
   title,
   onClose,
+  className,
   children,
 }) => {
   const { state } = useStore();
@@ -59,7 +61,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
             style={{
               ...transitionStyles[state]
             }}
-            className="modal"
+            className={cx("modal", className)}
           >
             <div className="modal__overlay" onClick={handleOnClick}/>
             <div className="modal__body">
