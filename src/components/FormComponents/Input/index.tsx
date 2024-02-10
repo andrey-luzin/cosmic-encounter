@@ -1,4 +1,4 @@
-import React, { FC, FormEventHandler, InputHTMLAttributes } from 'react';
+import React, { ChangeEvent, FC, InputHTMLAttributes } from 'react';
 import cx from 'classnames';
 import { nanoid } from 'nanoid';
 
@@ -8,7 +8,7 @@ type InputProps = {
   className?: string,
   label?: string,
   id?: InputHTMLAttributes<HTMLInputElement>['id'],
-  onInput?: FormEventHandler<HTMLInputElement>,
+  onInput?: (e: ChangeEvent<HTMLInputElement>) => void,
 };
 
 export const Input: FC<InputProps> = ({ label, id, onInput, className }) => {

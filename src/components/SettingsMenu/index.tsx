@@ -49,6 +49,12 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
     setModalIsVisible(isVisible);
   }, [isVisible]);
 
+  useEffect(() => {
+    if (newGameModalIsVisible) {
+      onClose();
+    }
+  }, [newGameModalIsVisible, onClose]);
+
   useClickAway(settingModalRef, () => {
     setModalIsVisible(false);
     onClose();

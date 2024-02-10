@@ -1,5 +1,5 @@
 import { StylesConfig } from "react-select";
-import { ISelectOptions } from ".";
+import { ISelectOption } from ".";
 import chroma from 'chroma-js';
 
 const dot = (color?: string) => ({
@@ -18,7 +18,7 @@ const dot = (color?: string) => ({
   },
 });
 
-export const styles: StylesConfig<ISelectOptions> = {
+export const styles: StylesConfig<ISelectOption> = {
   control: (styles) => ({
     ...styles, 
     backgroundColor: 'var(--color-bg-main)',
@@ -67,7 +67,7 @@ export const styles: StylesConfig<ISelectOptions> = {
   }),
   valueContainer: (styles) => ({
     ...styles,
-    zIndex: 'var(--z-20)',
+    zIndex: 'var(--z-30)',
     padding: '0rem 1rem'
   }),
   indicatorsContainer: (styles) => ({
@@ -80,6 +80,7 @@ export const styles: StylesConfig<ISelectOptions> = {
     borderRadius: 'var(--border-radius)',
     overflow: 'hidden',
     margin: '4px 0',
+    zIndex: 'var(--z-40)'
   }),
   menuList: (styles) => ({
     ...styles,

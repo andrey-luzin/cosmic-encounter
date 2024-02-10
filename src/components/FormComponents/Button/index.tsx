@@ -6,7 +6,8 @@ import './index.scss';
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
-  view?: 'default' | 'filled'
+  view?: 'default' | 'filled' | 'warning'
+  size?: 'm' | "s" | 'xs'
 };
 
 export const Button: FC<PropsWithChildren<ButtonProps>> = ({
@@ -15,10 +16,14 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = ({
   children,
   disabled,
   view = 'default',
+  size = 'm',
 }) => {
   return(
     <button
-      className={cx(`button button--view-${view}`, className)}
+      className={cx(
+        `button button--view-${view} button--size-${size}`,
+        className
+      )}
       onClick={onClick}
       disabled={disabled}
     >

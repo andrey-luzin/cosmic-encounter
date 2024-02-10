@@ -1,8 +1,7 @@
-import React, { FC, PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, PropsWithChildren, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import cx from 'classnames';
 import { Transition } from 'react-transition-group';
-import { useClickAway } from 'react-use';
 import { useStore } from '@/store';
 
 import CloseIcon from '../../../public/icons/x-marks.svg';

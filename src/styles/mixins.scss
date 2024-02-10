@@ -70,12 +70,16 @@
   rotate: calc(360deg / var(--decks-count) * (var(--deck-index)) * $inverse);
 }
 
-@function gradient($angle: 45deg) {
+@function gradient(
+  $angle: 45deg,
+  $color-start: var(--color-passive),
+  $color-end: var(--color-passive-secondary),
+) {
   @return linear-gradient(
     $angle,
-    var(--color-passive) 30%,
+    $color-start 30%,
     var(--color-bg-secondary) 50%,
-    var(--color-passive-secondary) 65%
+    $color-end 65%
   );
 }
 
@@ -98,7 +102,10 @@
   border-image: gradient(40deg) 1% 1%;
 }
 
-@mixin controlBorderGradient() {
+@mixin controlBorderGradient(
+  $color-start: var(--color-passive),
+  $color-end: var(--color-passive-secondary)
+) {
   position: relative;
 
   &:before,
@@ -116,7 +123,7 @@
     top: 0%;
     background-position: 0 0;
     background-size: 200% auto;
-    background-image: gradient();
+    background-image: gradient(45deg, $color-start, $color-end);
     @include transition(background-position, ease, .5s);
   }
 

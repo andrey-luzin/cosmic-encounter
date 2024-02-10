@@ -2,8 +2,23 @@
   &__inner {
   }
 
+  &__add-btn {
+    margin-bottom: 1.5rem;
+  }
+
   &__fields-group {
     display: flex;
+    align-items: flex-end;
     gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__field-select {
+    width: 160px;
+  }
+
+  &__error {
+    color: var(--color-error);
+    margin-bottom: 1rem;
   }
 }
