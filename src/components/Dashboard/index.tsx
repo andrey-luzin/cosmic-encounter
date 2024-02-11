@@ -55,6 +55,7 @@ export const Dashboard: FC<DashboardProps> = () => {
   const [startX, setStartX] = useState<number>(0);
   const [scrollLeft, setScrollLeft] = useState<number>(0);
   const [scale, setScale] = useState(minScale); // init scal
+  const [wheelingIsDisable, setWheelingIsDisable] = useState<boolean>(false);
 
   const dragDropManager = useDragDropManager();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -70,7 +71,7 @@ export const Dashboard: FC<DashboardProps> = () => {
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
-    if (!isDragging) {
+    if (!isDragging && !wheelingIsDisable) {
         e.preventDefault();
         const deltaY = -e.deltaY;
 
@@ -80,7 +81,7 @@ export const Dashboard: FC<DashboardProps> = () => {
           setScale(newScale);
         }
     }
-  }, [isDragging, scale]);
+  }, [isDragging, scale, wheelingIsDisable]);
 
   useEffect(() => {
     const itemType = dragDropManager.getMonitor().getItemType();
@@ -149,7 +150,15 @@ export const Dashboard: FC<DashboardProps> = () => {
             style={{ scale }}
           >
             {players.map((player, index) => {
-              return <PlayerDeck index={index} key={index} color={player.color} playerName={player.playerName} />;
+              return (
+                <PlayerDeck
+                  index={index}
+                  key={index}
+                  color={player.color}
+                  playerName={player.playerName}
+                  checkFullCardModalIsOpen={value => setWheelingIsDisable(value)}
+                />
+              );
             })}
             <Warp />
           </div>

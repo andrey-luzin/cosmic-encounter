@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useCallback } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import cx from 'classnames';
 import { Transition } from 'react-transition-group';
@@ -13,6 +13,7 @@ export type ModalProps = {
   title?: string;
   onClose: () => void,
   className?: string,
+  withoutPadding?: boolean,
 };
 
 const duration = 300;
@@ -30,22 +31,25 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
   title,
   onClose,
   className,
+  withoutPadding,
   children,
 }) => {
   const { state } = useStore();
-  // const [modalIsVisible, setModalIsVisible] = useState<boolean>(isVisible);
-
-  // useEffect(() => {
-  //   setModalIsVisible(isVisible);
-  // }, [isVisible]);
-
-  // useClickAway(nodeRef, () => {
-  //   setModalIsVisible(false);
-  // });
+ 
+  useEffect(() => {
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isVisible) {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyUp);
+    return () => {
+      document.removeEventListener('keydown', handleKeyUp);
+    };
+  }, [onClose, isVisible]);
 
   const handleOnClick = useCallback(() => {
     onClose();
-    // setModalIsVisible(false);
   }, [onClose]);
 
   if (typeof window === 'undefined') {
@@ -65,7 +69,10 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
             <div className="modal__overlay" onClick={handleOnClick}/>
             <div className="modal__body">
               <button className="modal__close" onClick={handleOnClick}><CloseIcon/></button>
-              <div className="modal__body-inner">
+              <div className={cx(
+                "modal__body-inner",
+                { "modal__body-inner--without-padding": withoutPadding }
+              )}>
                 {title && <h2 className="modal__title">{title}</h2>}
                 {children}
               </div>

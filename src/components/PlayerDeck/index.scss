@@ -47,4 +47,8 @@
   &__icon-image {
     @include rotateToCenter(-1);
   }
+
+  &__full-image {
+    max-width: 100%;
+  }
 }

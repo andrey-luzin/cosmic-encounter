@@ -37,7 +37,7 @@
 
   &__body {
     position: relative;
-    max-width: max(650px, 90vw);
+    max-width: max(650px, 91vw);
     margin: 1rem auto;
     background-color: var(--color-bg-main);
     @include gradientBorder;
@@ -48,6 +48,10 @@
     padding: 2rem;
     max-height: 80dvh;
     overflow: auto;
+
+    &--without-padding {
+      padding: 0;
+    }
   }
 
   &__close {
