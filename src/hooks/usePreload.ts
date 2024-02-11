@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { RACES_COUNT, TEXTURES_COUNT, CARDS_COUNT } from '@/const';
+import {
+  RACES_COUNT,
+  TEXTURES_COUNT,
+  COSMIC_CARDS_COUNT,
+  COSMIC_CARDS_PATH,
+  RACES_PATH,
+  RACES_PREVIEW_PATH,
+  TEXTURES_PATH
+} from '@/const';
 
 interface Image {
   src: string;
@@ -24,14 +32,14 @@ export const usePreload = () => {
     const list: string[] = [];
     list.push(`/images/warp.webp`);
     [...Array(TEXTURES_COUNT)].forEach((_, index) => {
-      list.push(`/images/textures/texture${index + 1}.webp`);
+      list.push(`/images/${TEXTURES_PATH}/texture${index + 1}.webp`);
     });
-    [...Array(CARDS_COUNT)].forEach((_, index) => {
-      list.push(`/images/cards/${index + 1}.webp`);
+    [...Array(COSMIC_CARDS_COUNT)].forEach((_, index) => {
+      list.push(`/images/${COSMIC_CARDS_PATH}/${index + 1}.webp`);
     });
     [...Array(RACES_COUNT)].forEach((_, index) => {
-      list.push(`/images/races/${index + 1}.webp`);
-      list.push(`/images/races_preview/${index + 1}.webp`);
+      list.push(`/images/${RACES_PATH}/${index + 1}.webp`);
+      list.push(`/images/${RACES_PREVIEW_PATH}/${index + 1}.webp`);
     });
     setImagesList(list);
   }, []);

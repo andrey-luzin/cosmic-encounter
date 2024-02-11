@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import cx from 'classnames';
 
 import { CardModal } from '../CardModal';
@@ -7,15 +7,24 @@ import { CardModal } from '../CardModal';
 import ArrowIcon from '../../../public/icons/arrow-down.svg';
 
 import './index.scss';
+import { CosmicCard } from '@/types/CardTypes';
+import { COSMIC_CARDS_PATH } from '@/const';
+import { cosmicCards } from '@/data/cosmic-cards';
 
 type PlayerHandProps = unknown;
 
-const cards: number[] = [1,3];
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
   const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
   const [clientX, setClientX] = useState<number>(0);
+  const [cards, setCards] = useState<CosmicCard[]>([]);
+
+  useEffect(() => {
+    const shuffledArray = cosmicCards.sort(() => Math.random() - 0.5);
+    const selectedObjects = shuffledArray.slice(0, 8);
+    setCards(selectedObjects);
+  }, []);
 
   const handleArrowClick = useCallback(() => {
     setIsFullView(!isFullView);
@@ -43,11 +52,11 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
         )}>
           {
             cards.map(card => {
-              const src = `/images/cards/${card}.webp`;
+              const src = `/images/${COSMIC_CARDS_PATH}/${card.id}.webp`;
               return (
                 <div
                   className="player-hand__card"
-                  key={card}
+                  key={card.id}
                   onPointerEnter={(event) => handleCardHoverEnter(event, src)}
                   onPointerLeave={handleCardHoverLeave}
                 >

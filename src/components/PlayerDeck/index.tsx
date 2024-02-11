@@ -9,7 +9,7 @@ import { CardModal } from '../CardModal';
 
 import { ConflictZone } from './ConflctZone';
 
-import { RACES_COUNT } from '@/const';
+import { RACES_COUNT, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
 import './index.scss';
 import { Modal } from '../Modal';
 
@@ -53,8 +53,8 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({
 
   useEffect(() => {
     const race = Math.ceil(Math.random() * RACES_COUNT);
-    setHoveredSrc(`/images/races/${race}.webp`);
-    setIconImage(`/images/races_preview/${race}.webp`);
+    setHoveredSrc(`/images/${RACES_PATH}/${race}.webp`);
+    setIconImage(`/images/${RACES_PREVIEW_PATH}/${race}.webp`);
   }, []);
 
   useEffect(() => {

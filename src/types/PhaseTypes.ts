@@ -7,4 +7,4 @@ export enum Phases {
   Planning = 'planning',
   Reveal = 'reveal',
   Resolution = 'resolution',
-}
+};
