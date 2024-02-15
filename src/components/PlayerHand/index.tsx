@@ -9,22 +9,20 @@ import ArrowIcon from '../../../public/icons/arrow-down.svg';
 import './index.scss';
 import { CosmicCardType } from '@/types/CardTypes';
 import { COSMIC_CARDS_PATH } from '@/const';
-import { cosmicCards } from '@/data/cosmic-cards';
+import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
 
 type PlayerHandProps = unknown;
-
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
   const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
   const [clientX, setClientX] = useState<number>(0);
   const [cards, setCards] = useState<CosmicCardType[]>([]);
+  const { getCards } = useGetCosmicCards();
 
   useEffect(() => {
-    const shuffledArray = cosmicCards.sort(() => Math.random() - 0.5);
-    const selectedObjects = shuffledArray.slice(0, 8);
-    setCards(selectedObjects);
-  }, []);
+    setCards(getCards(8));
+  }, [getCards]);
 
   const handleArrowClick = useCallback(() => {
     setIsFullView(!isFullView);
