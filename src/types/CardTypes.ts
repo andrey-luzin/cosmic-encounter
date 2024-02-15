@@ -1,6 +1,6 @@
 import { Phases } from "./PhaseTypes";
 
-export enum CosmicCardType {
+export enum CosmicCardsEnum {
   Encounter = 'encounter',
   Artifact = 'artifact',
   Flare = 'flare',
@@ -13,18 +13,18 @@ export enum EncounterCardType {
   Morph = 'morph',
 }
 
-export type CosmicCard = {
+export type CosmicCardType = {
   id: number,
 } & (
   {
-    type: CosmicCardType.Encounter,
+    type: CosmicCardsEnum.Encounter,
     encounterType: EncounterCardType
     attackValue?: number,
   } | {
-    type: CosmicCardType.Artifact | CosmicCardType.Flare,
+    type: CosmicCardsEnum.Artifact | CosmicCardsEnum.Flare,
     phases: Phases[],
   } | {
-    type: CosmicCardType.Reinforcement,
+    type: CosmicCardsEnum.Reinforcement,
     reinforcementValue: number
   }
 );

@@ -7,7 +7,7 @@ import { CardModal } from '../CardModal';
 import ArrowIcon from '../../../public/icons/arrow-down.svg';
 
 import './index.scss';
-import { CosmicCard } from '@/types/CardTypes';
+import { CosmicCardType } from '@/types/CardTypes';
 import { COSMIC_CARDS_PATH } from '@/const';
 import { cosmicCards } from '@/data/cosmic-cards';
 
@@ -18,7 +18,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
   const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
   const [clientX, setClientX] = useState<number>(0);
-  const [cards, setCards] = useState<CosmicCard[]>([]);
+  const [cards, setCards] = useState<CosmicCardType[]>([]);
 
   useEffect(() => {
     const shuffledArray = cosmicCards.sort(() => Math.random() - 0.5);

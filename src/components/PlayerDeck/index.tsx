@@ -52,7 +52,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({
   };
 
   useEffect(() => {
-    const race = Math.ceil(Math.random() * RACES_COUNT);
+    const race = Math.ceil(Math.random() * 6);
     setHoveredSrc(`/images/${RACES_PATH}/${race}.webp`);
     setIconImage(`/images/${RACES_PREVIEW_PATH}/${race}.webp`);
   }, []);
