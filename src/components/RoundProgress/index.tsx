@@ -8,6 +8,9 @@ import { Phases } from '@/types/PhaseTypes';
 import { useStore } from '@/store';
 import { ActionTypes } from '@/store/types';
 
+import CogIcon from '../../../public/icons/cog.svg';
+import QueueListIcon from '../../../public/icons/queue-list.svg';
+
 import './index.scss';
 
 type RoundProgressProps = unknown;
@@ -91,7 +94,13 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
           className="round-progress__tool-btn"
           onClick={handleLogClick}
           title='Лог'
-        >📝</button>
+        >
+          <QueueListIcon className={cx(
+            "round-progress__tool-icon",
+            { 'round-progress__tool-icon--is-active': state.gameLogIsOpen }
+          )}
+          />
+        </button>
       </span>
       <div className="round-progress__current-player">
         Активный игрок:
@@ -116,7 +125,9 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
         className="round-progress__tool-btn"
         onClick={() => handleSettingsClick(true)}
         title='Настройки'
-      >⚙️</button>
+      >
+        <CogIcon className="round-progress__tool-icon round-progress__tool-icon--animation" />
+      </button>
       <SettingsMenu
         isVisible={settingsIsVisible}
         onClose={() => handleSettingsClick(false)}

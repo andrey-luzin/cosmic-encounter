@@ -32,12 +32,30 @@
   &__tool-btn {
     @extend %clear-button;
 
-    padding: 0.1rem 1rem;
-    font-size: 2rem;
+    padding: 0.1rem .75rem;
     @include transition(transform);
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     &:hover, &:focus {
-      transform: scale(1.2);
+      transform: scale(1.15);
+    }
+  }
+
+  &__tool-icon {
+    color: var(--color-deck-text);
+    width: 2.5rem;
+    height: 2.5rem;
+    @include transition(color);
+
+    &--animation {
+      animation: round 15s linear infinite;
+    }
+
+    &--is-active {
+      color: var(--color-active);
     }
   }
 
@@ -45,7 +63,16 @@
     display: flex;
     border-right: 2px solid transparent;
     border-image-slice: 1;
-    border-width-right: 2px;
     border-image-source: gradient();
+  }
+}
+
+@keyframes round {
+  0% {
+    rotate: 0deg;
+  }
+
+  100% {
+    rotate: 360deg;
   }
 }
