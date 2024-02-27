@@ -10,7 +10,7 @@ export const useGetCosmicCards = () => {
       const shuffledObjects = getRandomObjects(shuffledArray);
     
       const selectedCards = shuffledObjects.slice(0, count);
-      // TODO: shuffle remaing cards to deck
+      // TODO: shuffle remaing cards to deck in state
       // const remainingCard = shuffledArray.slice(count);
       return selectedCards;
     }

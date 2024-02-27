@@ -8,11 +8,14 @@ export enum ActivationTypesEnum {
   NotDefense = 'not-defense',
   MainPlayer = 'main-player',
   MainPlayerOrAlly = 'main-player-or-ally',
+  NotMainPlayer = 'not-main-player',
 }
 
 export type RaceType = {
+  id: number,
   name: string,
   phases: Phases[],
   activationType: ActivationTypesEnum,
   isRequired: boolean,
+  isDisable?: boolean,
 };

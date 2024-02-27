@@ -16,9 +16,11 @@ interface FieldGroupProps {
   inputValue: string;
 }
 
-type HotseatModeProps = unknown;
+type HotseatModeProps = {
+  onCallback: () => void,
+};
 
-export const HotseatMode: FC<HotseatModeProps> = () => {
+export const HotseatMode: FC<HotseatModeProps> = ({ onCallback }) => {
   const [fieldGroups, setFieldGroups] = useState<FieldGroupProps[]>([
     { id: nanoid(), selectedOption: playersCount[0], inputValue: '' },
     { id: nanoid(), selectedOption: playersCount[1], inputValue: '' },
@@ -30,14 +32,16 @@ export const HotseatMode: FC<HotseatModeProps> = () => {
   const handleHotseatStart = useCallback(() => {
     const inputValues = fieldGroups.map(group => group.inputValue.trim());
 
-    if (!inputValues.every(value => value)) {
-      return setError("Заполнены не все имена игроков");
-    }
-    if (!(new Set(inputValues).size === inputValues.length)) {
-      return setError("Дубли в именах игроков");
-    }
+    // TODO: return error checking
+    // if (!inputValues.every(value => value)) {
+    //   return setError("Заполнены не все имена игроков");
+    // }
+    // if (!(new Set(inputValues).size === inputValues.length)) {
+    //   return setError("Дубли в именах игроков");
+    // }
     setError('');
-  }, [fieldGroups]);
+    onCallback();
+  }, [fieldGroups, onCallback]);
 
   const getAvailableOptions = useMemo((): ISelectOption[] => {
     const selectedOptions = fieldGroups.map(group => group.selectedOption?.value);

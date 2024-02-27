@@ -7,7 +7,7 @@ import './index.scss';
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
   view?: 'default' | 'filled' | 'warning'
-  size?: 'm' | "s" | 'xs'
+  size?: 'l' | 'm' | "s" | 'xs'
 };
 
 export const Button: FC<PropsWithChildren<ButtonProps>> = ({

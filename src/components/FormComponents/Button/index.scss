@@ -9,8 +9,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 2rem;
-  font-size: 1rem;
   overflow: hidden;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -34,6 +32,17 @@
   }
 
   &--size {
+    &-l {
+      padding: 1.15rem 2.5rem;
+      font-size: 1.45rem;
+    }
+
+    // default variant
+    &-m {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+
     &-s {
       font-size: 0.875rem;
       padding: 0.9685rem 1.25rem;

@@ -32,7 +32,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
     setClientX(event.clientX);
     setTimeout(() => {
       setHoveredSrc(src);
-    }, 500);
+    }, 400);
 
     return setHoveredSrc('');
   };
