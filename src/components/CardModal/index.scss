@@ -1,28 +1,33 @@
 @import '@/styles/mixins.scss';
 
 .card-modal {
-  $offset: 1.2rem;
+  --card-modal-offset: 1.2rem;
 
   position: fixed;
-  z-index: 50;
-  width: calc(50vw - #{$offset});
-  height: calc(100vh - #{$offset * 2});
-  top: $offset;
-  bottom: $offset;
+  width: calc(50vw - var(--card-modal-offset));
+  height: calc(100vh - var(--card-modal-offset) * 2);
+  top: var(--card-modal-offset);
+  bottom: var(--card-modal-offset);
   @include transition(opacity);
 
+  z-index: var(--z-100);
   opacity: 0;
+  pointer-events: none;
 
   &--right {
-    right: $offset;
+    right: var(--card-modal-offset);
   }
 
   &--left {
-    left: $offset;
+    left: var(--card-modal-offset);
   }
 
   &--is-visible {
     opacity: 1;
+  }
+
+  &--is-less {
+    --card-modal-offset: 2.8rem;
   }
 
   &__image {

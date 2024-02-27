@@ -9,3 +9,4 @@ export const DESTINIES_CARDS_PATH = 'destinies-cards';
 export const RACES_PATH = 'races';
 export const RACES_PREVIEW_PATH = 'races-preview';
 export const TEXTURES_PATH = 'textures';
+export const FLARES_PATH = 'flares';

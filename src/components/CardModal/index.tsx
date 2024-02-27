@@ -11,6 +11,7 @@ type CardModalProps = {
   src: string,
   isVisible: boolean,
   clientX: number,
+  isLess?: boolean,
 };
 
 const duration = 300;
@@ -23,7 +24,7 @@ const transitionStyles = {
   unmounted:  { opacity: 0 },
 };
 
-export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
+export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX, isLess }) => {
   const { state } = useStore();
   const nodeRef = useRef(null);
   const [modalPosition, setModalPosition] = useState<'left' | 'right'>('right');
@@ -64,7 +65,11 @@ export const CardModal: FC<CardModalProps> = ({ src, isVisible, clientX }) => {
             style={{
               ...transitionStyles[state]
             }}
-            className={cx('card-modal', `card-modal--${modalPosition}` )}
+            className={cx(
+              'card-modal',
+              `card-modal--${modalPosition}`,
+              { 'card-modal--is-less': isLess }
+            )}
             onClick={handleOnClick}
           >
             {
