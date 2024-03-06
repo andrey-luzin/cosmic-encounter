@@ -1,7 +1,7 @@
 import { ISelectOption } from '@/components/FormComponents/Select';
 import { PlayerColor } from '@/types/PlayerTypes';
 
-export const playersCount: ISelectOption[] = [
+export const playersOptions: ISelectOption[] = [
   {
     value: PlayerColor.Yellow,
     label: 'Желтый',

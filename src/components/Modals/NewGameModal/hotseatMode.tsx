@@ -5,7 +5,7 @@ import { ISelectOption, Select } from '@/components/FormComponents/Select';
 import { Button } from '@/components/FormComponents/Button';
 import { Input } from '@/components/FormComponents/Input';
 
-import { playersCount } from './const';
+import { playersOptions } from './const';
 import { MIN_PLAYERS_COUNT, MAX_PLAYERS_COUNT } from '@/const';
 
 import TrashIcon from '../../../../public/icons/trash.svg';
@@ -22,9 +22,9 @@ type HotseatModeProps = {
 
 export const HotseatMode: FC<HotseatModeProps> = ({ onCallback }) => {
   const [fieldGroups, setFieldGroups] = useState<FieldGroupProps[]>([
-    { id: nanoid(), selectedOption: playersCount[0], inputValue: '' },
-    { id: nanoid(), selectedOption: playersCount[1], inputValue: '' },
-    { id: nanoid(), selectedOption: playersCount[2], inputValue: '' },
+    { id: nanoid(), selectedOption: playersOptions[0], inputValue: '' },
+    { id: nanoid(), selectedOption: playersOptions[1], inputValue: '' },
+    { id: nanoid(), selectedOption: playersOptions[2], inputValue: '' },
   ]);
 
   const [error, setError] = useState<string>('');
@@ -45,7 +45,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onCallback }) => {
 
   const getAvailableOptions = useMemo((): ISelectOption[] => {
     const selectedOptions = fieldGroups.map(group => group.selectedOption?.value);
-    return playersCount.filter((option) => !selectedOptions.includes(option.value));
+    return playersOptions.filter((option) => !selectedOptions.includes(option.value));
   }, [fieldGroups]);
 
   const handleAddBlock = useCallback(() => {
@@ -81,7 +81,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onCallback }) => {
       <div className='new-game-modal__fields-group'>
         <Select
           onChange={(e) => e && handleOptionChange(e as ISelectOption)}
-          options={getAvailableOptions || playersCount}
+          options={getAvailableOptions || playersOptions}
           label="Цвет игрока"
           className="new-game-modal__field-select"
           {

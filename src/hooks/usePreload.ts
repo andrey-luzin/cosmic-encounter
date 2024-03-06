@@ -6,7 +6,8 @@ import {
   COSMIC_CARDS_PATH,
   RACES_PATH,
   RACES_PREVIEW_PATH,
-  TEXTURES_PATH
+  TEXTURES_PATH,
+  FLARES_PATH
 } from '@/const';
 
 interface Image {
@@ -40,6 +41,7 @@ export const usePreload = () => {
     [...Array(RACES_COUNT)].forEach((_, index) => {
       list.push(`/images/${RACES_PATH}/${index + 1}.webp`);
       list.push(`/images/${RACES_PREVIEW_PATH}/${index + 1}.webp`);
+      list.push(`/images/${FLARES_PATH}/${index + 1}.webp`);
     });
     setImagesList(list);
   }, []);

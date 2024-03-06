@@ -1,4 +1,5 @@
 import { GameLogItem } from "@/types/GameLog";
+import { GameStateType } from "@/types/GameStateTypes";
 import { RefObject } from "react";
 
 interface SettingsState {
@@ -12,6 +13,7 @@ export interface AppState {
   layoutRef: LayoutState;
   gameLogIsOpen: boolean
   gameLog: GameLogItem[];
+  gameState: GameStateType | null;
 }
 
 export enum ActionTypes {

@@ -10,6 +10,7 @@ const initialState: AppState = {
   layoutRef: null,
   gameLogIsOpen: false,
   gameLog: [],
+  gameState: null,
 };
 
 type StoreContextType = {

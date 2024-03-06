@@ -61,8 +61,6 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onC
                 <label
                   key={race.id}
                   className='selection-race-modal__race'
-                  onPointerEnter={() => handleRaceHoverEnter(race)}
-                  onPointerLeave={handleRaceHoverLeave}
                 >
                   <input
                     name="race-select"
@@ -75,6 +73,8 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onC
                     src={src}
                     className="selection-race-modal__race-image"
                     alt=""
+                    onPointerEnter={() => handleRaceHoverEnter(race)}
+                    onPointerLeave={handleRaceHoverLeave}
                   />
                   <span className='selection-race-modal__race-name'>{race.name}</span>
                 </label>
@@ -90,7 +90,6 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onC
         >Начать</Button>
       </form>
       {
-        fullRaceSrc &&
         <CardModal
           src={fullRaceSrc}
           isVisible={Boolean(fullRaceSrc)}
@@ -98,7 +97,6 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onC
         />
       }
       {
-        flareRaceSrc &&
         <CardModal
           src={flareRaceSrc}
           isVisible={Boolean(flareRaceSrc)}
