@@ -69,6 +69,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
     dispatch({
       type: ActionTypes.SET_SETTINGS,
       payload: {
+        ...state.settings,
         animation: !state.settings.animation
       }
     });
@@ -77,6 +78,28 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
   const handleNewGameClick = (isVisible: boolean) => {
     setNewGameModalIsVisible(isVisible);
   };
+
+  const turnMusic = useCallback(() => {
+    dispatch({
+      type: ActionTypes.SET_SETTINGS,
+      payload: {
+        ...state.settings,
+        musicIsOn: !state.settings.musicIsOn
+      }
+    });
+  }, [dispatch, state]);
+
+  const handleVolumeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(event.target.value);
+
+    dispatch({
+      type: ActionTypes.SET_SETTINGS,
+      payload: {
+        ...state.settings,
+        volume: newVolume
+      }
+    });
+  }, [dispatch, state.settings]);
 
   return(
     <>
@@ -98,6 +121,18 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
             <div className="settings-menu__children">
               <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Полный экран</Checkbox>
               <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Анимации</Checkbox>
+              <Checkbox checked={state.settings.musicIsOn} onChange={turnMusic}>Музыка</Checkbox>
+              {
+                state.settings.musicIsOn &&
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={state.settings.volume}
+                  onChange={handleVolumeChange}
+                />
+              }
               <Button className='settings-menu__new-game-btn' onClick={() => handleNewGameClick(true)}>Новая игра</Button>
             </div>
           </div>

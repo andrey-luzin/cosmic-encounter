@@ -4,6 +4,8 @@ import { RefObject } from "react";
 
 interface SettingsState {
   animation: boolean,
+  musicIsOn: boolean,
+  volume: number,
 }
 
 type LayoutState = RefObject<Element> | null;

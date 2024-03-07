@@ -7,13 +7,14 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import './index.scss';
 import { ActionTypes } from '@/store/types';
 import { useStore } from '@/store';
+import MusicPlayer from '../MusicPlayer';
 
 type LayoutProps = unknown;
 
 export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
   children
 }) => {
-  const { dispatch } = useStore();
+  const { dispatch, state } = useStore();
   const layoutRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -39,6 +40,10 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({
       <DndProvider backend={HTML5Backend}>
         {children}
       </DndProvider>
+      {
+        state.settings.musicIsOn &&
+        <MusicPlayer />
+      }
     </main>
   );
 };

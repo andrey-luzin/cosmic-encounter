@@ -6,6 +6,8 @@ import { reducer } from './reducer';
 const initialState: AppState = {
   settings: {
     animation: false,
+    musicIsOn: false,
+    volume: 0.3,
   },
   layoutRef: null,
   gameLogIsOpen: false,
