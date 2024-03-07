@@ -17,7 +17,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = () => {
   const [currentAudioIndex, setCurrentAudioIndex] = useState<number>(randomSong);
 
   const playNextAudio = () => {
-    setCurrentAudioIndex(randomSong);
+    // new uniq random;
+    setCurrentAudioIndex(Math.floor(Math.random() * audioFiles.length));
   };
 
   useEffect(() => {
