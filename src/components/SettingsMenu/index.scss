@@ -46,4 +46,21 @@
   &__new-game-btn {
     margin-top: auto !important;
   }
+
+  &__volume-input {
+  }
+
+  &__song-wrapper {
+    margin-top: .5rem;
+  }
+
+  &__song-source {
+    color: var(--color-secondary);
+    font-size: .6875rem;
+    padding-right: .25rem;
+  }
+
+  &__song-name {
+    font-size: .8125rem;
+  }
 }

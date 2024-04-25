@@ -1,4 +1,4 @@
-import React, { FC, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Transition } from 'react-transition-group';
 import { useClickAway } from 'react-use';
 import {useFullscreen, useToggle} from 'react-use';
@@ -10,6 +10,7 @@ import './index.scss';
 import { ActionTypes } from '@/store/types';
 import { Button } from '../FormComponents/Button';
 import { NewGameModal } from '../Modals/NewGameModal';
+import { songs } from '@/data/songs';
 
 type SettingsMenuProps = {
   isVisible: boolean,
@@ -101,6 +102,10 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
     });
   }, [dispatch, state.settings]);
 
+  const currentSong = useMemo(() => {
+    return songs.find(song => song.id === state.settings.musicSongIndex);
+  }, [state.settings.musicSongIndex]);
+
   return(
     <>
       <Transition settingModalRef={settingModalRef} in={modalIsVisible} timeout={duration} unmountOnExit>
@@ -124,14 +129,24 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
               <Checkbox checked={state.settings.musicIsOn} onChange={turnMusic}>Музыка</Checkbox>
               {
                 state.settings.musicIsOn &&
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={state.settings.volume}
-                  onChange={handleVolumeChange}
-                />
+                <>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={state.settings.volume}
+                    onChange={handleVolumeChange}
+                    className='settings-menu__volume-input'
+                  />
+                {
+                  state.settings.musicSongIndex &&
+                  <div className='settings-menu__song-wrapper'>
+                    <span className='settings-menu__song-source'>Source:</span>
+                    <a className='settings-menu__song-name link' target='_blank' href={currentSong?.link}>{currentSong?.name}</a>
+                  </div>
+                }
+                </>
               }
               <Button className='settings-menu__new-game-btn' onClick={() => handleNewGameClick(true)}>Новая игра</Button>
             </div>

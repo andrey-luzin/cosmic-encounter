@@ -5,6 +5,7 @@ import { RefObject } from "react";
 interface SettingsState {
   animation: boolean,
   musicIsOn: boolean,
+  musicSongIndex?: number,
   volume: number,
 }
 

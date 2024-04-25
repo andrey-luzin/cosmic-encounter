@@ -29,6 +29,10 @@ h1, h2, h3, h4, h5 {
   font-family: 'Road Radio', 'ITC Blair W02 Medium', Unbounded, Raleway, Montserrat, Roboto, Arial, -apple-system, sans-serif;;
 }
 
+.link {
+  color: var(--color-passive);
+}
+
 /* 
 @media (prefers-color-scheme: dark) {
   html {
