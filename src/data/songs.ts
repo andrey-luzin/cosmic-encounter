@@ -111,4 +111,119 @@ export const songs: SongType[] = [
     name: 'Crab Nebula (Infrared)',
     link: 'https://chandra.si.edu/sound/crab.html',
   },
+  {
+    id: 23,
+    name: 'SN87A (Composite)',
+    link: 'https://chandra.si.edu/sound/sn87a.html',
+  },
+  {
+    id: 24,
+    name: 'SN87A (Optical)',
+    link: 'https://chandra.si.edu/sound/sn87a.html',
+  },
+  {
+    id: 25,
+    name: 'SN87A (X-Ray)',
+    link: 'https://chandra.si.edu/sound/sn87a.html',
+  },
+  {
+    id: 26,
+    name: 'Sagittarius A* Light Echo (Composite)',
+    link: 'https://chandra.si.edu/sound/gcenter_xray.html',
+  },
+  {
+    id: 27,
+    name: 'Sagittarius A* Light Echo (X-ray (Chandra only))',
+    link: 'https://chandra.si.edu/sound/gcenter_xray.html',
+  },
+  {
+    id: 28,
+    name: 'Sagittarius A* Light Echo (X-ray (IXPE only))',
+    link: 'https://chandra.si.edu/sound/gcenter_xray.html',
+  },
+  {
+    id: 29,
+    name: 'Eta Carinae',
+    link: 'https://chandra.si.edu/sound/etacar.html',
+  },
+  {
+    id: 30,
+    name: 'M87 Jet',
+    link: 'https://chandra.si.edu/sound/m87jet.html',
+  },
+  {
+    id: 31,
+    name: 'Sagittarius A* (Event Horizon Telescope Image)',
+    link: 'https://chandra.si.edu/sound/sgra_eht.html',
+  },
+  {
+    id: 32,
+    name: 'Southern Ring Nebula (NIRCam & MIRI)',
+    link: 'https://chandra.si.edu/sound/southern_ring.html',
+  },
+  {
+    id: 33,
+    name: 'Southern Ring Nebula (NIRCam Only)',
+    link: 'https://chandra.si.edu/sound/southern_ring.html',
+  },
+  {
+    id: 34,
+    name: 'Southern Ring Nebula (MIRI Only)',
+    link: 'https://chandra.si.edu/sound/southern_ring.html',
+  },
+  {
+    id: 35,
+    name: 'V404 Cygni',
+    link: 'https://chandra.si.edu/sound/v404cyg.html',
+  },
+  {
+    id: 36,
+    name: "Stephan's Quintet (Composite)",
+    link: 'https://chandra.si.edu/sound/stephans.html',
+  },
+  {
+    id: 37,
+    name: "Stephan's Quintet (X-Ray)",
+    link: 'https://chandra.si.edu/sound/stephans.html',
+  },
+  {
+    id: 38,
+    name: "Stephan's Quintet (Infrared)",
+    link: 'https://chandra.si.edu/sound/stephans.html',
+  },
+  {
+    id: 39,
+    name: "IC 443 – Jellyfish Nebula (Composite)",
+    link: 'https://chandra.si.edu/sound/ic443.html',
+  },
+  {
+    id: 40,
+    name: "IC 443 – Jellyfish Nebula (Nebula Only)",
+    link: 'https://chandra.si.edu/sound/ic443.html',
+  },
+  {
+    id: 41,
+    name: "IC 443 – Jellyfish Nebula (Stars Only)",
+    link: 'https://chandra.si.edu/sound/ic443.html',
+  },
+  {
+    id: 42,
+    name: "NGC 6543 – Cat's Eye Nebula (Composite)",
+    link: 'https://chandra.si.edu/sound/ngc6543.html',
+  },
+  {
+    id: 43,
+    name: "NGC 6543 – Cat's Eye Nebula (Optical)",
+    link: 'https://chandra.si.edu/sound/ngc6543.html',
+  },
+  {
+    id: 44,
+    name: "NGC 6543 – Cat's Eye Nebula (X-Ray)",
+    link: 'https://chandra.si.edu/sound/ngc6543.html',
+  },
+  {
+    id: 45,
+    name: "Chandra Deep Field",
+    link: 'https://chandra.si.edu/sound/cdf.html',
+  },
 ];

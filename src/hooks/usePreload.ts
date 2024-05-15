@@ -33,7 +33,6 @@ export const usePreload = () => {
 
   useEffect(() => {
     const list: string[] = [];
-    list.push(`/images/warp.webp`);
     [...Array(TEXTURES_COUNT)].forEach((_, index) => {
       list.push(`/images/${TEXTURES_PATH}/texture${index + 1}.webp`);
     });
