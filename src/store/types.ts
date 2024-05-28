@@ -1,5 +1,6 @@
 import { GameLogItem } from "@/types/GameLog";
 import { GameStateType } from "@/types/GameStateTypes";
+import { RaceType } from "@/types/RacesTypes";
 import { RefObject } from "react";
 
 interface SettingsState {
@@ -16,18 +17,26 @@ export interface AppState {
   layoutRef: LayoutState;
   gameLogIsOpen: boolean
   gameLog: GameLogItem[];
-  gameState: GameStateType | null;
+  gameState: Partial<GameStateType>;
+  deck: {
+   races: RaceType[],
+   // TODO: add more decks
+  }
 }
 
 export enum ActionTypes {
-  SET_SETTINGS ='SET_SETTINGS',
-  SET_GAMELOG_VISIBILITY ='SET_GAMELOG_VISIBILITY',
-  SET_GAMELOG ='SET_GAMELOG',
-  INIT_LAYOUT ='INIT_LAYOUT',
+  SET_SETTINGS = 'SET_SETTINGS',
+  SET_GAMELOG_VISIBILITY = 'SET_GAMELOG_VISIBILITY',
+  SET_GAMELOG = 'SET_GAMELOG',
+  INIT_LAYOUT = 'INIT_LAYOUT',
+  SET_GAME_STATE = 'SET_GAME_STATE',
+  RESET_GAME_STATE = 'RESET_GAME_STATE',
 }
 
 export type Action = 
   | { type: ActionTypes.SET_SETTINGS; payload: SettingsState }
   | { type: ActionTypes.SET_GAMELOG_VISIBILITY; payload: boolean }
   | { type: ActionTypes.SET_GAMELOG; payload: GameLogItem[] }
-  | { type: ActionTypes.INIT_LAYOUT; payload: LayoutState };
+  | { type: ActionTypes.INIT_LAYOUT; payload: LayoutState }
+  | { type: ActionTypes.SET_GAME_STATE; payload: Partial<GameStateType> }
+  | { type: ActionTypes.RESET_GAME_STATE };

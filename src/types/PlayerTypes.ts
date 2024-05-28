@@ -1,3 +1,6 @@
+import { CosmicCardType } from "./CardTypes";
+import { RaceType } from "./RacesTypes";
+
 export enum PlayerColor {
   Yellow = '#ffb300',
   Blue = '#1717ee',
@@ -7,6 +10,11 @@ export enum PlayerColor {
 }
 
 export type PlayerType = {
-  playerName?: string,
-  color: PlayerColor
+  name: string,
+  color: PlayerColor,
+  race?: RaceType,
+  planets: {
+    id: number;
+  }[],
+  cards: CosmicCardType[],
 };

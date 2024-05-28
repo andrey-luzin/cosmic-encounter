@@ -8,7 +8,8 @@ export const useGetRaceCards = () => {
       const shuffledArray = [...racesCards].filter(card => !card.isDisable);
 
       const shuffledObjects = getRandomObjects(shuffledArray);
-    
+      console.log('shuffledObjects', shuffledObjects);
+      
       const selectedCards = shuffledObjects.slice(0, count);
       // TODO: shuffle remaing cards to deck in state
       // const remainingCards = shuffledArray.slice(count);

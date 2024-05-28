@@ -1,19 +1,13 @@
-import { CosmicCardType } from "./CardTypes";
 import { Phases } from "./PhaseTypes";
-import { RaceType } from "./RacesTypes";
+import { PlayerType } from "./PlayerTypes";
+
 
 export type GameStateType = {
   playersCounts: number,
   players: {
-    [playerName: string]: {
-      color: string,
-      race?: RaceType,
-      planets: {
-        id: number;
-      }[],
-      cards: CosmicCardType[],
-    }
+    [playerName: string]: PlayerType
   },
   activePlayer: number,
   phase: Phases | null,
+  gameIsStarted: boolean,
 };

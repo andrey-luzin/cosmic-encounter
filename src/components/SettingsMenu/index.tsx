@@ -139,13 +139,13 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
                     onChange={handleVolumeChange}
                     className='settings-menu__volume-input'
                   />
-                {
-                  state.settings.musicSongIndex &&
-                  <div className='settings-menu__song-wrapper'>
-                    <span className='settings-menu__song-source'>Source:</span>
-                    <a className='settings-menu__song-name link' target='_blank' href={currentSong?.link}>{currentSong?.name}</a>
-                  </div>
-                }
+                  {
+                    state.settings.musicSongIndex &&
+                    <div className='settings-menu__song-wrapper'>
+                      <span className='settings-menu__song-source'>Source:</span>
+                      <a className='settings-menu__song-name link' target='_blank' href={currentSong?.link}>{currentSong?.name}</a>
+                    </div>
+                  }
                 </>
               }
               <Button className='settings-menu__new-game-btn' onClick={() => handleNewGameClick(true)}>Новая игра</Button>
@@ -153,10 +153,13 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
           </div>
         )}
       </Transition>
-      <NewGameModal 
-        isVisible={newGameModalIsVisible}
-        onClose={() => handleNewGameClick(false)}
-      />
+      {
+        newGameModalIsVisible &&
+        <NewGameModal 
+          isVisible={newGameModalIsVisible}
+          onClose={() => handleNewGameClick(false)}
+        />
+      }
     </>
   );
 };

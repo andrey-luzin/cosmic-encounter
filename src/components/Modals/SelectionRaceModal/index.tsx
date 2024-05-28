@@ -8,10 +8,21 @@ import { FLARES_PATH, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
 import { Button } from '@/components/FormComponents/Button';
 import { RaceType } from '@/types/RacesTypes';
 import { CardModal } from '@/components/CardModal';
+import { useStore } from '@/store';
+import { ActionTypes } from '@/store/types';
+import { PlayerType } from '@/types/PlayerTypes';
 
-type SelectionRaceModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
+type SelectionRaceModalProps = Pick<ModalProps, 'isVisible' | 'onClose'> & {
+  player: Pick<PlayerType, ('name' | 'color')>,
+};
 
-export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onClose }) => {
+export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
+  isVisible,
+  onClose,
+  player,
+}) => {
+  const { state, dispatch } = useStore();
+
   const [selectedRace, setSelectedRace] = useState<RaceType | null>(null);
   const [races, setRaces] = useState<RaceType[]>([]);
   const [fullRaceSrc, setfullRaceSrc] = useState<string>('');
@@ -21,16 +32,33 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onC
 
   useEffect(() => {
     setRaces(getRaces());
-  }, [getRaces]);
+  }, [getRaces, player]);
 
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('go', selectedRace);
-  }, [selectedRace]);
+    if (state.gameState?.players && selectedRace) {
+      dispatch({
+        type: ActionTypes.SET_GAME_STATE,
+        payload: {
+          // ...state.gameState?.players,
+          players: {
+            ...state.gameState?.players,
+            [player.name]: {
+              ...state.gameState?.players?.[player.name],
+              race: selectedRace,
+            }
+          },
+        },
+      });
+    }
+  }, [dispatch, player.name, selectedRace, state.gameState?.players]);
 
   const handleRaceChange = (race: RaceType) => {
     setSelectedRace(race);
   };
+
+  console.log('state', state);
 
   const handleRaceHoverEnter = (race: RaceType) => {
     setTimeout(() => {
@@ -44,11 +72,13 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onC
     setFlareRaceSrc('');
   };
 
+  console.log(selectedRace);
+
   return(
     <Modal
       isVisible={isVisible}
       onClose={onClose}
-      title='Выберите расу'
+      title={<>Выберите расу для&nbsp;<span style={{ color: player.color}}>{player.name}</span></>}
       className='selection-race-modal'
     >
       <form className="selection-race-modal__inner" onSubmit={handleSubmit}>
@@ -82,28 +112,24 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({ isVisible, onC
             })
           }
         </div>
-        <Button
+        <Button   
           size="l"
           type="submit"
           className='selection-race-modal__start-btn'
           disabled={!selectedRace}
         >Начать</Button>
       </form>
-      {
-        <CardModal
-          src={fullRaceSrc}
-          isVisible={Boolean(fullRaceSrc)}
-          clientX={Infinity}
-        />
-      }
-      {
-        <CardModal
-          src={flareRaceSrc}
-          isVisible={Boolean(flareRaceSrc)}
-          clientX={-Infinity}
-          isLess
-        />
-      }
+      <CardModal
+        src={fullRaceSrc}
+        isVisible={Boolean(fullRaceSrc)}
+        clientX={Infinity}
+      />
+      <CardModal
+        src={flareRaceSrc}
+        isVisible={Boolean(flareRaceSrc)}
+        clientX={-Infinity}
+        isLess
+      />
     </Modal>
   );
 };

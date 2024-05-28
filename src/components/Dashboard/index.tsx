@@ -20,25 +20,20 @@ import { GameLog } from '../GameLog';
 
 type DashboardProps = unknown;
 
-const players: PlayerType[] = [
+const players: (Partial<PlayerType>)[] = [
   {
-    playerName: "1",
     color: PlayerColor.Blue
   },
   {
-    playerName: "1",
     color: PlayerColor.Yellow
   },
   {
-    playerName: "1",
     color: PlayerColor.Red
   },
   {
-    playerName: "1",
     color: PlayerColor.Purple
   },
   {
-    playerName: "1",
     color: PlayerColor.Green
   },
 ];
@@ -150,15 +145,17 @@ export const Dashboard: FC<DashboardProps> = () => {
             style={{ scale }}
           >
             {players.map((player, index) => {
-              return (
-                <PlayerDeck
-                  index={index}
-                  key={index}
-                  color={player.color}
-                  playerName={player.playerName}
-                  checkFullCardModalIsOpen={value => setWheelingIsDisable(value)}
-                />
-              );
+              if (player.color && player.name) { 
+                return (
+                  <PlayerDeck
+                    index={index}
+                    key={index}
+                    color={player.color}
+                    name={player.name || ''}
+                    checkFullCardModalIsOpen={value => setWheelingIsDisable(value)}
+                  />
+                );
+              }
             })}
             <Warp />
           </div>

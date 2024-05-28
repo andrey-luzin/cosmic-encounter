@@ -48,7 +48,7 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
 
   const onSpaceShipDrop = useCallback((
     currentColor: PlayerType['color'],
-    currentPlayerName: PlayerType['playerName']
+    currentPlayerName: PlayerType['name']
   ) => {
     addToLog('Игрок передвинул корабль');
     let updatedSpaceshipsGroup = [];
@@ -69,7 +69,7 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
     }
 
     setSpaceshipsGroup(updatedSpaceshipsGroup);
-  }, [spaceshipsGroup]);
+  }, [addToLog, spaceshipsGroup]);
 
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.SPACESHIP,
@@ -78,7 +78,7 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
       canDrop: monitor.canDrop(),
     }),
     drop: (item: { objectId: string } & PlayerType)  => {
-      onSpaceShipDrop(item.color, item.playerName);
+      onSpaceShipDrop(item.color, item.name);
     },
     canDrop(item) {
       if (item.objectId === objectId) {

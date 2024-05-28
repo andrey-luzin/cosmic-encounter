@@ -10,7 +10,7 @@ import './index.scss';
 
 export type ModalProps = {
   isVisible: boolean;
-  title?: string;
+  title?: string | JSX.Element;
   onClose: () => void,
   className?: string,
   withoutPadding?: boolean,

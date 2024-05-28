@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useReducer, ReactNode, Dispatch } from 'react';
 import { AppState, Action } from './types';
 import { reducer } from './reducer';
+import { racesCards } from '@/data/races-cards';
 
 const initialState: AppState = {
   settings: {
@@ -12,7 +13,10 @@ const initialState: AppState = {
   layoutRef: null,
   gameLogIsOpen: false,
   gameLog: [],
-  gameState: null,
+  gameState: {},
+  deck: {
+    races: racesCards
+  }
 };
 
 type StoreContextType = {

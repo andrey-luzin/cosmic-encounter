@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { nanoid } from 'nanoid';
+import isEmpty from 'lodash/isEmpty';
 
 import { ISelectOption, Select } from '@/components/FormComponents/Select';
 import { Button } from '@/components/FormComponents/Button';
@@ -9,6 +10,9 @@ import { playersOptions } from './const';
 import { MIN_PLAYERS_COUNT, MAX_PLAYERS_COUNT } from '@/const';
 
 import TrashIcon from '../../../../public/icons/trash.svg';
+import { useStore } from '@/store';
+import { ActionTypes } from '@/store/types';
+import { PlayerType } from '@/types/PlayerTypes';
 
 interface FieldGroupProps {
   id: string;
@@ -17,10 +21,12 @@ interface FieldGroupProps {
 }
 
 type HotseatModeProps = {
-  onCallback: () => void,
+  onStart: () => void,
 };
 
-export const HotseatMode: FC<HotseatModeProps> = ({ onCallback }) => {
+export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
+  const { state, dispatch } = useStore();
+
   const [fieldGroups, setFieldGroups] = useState<FieldGroupProps[]>([
     { id: nanoid(), selectedOption: playersOptions[0], inputValue: '' },
     { id: nanoid(), selectedOption: playersOptions[1], inputValue: '' },
@@ -40,8 +46,32 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onCallback }) => {
     //   return setError("Дубли в именах игроков");
     // }
     setError('');
-    onCallback();
-  }, [fieldGroups, onCallback]);
+    onStart();
+
+    const filteredFields = fieldGroups.filter(group => group.inputValue);
+
+    const reducedField = filteredFields.reduce((cur, group) => {
+      return ({
+        ...cur,
+        [group.inputValue]: {
+          name: group.inputValue,
+          color:  group.selectedOption?.color
+        }
+      });
+    }, {});
+    
+    if (!isEmpty(reducedField)) {
+      dispatch({
+        type: ActionTypes.SET_GAME_STATE,
+        payload: {
+          playersCounts: filteredFields.length,
+          players: reducedField,
+        },
+      });
+    }
+  }, [dispatch, fieldGroups, onStart]);
+
+  console.log('state', state);
 
   const getAvailableOptions = useMemo((): ISelectOption[] => {
     const selectedOptions = fieldGroups.map(group => group.selectedOption?.value);

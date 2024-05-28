@@ -13,7 +13,9 @@ import { ConflictZone } from '../ConflctZone';
 import { TEXTURES_COUNT } from '@/const';
 import './index.scss';
 
-type PlanetProps = PlayerType;
+type PlanetProps = {
+  color: PlayerType['color']
+};
 
 const initSpaceshipsCount = 4;
 const minAnimDuration = 5;

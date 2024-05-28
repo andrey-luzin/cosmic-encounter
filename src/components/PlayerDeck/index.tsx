@@ -16,14 +16,14 @@ import { Modal } from '../Modal';
 type PlayerDeckProps = {
   index: number,
   checkFullCardModalIsOpen?: (value: boolean) => void
-} & PlayerType;
+} & Partial<PlayerType>;
 
 const countOfPlanets = 5;
 
 export const PlayerDeck: FC<PlayerDeckProps> = ({
   index,
   color,
-  playerName,
+  name,
   checkFullCardModalIsOpen,
 }) => {
   const deckRef = useRef<HTMLDivElement | null>(null);
@@ -58,11 +58,15 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({
   }, []);
 
   useEffect(() => {
-    if (deckRef.current) {
+    if (deckRef.current && color) {
       deckRef.current.style.setProperty(CSSDeckIndex, String(index));
       deckRef.current.style.setProperty(CSSDeckColor, color);
     }
   }, [color, index]);
+
+  if (!color) {
+    return null;
+  }
 
   return(
     <div
@@ -75,7 +79,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({
       {
         [...Array(countOfPlanets)].map((_, index) => {
           return(
-            <Planet key={index} index={index} color={color} playerName={playerName} />
+            <Planet key={index} index={index} color={color} />
           );
         })
       }
