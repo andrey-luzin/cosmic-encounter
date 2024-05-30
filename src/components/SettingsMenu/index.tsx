@@ -154,7 +154,6 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
         )}
       </Transition>
       {
-        newGameModalIsVisible &&
         <NewGameModal 
           isVisible={newGameModalIsVisible}
           onClose={() => handleNewGameClick(false)}

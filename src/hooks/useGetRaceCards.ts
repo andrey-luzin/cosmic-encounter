@@ -1,22 +1,28 @@
-import { racesCards } from "@/data/races-cards";
 import { getRandomObjects } from "@/helpers";
-import { useCallback } from "react";
+import { useStore } from "@/store";
+import { ActionTypes } from "@/store/types";
+import { useCallback, useEffect, useRef } from "react";
 
 export const useGetRaceCards = () => {
-  const getRaces = useCallback((count = 2) => {
-    if (count > 0 && racesCards.length) {
-      const shuffledArray = [...racesCards].filter(card => !card.isDisable);
+  const { state, dispatch } = useStore();
+  const shuffledArrayRef = useRef(state.decks.races);
 
-      const shuffledObjects = getRandomObjects(shuffledArray);
-      console.log('shuffledObjects', shuffledObjects);
-      
-      const selectedCards = shuffledObjects.slice(0, count);
-      // TODO: shuffle remaing cards to deck in state
-      // const remainingCards = shuffledArray.slice(count);
+  useEffect(() => {
+    shuffledArrayRef.current = state.decks.races;
+  }, [state.decks.races]);
+
+  const getRaces = useCallback((count = 2) => {
+    const shuffledArray = getRandomObjects([...shuffledArrayRef.current]);
+    if (count > 0 && shuffledArray.length) {
+      const selectedCards = shuffledArray.slice(0, count);
+      dispatch({
+        type: ActionTypes.SET_RACES_DECK,
+        payload: shuffledArray.slice(count),
+      });
       return selectedCards;
     }
     return [];
-  }, []);
+  }, [dispatch]);
 
   return { getRaces };
 };

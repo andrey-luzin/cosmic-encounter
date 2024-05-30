@@ -4,7 +4,7 @@ import { AppState, Action } from './types';
 import { reducer } from './reducer';
 import { racesCards } from '@/data/races-cards';
 
-const initialState: AppState = {
+export const initialState: AppState = {
   settings: {
     animation: false,
     musicIsOn: false,
@@ -14,8 +14,8 @@ const initialState: AppState = {
   gameLogIsOpen: false,
   gameLog: [],
   gameState: {},
-  deck: {
-    races: racesCards
+  decks: {
+    races: racesCards.filter(card => !card.isDisable)
   }
 };
 

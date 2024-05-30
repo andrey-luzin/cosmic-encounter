@@ -52,7 +52,7 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
     onClose();
   }, [onClose]);
 
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' && !isVisible) {
     return null;
   }
 

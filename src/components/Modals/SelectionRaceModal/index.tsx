@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, use, useCallback, useEffect, useState } from 'react';
 
 import { Modal, ModalProps } from '@/components/Modal';
 
@@ -31,7 +31,8 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   const { getRaces } = useGetRaceCards();
 
   useEffect(() => {
-    setRaces(getRaces());
+    const newRaces = getRaces();
+    setRaces(newRaces);
   }, [getRaces, player]);
 
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
@@ -41,7 +42,6 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
       dispatch({
         type: ActionTypes.SET_GAME_STATE,
         payload: {
-          // ...state.gameState?.players,
           players: {
             ...state.gameState?.players,
             [player.name]: {
@@ -58,8 +58,6 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
     setSelectedRace(race);
   };
 
-  console.log('state', state);
-
   const handleRaceHoverEnter = (race: RaceType) => {
     setTimeout(() => {
       setfullRaceSrc(`/images/${RACES_PATH}/${race.id}.webp`);
@@ -72,7 +70,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
     setFlareRaceSrc('');
   };
 
-  console.log(selectedRace);
+  console.log('state', state);
 
   return(
     <Modal
@@ -112,7 +110,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
             })
           }
         </div>
-        <Button   
+        <Button
           size="l"
           type="submit"
           className='selection-race-modal__start-btn'

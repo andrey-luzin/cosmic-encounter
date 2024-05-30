@@ -71,8 +71,6 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
     }
   }, [dispatch, fieldGroups, onStart]);
 
-  console.log('state', state);
-
   const getAvailableOptions = useMemo((): ISelectOption[] => {
     const selectedOptions = fieldGroups.map(group => group.selectedOption?.value);
     return playersOptions.filter((option) => !selectedOptions.includes(option.value));

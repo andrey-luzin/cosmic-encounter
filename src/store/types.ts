@@ -18,7 +18,7 @@ export interface AppState {
   gameLogIsOpen: boolean
   gameLog: GameLogItem[];
   gameState: Partial<GameStateType>;
-  deck: {
+  decks: {
    races: RaceType[],
    // TODO: add more decks
   }
@@ -31,6 +31,7 @@ export enum ActionTypes {
   INIT_LAYOUT = 'INIT_LAYOUT',
   SET_GAME_STATE = 'SET_GAME_STATE',
   RESET_GAME_STATE = 'RESET_GAME_STATE',
+  SET_RACES_DECK = 'SET_RACES_DECK',
 }
 
 export type Action = 
@@ -39,4 +40,6 @@ export type Action =
   | { type: ActionTypes.SET_GAMELOG; payload: GameLogItem[] }
   | { type: ActionTypes.INIT_LAYOUT; payload: LayoutState }
   | { type: ActionTypes.SET_GAME_STATE; payload: Partial<GameStateType> }
-  | { type: ActionTypes.RESET_GAME_STATE };
+  | { type: ActionTypes.RESET_GAME_STATE }
+  | { type: ActionTypes.SET_RACES_DECK; payload: RaceType[] };
+
