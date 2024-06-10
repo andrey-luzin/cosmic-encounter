@@ -13,6 +13,12 @@
     color: var(--color-deck-text);
   }
 
+  &__player-name {
+    font-size: 1.15em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
   &__steps-list {
     display: flex;
     flex-grow: 1;

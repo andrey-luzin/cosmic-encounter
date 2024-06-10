@@ -54,7 +54,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
               race: selectedRace,
               cards: getCards(8)
               // TODO: сформировать планетную систему
-            }
+            },
           },
         },
       });

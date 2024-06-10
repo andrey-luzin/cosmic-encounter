@@ -54,6 +54,25 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   }, [onClose]);
 
   useEffect(() => {
+    const players = state.gameState.players;
+    if (players) {
+      const playersList = Object.values(players);
+      if (
+        playersList.every(player => player.race) &&
+        playersList.length === state.gameState.playersCounts
+      ) {
+        const playerNames = Object.keys(players);
+        dispatch({
+          type: ActionTypes.SET_GAME_STATE,
+          payload: {
+            activePlayer: playerNames[Math.floor(Math.random() * playerNames.length)],
+          },
+        });
+      }
+    }
+  }, [dispatch, state.gameState.players, state.gameState.playersCounts]);
+
+  useEffect(() => {
     setRaceSelectionModalIsVisible(false);
     if ('players' in state.gameState && state.gameState.players) {
       const playerWithoutRace = Object.entries(state.gameState.players).find(([_, value]) => {
@@ -88,6 +107,7 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   // // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
+  // TODO: add destroying of modal
   // TODO: add reset modal
   // if (showAlert) {
   //   return(

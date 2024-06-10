@@ -62,6 +62,7 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
   const divRef = useRef<HTMLDivElement>(null);
   const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
   const { state, dispatch } = useStore();
+  const { players, activePlayer } = state.gameState;
 
   useLayoutEffect(() => {
     const updateTopPanelHeight = () => {
@@ -102,12 +103,12 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
           />
         </button>
       </span>
-      <div className="round-progress__current-player">
+      <div className="round-progress__current-player" title={activePlayer}>
         Активный игрок:
         <span
           className="round-progress__player-name"
-          style={{ color: 'var(--active-player-name)' }}
-        >Player</span>
+          style={{ color: players && activePlayer && players[activePlayer].color }}
+        >{activePlayer || '–'}</span>
       </div>
       <div className="round-progress__steps-list">
         {
