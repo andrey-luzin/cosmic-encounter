@@ -1,21 +1,17 @@
-import { cosmicCards } from "@/data/cosmic-cards";
-import { getRandomObjects } from "@/helpers";
-import { useCallback } from "react";
+import { useStore } from "@/store";
+import { ActionTypes } from "@/store/types";
+import { useEffect, useRef } from "react";
+import { useGetCards } from "./useGetCards";
 
 export const useGetCosmicCards = () => {
-  const getCards = useCallback((count: number) => {
-    if (count > 0 && cosmicCards.length) {
-      const shuffledArray = [...cosmicCards];
+  const { state } = useStore();
+  const shuffledArrayRef = useRef(state.decks.cosmicCards);
 
-      const shuffledObjects = getRandomObjects(shuffledArray);
-    
-      const selectedCards = shuffledObjects.slice(0, count);
-      // TODO: shuffle remaing cards to deck in state
-      // const remainingCard = shuffledArray.slice(count);
-      return selectedCards;
-    }
-    return [];
-  }, []);
+  useEffect(() => {
+    shuffledArrayRef.current = state.decks.cosmicCards;
+  }, [state.decks.cosmicCards]);
+
+  const  getCards = useGetCards(shuffledArrayRef, ActionTypes.SET_COSMIC_DECK);
 
   return { getCards };
 };

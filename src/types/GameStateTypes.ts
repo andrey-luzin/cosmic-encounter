@@ -5,9 +5,9 @@ import { PlayerType } from "./PlayerTypes";
 export type GameStateType = {
   playersCounts: number,
   players: {
-    [playerName: string]: PlayerType
+    [playerName: GameStateType['activePlayer']]: PlayerType
   },
-  activePlayer: number,
+  activePlayer: string,
   phase: Phases | null,
   gameIsStarted: boolean,
 };

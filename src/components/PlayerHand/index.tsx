@@ -6,23 +6,27 @@ import { CardModal } from '../CardModal';
 
 import ArrowIcon from '../../../public/icons/arrow-down.svg';
 
-import './index.scss';
 import { CosmicCardType } from '@/types/CardTypes';
 import { COSMIC_CARDS_PATH } from '@/const';
 import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
 
+import './index.scss';
+import { useStore } from '@/store';
+
 type PlayerHandProps = unknown;
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
+  const { state, dispatch } = useStore();
+
   const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
   const [clientX, setClientX] = useState<number>(0);
-  const [cards, setCards] = useState<CosmicCardType[]>([]);
-  const { getCards } = useGetCosmicCards();
+  // const [cards, setCards] = useState<CosmicCardType[]>([]);
+  // const { getCards } = useGetCosmicCards();
 
-  useEffect(() => {
-    setCards(getCards(8));
-  }, [getCards]);
+  // useEffect(() => {
+  //   setCards(getCards(8));
+  // }, [getCards]);
 
   const handleArrowClick = useCallback(() => {
     setIsFullView(!isFullView);
@@ -41,6 +45,13 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
     setHoveredSrc('');
   };
 
+  const players = state.gameState.players;
+  const activePlayer = state.gameState.activePlayer;
+
+  if (!(activePlayer && players)) {
+    return null;
+  }
+
   return(
     <>
       <div className="player-hand">
@@ -49,7 +60,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
           { "player-hand__cards-list--is-not-full-view": !isFullView }
         )}>
           {
-            cards.map(card => {
+            players[activePlayer].cards.map(card => {
               const src = `/images/${COSMIC_CARDS_PATH}/${card.id}.webp`;
               return (
                 <div

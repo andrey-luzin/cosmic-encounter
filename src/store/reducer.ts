@@ -15,7 +15,9 @@ export const reducer = (state: AppState, action: Action): AppState => {
     case ActionTypes.RESET_GAME_STATE:
       return { ...state, gameState: {} };
     case ActionTypes.SET_RACES_DECK:
-      return { ...state, decks: { races: action.payload } };
+      return { ...state, decks: { ...state.decks, races: action.payload } };
+    case ActionTypes.SET_COSMIC_DECK:
+      return { ...state, decks: { ...state.decks, cosmicCards: action.payload } };
     default:
       return state;
   }

@@ -1,18 +1,18 @@
-import React, { FC, use, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+
 import { Modal, ModalProps } from '@/components/Modal';
-
 import { Tabs } from '@/components/FormComponents/Tabs';
-
+import { Button } from '@/components/FormComponents/Button';
 import { HotseatMode } from './hotseatMode';
 import { SelectionRaceModal } from '../SelectionRaceModal';
 
-import './index.scss';
 import { initialState, useStore } from '@/store';
-import { PlayerType } from '@/types/PlayerTypes';
 import { ActionTypes } from '@/store/types';
-import { isEmpty } from 'lodash';
-import { Button } from '@/components/FormComponents/Button';
+
+import { PlayerType } from '@/types/PlayerTypes';
 import { racesCards } from '@/data/races-cards';
+
+import './index.scss';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 

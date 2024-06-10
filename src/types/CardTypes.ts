@@ -25,6 +25,7 @@ export type CosmicCardType = {
     phases: Phases[],
   } | {
     type: CosmicCardsEnum.Reinforcement,
-    reinforcementValue: number
+    reinforcementValue: number,
+    phases: Phases[],
   }
 );

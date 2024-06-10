@@ -1,16 +1,20 @@
-import React, { FC, use, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { Modal, ModalProps } from '@/components/Modal';
-
-import './index.scss';
-import { useGetRaceCards } from '@/hooks/useGetRaceCards';
-import { FLARES_PATH, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
 import { Button } from '@/components/FormComponents/Button';
-import { RaceType } from '@/types/RacesTypes';
 import { CardModal } from '@/components/CardModal';
+
 import { useStore } from '@/store';
 import { ActionTypes } from '@/store/types';
+
+import { useGetRaceCards } from '@/hooks/useGetRaceCards';
+import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
+
+import { RaceType } from '@/types/RacesTypes';
 import { PlayerType } from '@/types/PlayerTypes';
+import { FLARES_PATH, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
+
+import './index.scss';
 
 type SelectionRaceModalProps = Pick<ModalProps, 'isVisible' | 'onClose'> & {
   player: Pick<PlayerType, ('name' | 'color')>,
@@ -29,9 +33,10 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   const [flareRaceSrc, setFlareRaceSrc] = useState<string>('');
 
   const { getRaces } = useGetRaceCards();
+  const { getCards } = useGetCosmicCards();
 
   useEffect(() => {
-    const newRaces = getRaces();
+    const newRaces = getRaces(2);
     setRaces(newRaces);
   }, [getRaces, player]);
 
@@ -47,12 +52,14 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
             [player.name]: {
               ...state.gameState?.players?.[player.name],
               race: selectedRace,
+              cards: getCards(8)
+              // TODO: сформировать планетную систему
             }
           },
         },
       });
     }
-  }, [dispatch, player.name, selectedRace, state.gameState?.players]);
+  }, [dispatch, getCards, player.name, selectedRace, state.gameState?.players]);
 
   const handleRaceChange = (race: RaceType) => {
     setSelectedRace(race);

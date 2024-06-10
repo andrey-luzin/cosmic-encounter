@@ -3,6 +3,7 @@ import React, { createContext, useContext, useReducer, ReactNode, Dispatch } fro
 import { AppState, Action } from './types';
 import { reducer } from './reducer';
 import { racesCards } from '@/data/races-cards';
+import { cosmicCards } from '@/data/cosmic-cards';
 
 export const initialState: AppState = {
   settings: {
@@ -15,7 +16,8 @@ export const initialState: AppState = {
   gameLog: [],
   gameState: {},
   decks: {
-    races: racesCards.filter(card => !card.isDisable)
+    races: racesCards.filter(card => !card.isDisable),
+    cosmicCards,
   }
 };
 

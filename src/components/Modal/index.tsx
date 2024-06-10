@@ -14,6 +14,7 @@ export type ModalProps = {
   onClose: () => void,
   className?: string,
   withoutPadding?: boolean,
+  // TODO: canClose?: boolean,
 };
 
 const duration = 300;
