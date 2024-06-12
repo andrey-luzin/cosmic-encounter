@@ -17,26 +17,9 @@ import { usePreload } from '@/hooks/usePreload';
 import './index.scss';
 import { Progress } from '../Progress';
 import { GameLog } from '../GameLog';
+import { useStore } from '@/store';
 
 type DashboardProps = unknown;
-
-const players: (Partial<PlayerType>)[] = [
-  {
-    color: PlayerColor.Blue
-  },
-  {
-    color: PlayerColor.Yellow
-  },
-  {
-    color: PlayerColor.Red
-  },
-  {
-    color: PlayerColor.Purple
-  },
-  {
-    color: PlayerColor.Green
-  },
-];
 
 const minScale = 0.3;
 const maxScale = 1;
@@ -56,6 +39,9 @@ export const Dashboard: FC<DashboardProps> = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const collectedProps = useDragLayer((monitor: any) => monitor.store.getState());
   const preloadState = usePreload();
+  const { state } = useStore();
+
+  const players = state.gameState.players && Object.values(state.gameState.players);
 
   useEffect(() => {
     if (deckRef.current && scrollingAreaRef.current) {
@@ -88,8 +74,10 @@ export const Dashboard: FC<DashboardProps> = () => {
   }, [collectedProps, dragDropManager]);
 
   useEffect(() => {
-    document.documentElement.style.setProperty(CSSDecksCount, String(players.length));
-  }, []);
+    if (players?.length) {
+      document.documentElement.style.setProperty(CSSDecksCount, String(players.length));
+    }
+  }, [players]);
 
   const handleMouseDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (deckRef.current && !(event.target as HTMLElement)?.draggable) {
@@ -139,27 +127,33 @@ export const Dashboard: FC<DashboardProps> = () => {
         onPointerUp={handleMouseUp}
         onPointerLeave={handleMouseLeave}
       >
-        <div className="dashboard__scrolling-area" ref={scrollingAreaRef}>
-          <div
-            className={cx(`dashboard__deck dashboard__deck--total-count-${players.length}`)}
-            style={{ scale }}
-          >
-            {players.map((player, index) => {
-              if (player.color && player.name) { 
-                return (
-                  <PlayerDeck
-                    index={index}
-                    key={index}
-                    color={player.color}
-                    name={player.name || ''}
-                    checkFullCardModalIsOpen={value => setWheelingIsDisable(value)}
-                  />
-                );
+          <div className="dashboard__scrolling-area" ref={scrollingAreaRef}>
+            <div
+              className={cx(
+                'dashboard__deck',
+                `dashboard__deck--total-count-${players?.length}`
+              )}
+              style={{ scale }}
+            >
+              {
+                players?.length &&
+                players.map((player, index) => {
+                  if (player.color && player.name) { 
+                    return (
+                      <PlayerDeck
+                        index={index}
+                        key={index}
+                        color={player.color}
+                        name={player.name || ''}
+                        checkFullCardModalIsOpen={value => setWheelingIsDisable(value)}
+                      />
+                    );
+                  }
+                })
               }
-            })}
-            <Warp />
+              <Warp />
+            </div>
           </div>
-        </div>
       </div>
     </div>
   );

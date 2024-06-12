@@ -60,7 +60,7 @@ const steps = [
 
 export const RoundProgress: FC<RoundProgressProps> = () => {
   const divRef = useRef<HTMLDivElement>(null);
-  const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
+  const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(true);
   const { state, dispatch } = useStore();
   const { players, activePlayer } = state.gameState;
 
