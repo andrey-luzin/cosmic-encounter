@@ -58,7 +58,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = () => {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAudioIndex, playNextAudio, state.settings.volume]);
+  }, [currentAudioIndex, playNextAudio]);
 
   useEffect(() => {
     if (audioPlayer) {

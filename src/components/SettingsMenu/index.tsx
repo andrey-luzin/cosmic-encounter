@@ -126,7 +126,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
             <div className="settings-menu__children">
               <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Полный экран</Checkbox>
               <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Анимации</Checkbox>
-              <Checkbox checked={state.settings.musicIsOn} onChange={turnMusic}>Музыка</Checkbox>
+              <Checkbox checked={state.settings.musicIsOn} onChange={turnMusic}>Звуки космоса</Checkbox>
               {
                 state.settings.musicIsOn &&
                 <>
