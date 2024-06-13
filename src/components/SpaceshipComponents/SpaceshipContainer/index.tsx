@@ -50,7 +50,7 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
     currentColor: PlayerType['color'],
     currentPlayerName: PlayerType['name']
   ) => {
-    addToLog('Игрок передвинул корабль');
+    addToLog(`<span style='color: ${currentColor}'>Игрок</span> передвинул корабль`);
     let updatedSpaceshipsGroup = [];
 
     if (spaceshipsGroup.find(group => group.color === currentColor)) {

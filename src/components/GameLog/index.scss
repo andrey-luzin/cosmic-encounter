@@ -18,7 +18,6 @@
 
   display: flex;
   flex-direction: column;
-  padding: 1rem 0 ;
 
   &--is-visible {
     visibility: visible;
@@ -26,7 +25,7 @@
   }
 
   &__title {
-    padding: .5rem 1rem;
+    padding: .75rem 1.25rem;
     flex-shrink: 0;
   }
 
@@ -36,6 +35,53 @@
     display: flex;
     flex-direction: column;
     gap: .5rem;
-    padding: 0 1rem;
+    padding: 0 1.25rem;
+
+    --bgRGB: 0, 0, 0;
+    --bg: rgb(var(--bgRGB));
+    --bgTrans: rgba(var(--bgRGB), 0);
+    --shadow: rgba(241, 208, 104, 0.5); // --color-active-secondary
+    
+    background:
+      /* Shadow Cover TOP */
+      linear-gradient(
+        var(--bg) 30%,
+        var(--bgTrans)
+      ) center top,
+      
+      /* Shadow Cover BOTTOM */
+      linear-gradient(
+        var(--bgTrans), 
+        var(--bg) 70%
+      ) center bottom,
+      
+      /* Shadow TOP */
+      radial-gradient(
+        farthest-side at 50% 0,
+        var(--shadow),
+        rgba(0, 0, 0, 0)
+      ) center top,
+      
+      /* Shadow BOTTOM */
+      radial-gradient(
+        farthest-side at 50% 100%,
+        var(--shadow),
+        rgba(0, 0, 0, 0)
+      ) center bottom;
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 24px, 100% 24px;
+    background-attachment: local, local, scroll, scroll;
+
+    &:last-child {
+      padding-bottom: 1rem;
+    }
+  }
+
+  &__time {
+    color: var(--color-secondary);
+    display: inline-block;
+    width: 8ch;
+    font-family: monospace;
+    font-size: 12px;
   }
 }

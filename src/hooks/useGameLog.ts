@@ -7,7 +7,7 @@ export const useGameLog = () => {
 
   const addToLog = useCallback((message: string): void => {
     const log = state.gameLog;
-    const timestamp = new Date().toLocaleTimeString();
+    const timestamp = new Date().toISOString();
     log.push({ timestamp, message });
 
     dispatch({
