@@ -55,7 +55,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
         ...cur,
         [group.inputValue]: {
           name: group.inputValue,
-          color:  group.selectedOption?.color
+          color:  group.selectedOption?.value
         }
       });
     }, {});

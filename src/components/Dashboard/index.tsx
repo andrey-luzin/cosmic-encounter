@@ -143,9 +143,8 @@ export const Dashboard: FC<DashboardProps> = () => {
                       <PlayerDeck
                         index={index}
                         key={index}
-                        color={player.color}
-                        name={player.name || ''}
                         checkFullCardModalIsOpen={value => setWheelingIsDisable(value)}
+                        {...player}
                       />
                     );
                   }

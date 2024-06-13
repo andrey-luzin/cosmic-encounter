@@ -12,13 +12,30 @@
   left: 0;
   overflow: auto;
   z-index: 1;
-  padding: 1rem;
   visibility: hidden;
   transform: translateX(-100%);
   @include transition;
 
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0 ;
+
   &--is-visible {
     visibility: visible;
     transform: translateX(0);
+  }
+
+  &__title {
+    padding: .5rem 1rem;
+    flex-shrink: 0;
+  }
+
+  &__list {
+    overflow: auto;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 0 1rem;
   }
 }

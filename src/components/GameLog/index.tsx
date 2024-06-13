@@ -16,14 +16,14 @@ export const GameLog: FC<GameLogProps> = () => {
     documentElement.style.setProperty(
       CSSLogOffset, state.gameLogIsOpen ?
       getComputedStyle(documentElement).getPropertyValue(CSSLogWidth) :
-        '0px'
+      '0px'
     );
   }, [state]);
 
   return(
     <div className={cn('game-log', {'game-log--is-visible': state.gameLogIsOpen })}>
-      <h2>Игровой лог:</h2>
-      <ul>
+      <h2 className='game-log__title'>Игровой лог:</h2>
+      <ul className='game-log__list'>
         {state.gameLog.map((logItem, index) => (
           <li key={index}>
             {logItem.timestamp} - {logItem.message}

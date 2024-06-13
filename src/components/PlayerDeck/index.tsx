@@ -9,14 +9,14 @@ import { CardModal } from '../CardModal';
 
 import { ConflictZone } from './ConflctZone';
 
-import { RACES_COUNT, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
+import { RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
 import './index.scss';
 import { Modal } from '../Modal';
 
 type PlayerDeckProps = {
   index: number,
   checkFullCardModalIsOpen?: (value: boolean) => void
-} & Partial<PlayerType>;
+} & Omit<PlayerType, 'cards'>;
 
 const countOfPlanets = 5;
 
@@ -24,6 +24,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({
   index,
   color,
   name,
+  race,
   checkFullCardModalIsOpen,
 }) => {
   const deckRef = useRef<HTMLDivElement | null>(null);
@@ -52,10 +53,11 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({
   };
 
   useEffect(() => {
-    const race = Math.ceil(Math.random() * RACES_COUNT);
-    setHoveredSrc(`/images/${RACES_PATH}/${race}.webp`);
-    setIconImage(`/images/${RACES_PREVIEW_PATH}/${race}.webp`);
-  }, []);
+    if (race) {
+      setHoveredSrc(`/images/${RACES_PATH}/${race.id}.webp`);
+      setIconImage(`/images/${RACES_PREVIEW_PATH}/${race.id}.webp`);
+    }
+  }, [race]);
 
   useEffect(() => {
     if (deckRef.current && color) {
@@ -91,6 +93,7 @@ export const PlayerDeck: FC<PlayerDeckProps> = ({
           onPointerEnter={event => handleCardHoverEnter(event)}
           onPointerLeave={handleCardHoverLeave}
           onClick={() => handleFullCardClick(true)}
+          title={name}
         >
           <img
             className='player-deck__icon-image'
