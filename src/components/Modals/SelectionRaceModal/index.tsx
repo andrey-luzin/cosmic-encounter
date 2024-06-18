@@ -15,6 +15,7 @@ import { PlayerType } from '@/types/PlayerTypes';
 import { FLARES_PATH, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
 
 import './index.scss';
+import { useGameLog } from '@/hooks/useGameLog';
 
 type SelectionRaceModalProps = Pick<ModalProps, 'isVisible' | 'onClose'> & {
   player: Pick<PlayerType, ('name' | 'color')>,
@@ -26,6 +27,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   player,
 }) => {
   const { state, dispatch } = useStore();
+  const { addToLog } = useGameLog();
 
   const [selectedRace, setSelectedRace] = useState<RaceType | null>(null);
   const [races, setRaces] = useState<RaceType[]>([]);
@@ -53,13 +55,13 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
               ...state.gameState?.players?.[player.name],
               race: selectedRace,
               cards: getCards(8)
-              // TODO: сформировать планетную систему
             },
           },
         },
       });
+      addToLog(`<span style="color: ${player.color}">${player.name}</span> выбрал расу <b>${selectedRace.name}</b>`);
     }
-  }, [dispatch, getCards, player.name, selectedRace, state.gameState?.players]);
+  }, [dispatch, getCards, player.name, player.color, selectedRace, state.gameState?.players, addToLog]);
 
   const handleRaceChange = (race: RaceType) => {
     setSelectedRace(race);

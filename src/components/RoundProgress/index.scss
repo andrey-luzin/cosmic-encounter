@@ -24,11 +24,18 @@
     flex-grow: 1;
     justify-content: space-between;
     background-color: var(--color-passive);
-    padding-right: 3rem;
   }
 
   &__step {
-    padding: 1rem;
+    padding: 1rem 1.15rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+
+    &:last-child {
+      padding-left: 1.5rem;
+      padding-right: 3rem;
+    }
 
     &--is-active {
       background-color: var(--color-active);
@@ -57,7 +64,7 @@
     @include transition(color);
 
     &--animation {
-      animation: round 15s linear infinite;
+      animation: --round 15s linear infinite;
     }
 
     &--is-active {
@@ -73,7 +80,7 @@
   }
 }
 
-@keyframes round {
+@keyframes --round {
   0% {
     rotate: 0deg;
   }

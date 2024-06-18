@@ -12,6 +12,7 @@ import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
 
 import './index.scss';
 import { useStore } from '@/store';
+import { Button } from '../FormComponents/Button';
 
 type PlayerHandProps = unknown;
 
@@ -21,12 +22,6 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
   const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
   const [clientX, setClientX] = useState<number>(0);
-  // const [cards, setCards] = useState<CosmicCardType[]>([]);
-  // const { getCards } = useGetCosmicCards();
-
-  // useEffect(() => {
-  //   setCards(getCards(8));
-  // }, [getCards]);
 
   const handleArrowClick = useCallback(() => {
     setIsFullView(!isFullView);
@@ -74,6 +69,12 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
                     className="player-hand__image"
                     alt=""
                   />
+                  {
+                    activePlayer &&
+                    <div className="player-hand__play-btn-wrapper">
+                      <Button className="player-hand__play-btn" size='s'>Разыграть</Button>
+                    </div>
+                  }
                 </div>
               );
             })

@@ -1,6 +1,9 @@
 @import '@/styles/mixins.scss';
 
 .player-hand {
+  $root: &;
+  $play-btn-offset: 0.75rem;
+
   position: fixed;
   z-index: 1;
   left: 0;
@@ -38,8 +41,6 @@
     @include transition(translate);
 
     position: relative;
-    overflow-y: hidden;
-    overflow-x: auto;
 
     &--is-not-full-view {
       translate: 0 85%;
@@ -48,9 +49,35 @@
 
   &__card {
     height: 35vh;
+    position: relative;
+
+    &:hover, &:focus {
+      #{$root}__play-btn-wrapper {
+        translate: 0 calc(-100%);
+        opacity: 1;
+      }
+    }
   }
 
   &__image {
     height: 100%;
+    z-index: 2;
+    position: relative;
+  }
+
+  &__play-btn-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    z-index: 1;
+
+    // @include transition(translate, ease-in, 0.25s);
+    padding-bottom: $play-btn-offset;
+  }
+
+  &__play-btn {
+    width: 100%;
   }
 }

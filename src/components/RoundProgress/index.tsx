@@ -69,10 +69,13 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
       </div>
       <div className="round-progress__steps-list">
         {
-          steps.map((step) => {
+          steps.map((step, index) => {
             return (
               <span
-                className={cx("round-progress__step", { "round-progress__step--is-active": step.isActive })}
+                className={cx(
+                  "round-progress__step", 
+                  { "round-progress__step--is-active": index === 0 }
+                )}
                 key={step.name}
               >{step.name}</span>
             );
