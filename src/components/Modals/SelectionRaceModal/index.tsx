@@ -5,17 +5,15 @@ import { Button } from '@/components/FormComponents/Button';
 import { CardModal } from '@/components/CardModal';
 
 import { useStore } from '@/store';
-import { ActionTypes } from '@/store/types';
 
 import { useGetRaceCards } from '@/hooks/useGetRaceCards';
-import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
+import { useGameState } from '@/hooks/useGameState';
 
 import { RaceType } from '@/types/RacesTypes';
 import { PlayerType } from '@/types/PlayerTypes';
 import { FLARES_PATH, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
 
 import './index.scss';
-import { useGameLog } from '@/hooks/useGameLog';
 
 type SelectionRaceModalProps = Pick<ModalProps, 'isVisible' | 'onClose'> & {
   player: Pick<PlayerType, ('name' | 'color')>,
@@ -27,7 +25,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   player,
 }) => {
   const { state, dispatch } = useStore();
-  const { addToLog } = useGameLog();
+  // const { addToLog } = useGameLog();
 
   const [selectedRace, setSelectedRace] = useState<RaceType | null>(null);
   const [races, setRaces] = useState<RaceType[]>([]);
@@ -35,7 +33,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   const [flareRaceSrc, setFlareRaceSrc] = useState<string>('');
 
   const { getRaces } = useGetRaceCards();
-  const { getCards } = useGetCosmicCards();
+  const { selectRace } = useGameState();
 
   useEffect(() => {
     const newRaces = getRaces(2);
@@ -44,24 +42,8 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
 
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('go', selectedRace);
-    if (state.gameState?.players && selectedRace) {
-      dispatch({
-        type: ActionTypes.SET_GAME_STATE,
-        payload: {
-          players: {
-            ...state.gameState?.players,
-            [player.name]: {
-              ...state.gameState?.players?.[player.name],
-              race: selectedRace,
-              cards: getCards(8)
-            },
-          },
-        },
-      });
-      addToLog(`<span style="color: ${player.color}">${player.name}</span> выбрал расу <b>${selectedRace.name}</b>`);
-    }
-  }, [dispatch, getCards, player.name, player.color, selectedRace, state.gameState?.players, addToLog]);
+    selectRace({ player, selectedRace });
+  }, [selectRace, player, selectedRace]);
 
   const handleRaceChange = (race: RaceType) => {
     setSelectedRace(race);

@@ -72,7 +72,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
                   {
                     activePlayer &&
                     <div className="player-hand__play-btn-wrapper">
-                      <Button className="player-hand__play-btn" size='s'>Разыграть</Button>
+                      <Button className="player-hand__play-btn" size='xs'>Разыграть</Button>
                     </div>
                   }
                 </div>

@@ -13,6 +13,7 @@ import { PlayerType } from '@/types/PlayerTypes';
 import { racesCards } from '@/data/races-cards';
 
 import './index.scss';
+import { useGameState } from '@/hooks/useGameState';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 
@@ -26,6 +27,7 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   const [currentPlayer, setCurrentPlayer] = useState<PlayerType | null>(null);
   const [newGameModalIsVisible, setNewGameModalIsVisible] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const { startGame } = useGameState();
 
   useEffect(() => {
     dispatch({
@@ -54,23 +56,8 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   }, [onClose]);
 
   useEffect(() => {
-    const players = state.gameState.players;
-    if (players) {
-      const playersList = Object.values(players);
-      if (
-        playersList.every(player => player.race) &&
-        playersList.length === state.gameState.playersCounts
-      ) {
-        const playerNames = Object.keys(players);
-        dispatch({
-          type: ActionTypes.SET_GAME_STATE,
-          payload: {
-            activePlayer: playerNames[Math.floor(Math.random() * playerNames.length)],
-          },
-        });
-      }
-    }
-  }, [dispatch, state.gameState.players, state.gameState.playersCounts]);
+    startGame(state.gameState.players);
+  }, [startGame, state.gameState.players]);
 
   useEffect(() => {
     setRaceSelectionModalIsVisible(false);
