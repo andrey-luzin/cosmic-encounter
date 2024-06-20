@@ -2,7 +2,7 @@
 
 .player-hand {
   $root: &;
-  $play-btn-offset: 0.5rem;
+  $play-btn-offset: 0.75rem;
 
   position: fixed;
   z-index: 1;
@@ -40,6 +40,8 @@
     gap: 5px;
     @include transition(translate);
 
+    overflow-x: auto;
+    overflow-y: hidden;
     position: relative;
 
     &--is-not-full-view {

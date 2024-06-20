@@ -17,4 +17,5 @@ export type PlayerType = {
     id: number;
   }[],
   cards: CosmicCardType[],
+  turnOrder: number,
 };

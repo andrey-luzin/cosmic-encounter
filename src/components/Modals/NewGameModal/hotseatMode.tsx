@@ -13,6 +13,7 @@ import TrashIcon from '../../../../public/icons/trash.svg';
 import { useStore } from '@/store';
 import { ActionTypes } from '@/store/types';
 import { PlayerType } from '@/types/PlayerTypes';
+import { getRandomObjects } from '@/helpers';
 
 interface FieldGroupProps {
   id: string;
@@ -48,14 +49,22 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
     setError('');
     onStart();
 
+    // TODO: replace to useGameStateHook ?
     const filteredFields = fieldGroups.filter(group => group.inputValue);
+    // list for generation turn orders
+    const iteratedPlayersList = Array.from({ length: filteredFields.length }, (_, k) => k);
 
     const reducedField = filteredFields.reduce((cur, group) => {
+      // generate random numbers, take index 0 and remove it from array
+      const randomNumber = getRandomObjects(iteratedPlayersList)[0];
+      iteratedPlayersList.splice(0, 1);
+
       return ({
         ...cur,
         [group.inputValue]: {
           name: group.inputValue,
-          color:  group.selectedOption?.value
+          color:  group.selectedOption?.value,
+          turnOrder: randomNumber
         }
       });
     }, {});

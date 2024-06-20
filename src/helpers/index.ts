@@ -1,4 +1,4 @@
-/* Fisher–Yates shuffle algoritmh */
+/* Fisher–Yates shuffle algoritmhs */
 export const getRandomObjects = <ObjectType>(initArray: ObjectType[]) => {
   return initArray.map((_element, index, arr) => {
     const randomIndex = Math.floor(Math.random() * (arr.length - index) + index);

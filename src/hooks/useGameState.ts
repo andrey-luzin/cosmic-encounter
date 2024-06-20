@@ -41,11 +41,10 @@ export const useGameState = () => {
         playersList.every(player => player.race) &&
         playersList.length === state.gameState.playersCounts
       ) {
-        const playerNames = Object.keys(players);
         dispatch({
           type: ActionTypes.SET_GAME_STATE,
           payload: {
-            activePlayer: playerNames[Math.floor(Math.random() * playerNames.length)],
+            activePlayer: playersList.find(player => player.turnOrder === 0)?.name,
             phase: Phases.StartingTheTurn,
           },
         });

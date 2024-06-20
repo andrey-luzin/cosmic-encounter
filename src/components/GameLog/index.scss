@@ -43,26 +43,22 @@
     --shadow: rgba(241, 208, 104, 0.5); // --color-active-secondary
     
     background:
-      /* Shadow Cover TOP */
       linear-gradient(
         var(--bg) 30%,
         var(--bgTrans)
       ) center top,
       
-      /* Shadow Cover BOTTOM */
       linear-gradient(
         var(--bgTrans), 
         var(--bg) 70%
       ) center bottom,
       
-      /* Shadow TOP */
       radial-gradient(
         farthest-side at 50% 0,
         var(--shadow),
         rgba(0, 0, 0, 0)
       ) center top,
       
-      /* Shadow BOTTOM */
       radial-gradient(
         farthest-side at 50% 100%,
         var(--shadow),
@@ -83,5 +79,9 @@
     width: 8ch;
     font-family: monospace;
     font-size: 12px;
+  }
+
+  &__log-item {
+    line-height: 140%;
   }
 }
