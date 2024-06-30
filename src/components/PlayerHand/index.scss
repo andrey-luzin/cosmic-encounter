@@ -2,7 +2,6 @@
 
 .player-hand {
   $root: &;
-  $play-btn-offset: 0.75rem;
 
   position: fixed;
   z-index: 1;
@@ -42,7 +41,6 @@
 
     overflow-x: auto;
     overflow-y: hidden;
-    position: relative;
 
     &--is-not-full-view {
       translate: 0 85%;
@@ -52,12 +50,28 @@
   &__card {
     height: 35vh;
     position: relative;
+    @extend %before;
 
     &:hover, &:focus {
-      #{$root}__play-btn-wrapper {
-        translate: 0 calc(-100%);
+      &:before {
         opacity: 1;
       }
+      #{$root}__play-btn-wrapper {
+        translate: 0 10%;
+        opacity: 1;
+      }
+    }
+
+    &:before {
+      @include transition(all, linear, 0.25s);
+
+      background-color: rgba(0,0,0, .35);
+      right: 0;
+      bottom: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 3;
+      opacity: 0;
     }
   }
 
@@ -71,12 +85,14 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
+    margin: auto;
+    width: 90%;
     opacity: 0;
-    z-index: 1;
+    z-index: 3;
+    @include transition(all, ease-in, 0.25s);
 
-    // @include transition(translate, ease-in, 0.25s);
-    padding-bottom: $play-btn-offset;
+    translate: 0 calc(-100%);
   }
 
   &__play-btn {
