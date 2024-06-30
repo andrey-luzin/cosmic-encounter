@@ -6,6 +6,8 @@ import { useGetCosmicCards } from "./useGetCosmicCards";
 import { RaceType } from "@/types/RacesTypes";
 import { PlayerType } from "@/types/PlayerTypes";
 import { Phases } from "@/types/PhaseTypes";
+import { destinyCards } from "@/data/destiny-cards";
+import { DestinyCardEnum } from "@/types/CardTypes";
 
 export const useGameState = () => {
   const { state, dispatch } = useStore();
@@ -37,6 +39,7 @@ export const useGameState = () => {
   const startGame = useCallback((players?: { [playerName: string]: PlayerType; }) => {
     if (players) {
       const playersList = Object.values(players);
+
       if (
         playersList.every(player => player.race) &&
         playersList.length === state.gameState.playersCounts
@@ -47,6 +50,18 @@ export const useGameState = () => {
             activePlayer: playersList.find(player => player.turnOrder === 0)?.name,
             phase: Phases.StartingTheTurn,
           },
+        });
+        dispatch({
+          type: ActionTypes.SET_DESTINY_DECK,
+          payload: destinyCards.filter((card) => {
+            if (
+              card.type === DestinyCardEnum.SpecialCard ||
+              card.type === DestinyCardEnum.Joker ||
+              playersList.map(list => list.color).includes(card.color)
+            ) {
+              return card;
+            }
+          })
         });
       }
     }

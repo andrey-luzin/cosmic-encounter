@@ -4,6 +4,7 @@ import { AppState, Action } from './types';
 import { reducer } from './reducer';
 import { racesCards } from '@/data/races-cards';
 import { cosmicCards } from '@/data/cosmic-cards';
+import { destinyCards } from '@/data/destiny-cards';
 
 export const initialState: AppState = {
   settings: {
@@ -18,6 +19,7 @@ export const initialState: AppState = {
   decks: {
     races: racesCards.filter(card => !card.isDisable),
     cosmicCards,
+    destinyCards
   }
 };
 

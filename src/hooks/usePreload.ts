@@ -9,7 +9,9 @@ import {
   TEXTURES_PATH,
   FLARES_PATH,
   SONGS_COUNT,
-  SONGS_PATHS
+  SONGS_PATHS,
+  DESTINIES_COUNT,
+  DESTINIES_PATH,
 } from '@/const';
 
 interface Image {
@@ -46,6 +48,9 @@ export const usePreload = () => {
     });
     [...Array(SONGS_COUNT)].forEach((_, index) => {
       list.push(`/${SONGS_PATHS}/${index + 1}.mp3`);
+    });
+    [...Array(DESTINIES_COUNT)].forEach((_, index) => {
+      list.push(`/images/${DESTINIES_PATH}/${index + 1}.webp`);
     });
 
     setImagesList(list);

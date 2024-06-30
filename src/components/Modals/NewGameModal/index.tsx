@@ -10,7 +10,6 @@ import { initialState, useStore } from '@/store';
 import { ActionTypes } from '@/store/types';
 
 import { PlayerType } from '@/types/PlayerTypes';
-import { racesCards } from '@/data/races-cards';
 
 import './index.scss';
 import { useGameState } from '@/hooks/useGameState';

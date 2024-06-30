@@ -1,4 +1,5 @@
 import { Phases } from "./PhaseTypes";
+import { PlayerColor } from "./PlayerTypes";
 
 export enum CosmicCardsEnum {
   Encounter = 'encounter',
@@ -12,6 +13,27 @@ export enum EncounterCardType {
   Negotiate = 'negotiate',
   Morph = 'morph',
 }
+
+export enum DestinyCardEnum {
+  PlayerCard = 'playerCard',
+  SpecialCard = 'specialCard',
+  Joker = 'joker'
+}
+
+export type DestinyCardType = {
+  id: number,
+} & (
+  {
+    type: DestinyCardEnum.PlayerCard,
+    color: PlayerColor
+  } | 
+  {
+    type: DestinyCardEnum.Joker,
+  } |
+  {
+    type: DestinyCardEnum.SpecialCard,
+  }
+);
 
 export type CosmicCardType = {
   id: number,

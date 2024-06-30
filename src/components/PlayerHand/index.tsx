@@ -1,14 +1,12 @@
 "use client";
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import cx from 'classnames';
 
 import { CardModal } from '../CardModal';
 
 import ArrowIcon from '../../../public/icons/arrow-down.svg';
 
-import { CosmicCardType } from '@/types/CardTypes';
 import { COSMIC_CARDS_PATH } from '@/const';
-import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
 
 import './index.scss';
 import { useStore } from '@/store';
@@ -17,7 +15,7 @@ import { Button } from '../FormComponents/Button';
 type PlayerHandProps = unknown;
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
-  const { state, dispatch } = useStore();
+  const { state } = useStore();
 
   const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
