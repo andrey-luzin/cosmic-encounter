@@ -14,7 +14,8 @@ export type ModalProps = {
   onClose: () => void,
   className?: string,
   withoutPadding?: boolean,
-  // TODO: canClose?: boolean,
+  canClose?: boolean,
+  // modifier?: 'large',
 };
 
 const duration = 300;
@@ -33,25 +34,30 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
   onClose,
   className,
   withoutPadding,
+  canClose = true,
   children,
 }) => {
   const { state } = useStore();
  
   useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isVisible) {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleKeyUp);
-    return () => {
-      document.removeEventListener('keydown', handleKeyUp);
-    };
-  }, [onClose, isVisible]);
+    if (canClose) {
+      const handleKeyUp = (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && isVisible) {
+          onClose();
+        }
+      };
+      document.addEventListener('keydown', handleKeyUp);
+      return () => {
+        document.removeEventListener('keydown', handleKeyUp);
+      };
+    }
+  }, [onClose, isVisible, canClose]);
 
   const handleOnClick = useCallback(() => {
-    onClose();
-  }, [onClose]);
+    if (canClose) {
+      onClose();
+    }
+  }, [onClose, canClose]);
 
   if (typeof window === 'undefined' && !isVisible) {
     return null;
@@ -69,7 +75,10 @@ export const Modal: FC<PropsWithChildren<ModalProps>> = ({
           >
             <div className="modal__overlay" onClick={handleOnClick}/>
             <div className="modal__body">
-              <button className="modal__close" onClick={handleOnClick}><CloseIcon/></button>
+              {
+                canClose &&
+                <button className="modal__close" onClick={handleOnClick}><CloseIcon/></button>
+              }
               <div className={cx(
                 "modal__body-inner",
                 { "modal__body-inner--without-padding": withoutPadding }

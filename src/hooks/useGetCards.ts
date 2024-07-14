@@ -7,7 +7,7 @@ import { MutableRefObject, useCallback } from "react";
 export const useGetCards = (arrayRef: MutableRefObject<any[]>, actionType: ActionTypes) => {
   const { dispatch } = useStore();
 
-  const getCards = useCallback((count = 8) => {
+  const getCards = useCallback((count = 1) => {
     const shuffledArray = getRandomObjects([...arrayRef.current]);
     if (count > 0 && shuffledArray.length) {
       const selectedCards = shuffledArray.slice(0, count);

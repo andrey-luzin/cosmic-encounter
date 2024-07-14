@@ -1,0 +1,23 @@
+.destiny-card-modal {
+  &__wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  &__button-group {
+    // flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__button {
+  }
+
+  &__image {
+    max-width: 360px;
+  }
+}

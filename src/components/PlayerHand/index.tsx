@@ -11,15 +11,21 @@ import { COSMIC_CARDS_PATH } from '@/const';
 import './index.scss';
 import { useStore } from '@/store';
 import { Button } from '../FormComponents/Button';
+import { DestinyCardModal } from '../Modals/DestinyCardModal';
+import { useGetDestinyCards } from '@/hooks/useGetDestinyCards';
+import { DestinyCardType } from '@/types/CardTypes';
 
 type PlayerHandProps = unknown;
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
+  const { getDestiny } = useGetDestinyCards();
   const { state } = useStore();
 
   const [isFullView, setIsFullView] = useState<boolean>(false);
   const [hoveredSrc, setHoveredSrc] = useState<string>('');
   const [clientX, setClientX] = useState<number>(0);
+  const [destinyModalIsVisible, setDestinyModalIsVisible] = useState<boolean>(false);
+  const [destinyCard, setDestinyCard] = useState<DestinyCardType | null>(null);
 
   const handleArrowClick = useCallback(() => {
     setIsFullView(!isFullView);
@@ -36,6 +42,16 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
 
   const handleCardHoverLeave = () => {
     setHoveredSrc('');
+  };
+
+  const handleDestinyCardClick = (isVisible: boolean) => {
+    setDestinyModalIsVisible(isVisible);
+  };
+
+  const handleGetDestinyCard = () => {
+    setDestinyCard(getDestiny()[0]);
+    setDestinyModalIsVisible(true);
+    console.log('destinyCard', destinyCard);
   };
 
   const players = state.gameState.players;
@@ -87,8 +103,21 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
         >
           <ArrowIcon />
         </button>
+        <Button
+          className="player-hand__event-button"
+          size="xs"
+          onClick={handleGetDestinyCard}
+        >Взять карты судьбы</Button>
       </div>
       <CardModal src={hoveredSrc} isVisible={Boolean(hoveredSrc)} clientX={clientX} />
+      {
+        destinyCard &&
+        <DestinyCardModal 
+          isVisible={destinyModalIsVisible}
+          onClose={() => handleDestinyCardClick(false)}
+          destinyCard={destinyCard}
+        />
+      }
     </>
   );
 };

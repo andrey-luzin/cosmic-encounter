@@ -12,10 +12,7 @@ export const useGetDestinyCards = () => {
     shuffledArrayRef.current = state.decks.destinyCards;
   }, [state.decks.destinyCards]);
 
-  console.log('destnity', shuffledArrayRef);
-  
+  const getDestiny = useGetCards(shuffledArrayRef, ActionTypes.SET_DESTINY_DECK);
 
-  const  getDestinies = useGetCards(shuffledArrayRef, ActionTypes.SET_DESTINY_DECK);
-
-  return { getDestinies };
+  return { getDestiny };
 };

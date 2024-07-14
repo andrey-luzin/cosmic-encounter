@@ -1,6 +1,7 @@
 @import '@/styles/mixins.scss';
 
 .modal {
+  $root: &;
   $modal-width: 600px;
 
   display: flex;
