@@ -1,4 +1,6 @@
 import { StoreProvider } from "@/store";
+import { FirebaseAuthProvider } from "@/store/firebase";
+
 import '../styles/globals.scss';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -8,9 +10,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <title>Cosmic Encounnter</title>
       </head>
       <body>
-        <StoreProvider>
-          {children}
-        </StoreProvider>
+        <FirebaseAuthProvider>
+          <StoreProvider>
+            {children}
+          </StoreProvider>
+        </FirebaseAuthProvider>
       </body>
     </html>
   );
