@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { PreloadState } from '@/hooks/usePreload';
 
 import './index.scss';
+import { Loader } from '../Loader';
 
 type ProgressProps = {
   value: PreloadState['progress'];
@@ -13,7 +14,7 @@ export const Progress: FC<ProgressProps> = ({ value }) => {
       <h1 className="progress__title">Cosmic Encounter</h1>
       <span className="progress__text">Resources are loading</span>
       <span className="progress__value">{value.toFixed(2)}%</span>
-      <span className="progress__emoji">👾</span>
+      <Loader className='progress__emoji' />
     </div>
   );
 };

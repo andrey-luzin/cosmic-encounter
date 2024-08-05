@@ -1,4 +1,6 @@
 import React, { FC, PropsWithChildren, ReactNode, useEffect, useState } from 'react';
+import cx from 'classnames';
+
 import { Button } from '../Button';
 
 import './index.scss';
@@ -40,7 +42,7 @@ export const Tabs: FC<TabsProps> & TabsComponent = ({ activeTabIndex, children }
           children.map((child, index) => {
             return (
               <Button
-                className='tabs__button'
+                className={cx('tabs__button', { 'tabs__button--active': index === activeTab })}
                 onClick={() => handleTabClick(index)}
                 view={index === activeTab ? "filled" : 'default'}
                 disabled={child.props.disabled}

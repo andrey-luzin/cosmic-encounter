@@ -15,7 +15,6 @@ const FirebaseAuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
-      console.log('@user',user);
       setUser(user);
     });
     return () => unsubscribe();

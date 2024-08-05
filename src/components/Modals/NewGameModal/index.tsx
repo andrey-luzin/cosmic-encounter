@@ -13,6 +13,8 @@ import { PlayerType } from '@/types/PlayerTypes';
 
 import './index.scss';
 import { useGameState } from '@/hooks/useGameState';
+import { CreateGame } from './createGame';
+import { JoinToGame } from './joinToGame';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 
@@ -120,11 +122,15 @@ export const NewGameModal: FC<NewGameModalProps> = ({
       >
         <div className="new-game-modal">
           <Tabs>
+            <Tabs.Panel title='Создать игру'>
+              <CreateGame onStart={handleShowRaceSelection} />
+            </Tabs.Panel>
             <Tabs.Panel title='Хотсит'>
               <HotseatMode onStart={handleShowRaceSelection} />
             </Tabs.Panel>
-            <Tabs.Panel title='Online' disabled />
-            <Tabs.Panel title='Присоединиться к игре' disabled />
+            <Tabs.Panel title='Присоединиться к игре'>
+              <JoinToGame onStart={handleShowRaceSelection} />
+            </Tabs.Panel>
           </Tabs>
         </div>
       </Modal>

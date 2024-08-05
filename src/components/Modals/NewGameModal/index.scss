@@ -1,5 +1,5 @@
 .new-game-modal {
-  min-width: 520px;
+  min-width: 540px;
 
   &__add-btn {
     margin-bottom: 1.5rem;
@@ -19,5 +19,46 @@
   &__error {
     color: var(--color-error);
     margin-bottom: 1rem;
+  }
+
+  &__input {
+    margin-bottom: 1.75rem;
+    width: 255px;
+  }
+
+  &__count-select {
+    margin-bottom: 1.5rem;
+    width: 255px;
+  }
+
+  &__loader-block {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__subtitle {
+    color: var(--color-deck-text);
+  }
+
+  &__loader {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+  }
+
+  &__list-block {
+    display: flex;
+    align-self: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__player-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }

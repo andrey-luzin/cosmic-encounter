@@ -1,0 +1,14 @@
+@keyframes scaling {
+  0% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.75;
+  }
+}
+
+.loader {
+  font-size: 3rem;
+  animation: scaling 4s ease-in-out infinite;
+}

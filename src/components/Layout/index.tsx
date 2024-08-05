@@ -11,21 +11,22 @@ import { useStore } from '@/store';
 import MusicPlayer from '../MusicPlayer';
 import { useFirebaseAuth } from "@/store/firebase";
 import { db } from '@/firebase.config';
+import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 
 type LayoutProps = unknown;
 
 export const Layout: FC<PropsWithChildren<LayoutProps>> = ({ children }) => {
-  const user = useFirebaseAuth();
+  // const user = useFirebaseAuth();
 
-  const usersCollectionRef = collection(db, 'users');
+  // const gamesCollectionRef = collection(db, DBCollectionsEnum.Games);
 
-  useEffect(() => {
-    const getUsersData = async () => {
-      const data = await getDocs(usersCollectionRef);
-      console.log('@data', data.docs[0].data());
-    };
-    getUsersData();
-  }, [usersCollectionRef]);
+  // useEffect(() => {
+  //   const getUsersData = async () => {
+  //     const data = await getDocs(gamesCollectionRef);
+  //     console.log("@data", data.docs[1].data());
+  //   };
+  //   getUsersData();
+  // }, [gamesCollectionRef]);
 
   const { dispatch, state } = useStore();
   const layoutRef = useRef<HTMLElement>(null);
