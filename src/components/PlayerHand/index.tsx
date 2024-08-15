@@ -11,7 +11,7 @@ import { COSMIC_CARDS_PATH } from '@/const';
 import './index.scss';
 import { useStore } from '@/store';
 import { Button } from '../FormComponents/Button';
-import { DestinyCardModal } from '../Modals/DestinyCardModal';
+import { DestinyCardModal } from '@/features/NewGame/DestinyCardModal';
 import { useGetDestinyCards } from '@/hooks/useGetDestinyCards';
 import { DestinyCardType } from '@/types/CardTypes';
 

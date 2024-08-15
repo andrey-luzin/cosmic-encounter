@@ -9,8 +9,8 @@ import { Checkbox } from '../FormComponents/Checkbox';
 import './index.scss';
 import { ActionTypes } from '@/store/types';
 import { Button } from '../FormComponents/Button';
-import { NewGameModal } from '../Modals/NewGameModal';
 import { songs } from '@/data/songs';
+import { NewGameModal } from '@/features/NewGame/NewGameModal';
 
 type SettingsMenuProps = {
   isVisible: boolean,

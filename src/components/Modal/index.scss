@@ -50,7 +50,8 @@
     padding: 2rem;
     max-height: 90vh;
     max-height: 90dvh;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     &--without-padding {
       padding: 0;

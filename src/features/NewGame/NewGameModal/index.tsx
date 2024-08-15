@@ -4,7 +4,6 @@ import { Modal, ModalProps } from '@/components/Modal';
 import { Tabs } from '@/components/FormComponents/Tabs';
 import { Button } from '@/components/FormComponents/Button';
 import { HotseatMode } from './hotseatMode';
-import { SelectionRaceModal } from '../SelectionRaceModal';
 
 import { initialState, useStore } from '@/store';
 import { ActionTypes } from '@/store/types';
@@ -15,6 +14,7 @@ import './index.scss';
 import { useGameState } from '@/hooks/useGameState';
 import { CreateGame } from './createGame';
 import { JoinToGame } from './joinToGame';
+import { SelectionRaceModal } from '@/features/NewGame/SelectionRaceModal';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 

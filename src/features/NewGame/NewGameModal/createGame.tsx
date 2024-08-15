@@ -18,6 +18,8 @@ import { PlayerType } from '@/types/PlayerTypes';
 import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 
 import './index.scss';
+import { WaitingPlayersList } from '../WaitingPlayersList';
+import { GameStateType } from '@/types/GameStateTypes';
 
 type CreateGameProps = {
   onStart: () => void,
@@ -84,7 +86,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
             turnOrder: randomNumber
           }
         }
-      }
+      } as Partial<GameStateType>
     })
       .then((ref) => {
         const { id } = ref;
@@ -97,7 +99,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
         });
         localStorage.setItem(LS_ITEM_GAME_ID, id);
 
-        setPlayersData(id);
+        // setPlayersData(id);
       })
       .catch(error => {
         console.log(error);
@@ -122,7 +124,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
     <>
       {
         !waitingForPlayers &&
-        <form>
+        <form onSubmit={e => e.preventDefault()} className='new-game-modal__form'>
           <Select
             onChange={(e) => e && handleCountChange(e as ISelectOption)}
             options={getCountPlayerOptions()}
@@ -144,6 +146,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
             size='l'
             onClick={handleCreateGame}
             type="submit"
+            className='new-game-modal__btn'
           >Создать игру</Button>
         </form>
       }
@@ -152,23 +155,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
         <div className='new-game-modal__loader-block'>
           <h2 className='new-game-modal__subtitle'>Ожидание игроков</h2>
           <div>Поделитесь с игроками Game ID: <b>{gameId}</b></div>
-          <div className='new-game-modal__list-block'>
-            <h3>Список игроков</h3>
-            {
-              players && 
-              <ul className='new-game-modal__player-list'>
-                {Object.values(players).map(player => {
-                  return (
-                    <li
-                      className='new-game-modal__player'
-                      key={player.name}
-                      style={{ color: player.color }}
-                    >{player.name}</li>
-                  );
-                })}
-              </ul>
-            }
-          </div>
+          <WaitingPlayersList players={players} />
           <Loader className='new-game-modal__loader' />
           <Button onClick={handleDeleteGame} view='warning'>Удалить игру</Button>
         </div>

@@ -2,7 +2,6 @@ import { nanoid } from "nanoid";
 import { Phases } from "./PhaseTypes";
 import { PlayerType } from "./PlayerTypes";
 
-
 export type GameStateType = {
   playersCounts: number,
   players: {
