@@ -6,12 +6,16 @@ import { WaitingPlayersList } from '../WaitingPlayersList';
 import { Loader } from '@/components/Loader';
 import { db } from '@/firebase.config';
 import { DBCollectionsEnum } from '@/types/DatabaseTypes';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import './index.scss';
 import { PlayerType } from '@/types/PlayerTypes';
 import { GameStateType } from '@/types/GameStateTypes';
 import { getRandomObjects } from '@/helpers';
+import { playersColors } from './const';
+import { LS_ITEM_GAME_ID } from '@/const';
+import { useStore } from '@/store';
+import { ActionTypes } from '@/store/types';
 
 type JoinToGameProps = {
   onStart: () => void,
@@ -23,17 +27,19 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
   const [gameId, setGameId] = useState<string>('');
   const [waitingForPlayers, setWaitingForPlayers] = useState(false);
 
-  
+  const { state, dispatch } = useStore();
+  const { players } = state.gameState;
+
   const handleGameIDChange = (inputValue: string) => {
     setGameId(inputValue);
   };
 
   const handleInputChange = (inputValue: string) => {
-    setPlayerName(inputValue);
+    setPlayerName(inputValue.trim());
   };
 
   const handleJoin = useCallback(async () => {
-    console.log('go');
+    setError('');
 
     if (!playerName) {
       return setError("Не заполнено имя игрока");
@@ -46,37 +52,78 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
       return setError("Такой игры нет");
     }
     if (docSnap.exists()) {
-      const { players }  = docSnap.data().gameState;
+      const { players }: { players: GameStateType['players'] } = docSnap.data().gameState;
 
       if (Object.keys(players).find(player =>  player === playerName)) {
         return setError('Такое имя игрока уже занято');
       }
-      const { playersCounts }  = docSnap.data().gameState;
+      const { playersCount }  = docSnap.data().gameState;
 
-      const iteratedPlayersList =
-        Array.from({ length: playersCounts }, (_, k) => k).filter(order => {
-            const foundPlayer =
-              (Object.values(players) as Partial<PlayerType>[]).find((player) => {
-                return player.turnOrder === order;
-            });
-
-            if (foundPlayer) {
-              return false;
-            }
-            return true;
+      const getDifferentPlayersList = (
+        valuesList: Required<PlayerType[keyof PlayerType][]>,
+        sign: keyof PlayerType
+      ) => {
+        return valuesList.filter(order => {
+          const foundPlayer =
+            (Object.values(players) as Partial<PlayerType>[]).find((player) => {
+              return player[sign] === order;
           });
 
-      console.log(iteratedPlayersList);
-      const randomNumber =
-        iteratedPlayersList.length > 1 ?
-          getRandomObjects(iteratedPlayersList)[0] :
-          iteratedPlayersList[0];
+          if (foundPlayer) {
+            return false;
+          }
+          return true;
+        });
+      };
 
-      // TODO: найти цвете (как turnOrder?)
+      const playersListByTurnOrder =
+        getDifferentPlayersList(
+          Array.from({ length: playersCount }, (_, k) => k),
+          'turnOrder'
+        );
+      // turnOrder:
+      const randomTurOrder =
+        playersListByTurnOrder.length > 1 ?
+          getRandomObjects(playersListByTurnOrder)[0] :
+          playersListByTurnOrder[0];
+
+      const playersListByColor = getDifferentPlayersList(playersColors, 'color');
+      // color:
+      const randomColor =
+      playersListByColor.length > 1 ?
+          getRandomObjects(playersListByColor)[0] :
+          playersListByColor[0];
+  
+      const newPlayer =  {
+        [playerName]: {
+          name: playerName,
+          color: randomColor,
+          turnOrder: randomTurOrder
+        }
+      };
+
+      await updateDoc(docRef,
+        {
+          gameState: {
+            ...docSnap.data().gameState,
+            players: { ...players, ...newPlayer }
+          } 
+        })
+        .then(() => {
+          setWaitingForPlayers(true);
+          dispatch({
+            type: ActionTypes.SET_GAME_STATE,
+            payload: { gameId },
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          setError(error.message || String(error));
+        });
     }
-
-    setError('');
   }, [gameId, playerName]);
+
+  console.log('state', state);
 
   return(
     <>
@@ -106,7 +153,10 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
         waitingForPlayers &&
         <div className='new-game-modal__loader-block'>
           <h2 className='new-game-modal__subtitle'>Ожидание игроков</h2>
-          {/* <WaitingPlayersList players={players} /> */}
+          {
+            players &&
+            <WaitingPlayersList players={players} />
+          }
           <Loader className='new-game-modal__loader' />
         </div>
       }

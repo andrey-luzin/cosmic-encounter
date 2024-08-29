@@ -9,7 +9,7 @@ import './index.scss';
 import { ActionTypes } from '@/store/types';
 import { useStore } from '@/store';
 import MusicPlayer from '../MusicPlayer';
-import { useFirebaseAuth } from "@/store/firebase";
+import { useFirebase } from "@/store/firebase";
 import { db } from '@/firebase.config';
 import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 

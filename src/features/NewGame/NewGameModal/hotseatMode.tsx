@@ -73,7 +73,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
       dispatch({
         type: ActionTypes.SET_GAME_STATE,
         payload: {
-          playersCounts: filteredFields.length,
+          playersCount: filteredFields.length,
           players: reducedField,
         },
       });

@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .new-game-modal {
   min-width: 540px;
 
@@ -49,5 +51,17 @@
 
   &__btn {
     margin-top: .5rem;
+  }
+
+  &__share {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__copy-to-clipboard {
+    @extend %clear-button;
+
+    color: var(--color-deck-text);
   }
 }

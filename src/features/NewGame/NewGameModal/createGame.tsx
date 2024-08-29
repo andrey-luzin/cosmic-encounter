@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useState } from 'react';
-import { addDoc, deleteDoc, doc, getDoc } from "firebase/firestore"; 
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { addDoc, deleteDoc, doc } from "firebase/firestore"; 
 
 import { ISelectOption, Select } from '@/components/FormComponents/Select';
 import { Button } from '@/components/FormComponents/Button';
@@ -12,31 +12,34 @@ import { useStore } from '@/store';
 import { ActionTypes } from '@/store/types';
 
 import { getRandomObjects } from '@/helpers';
-import { playersOptions } from './const';
+import { playersColors } from './const';
 import { LS_ITEM_GAME_ID, MAX_PLAYERS_COUNT, MIN_PLAYERS_COUNT } from '@/const';
-import { PlayerType } from '@/types/PlayerTypes';
 import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 
-import './index.scss';
 import { WaitingPlayersList } from '../WaitingPlayersList';
 import { GameStateType } from '@/types/GameStateTypes';
+
+import ClipboardIcon from '@/public/icons/clipboard.svg';
+import ClipboardCheckIcon from '@/public/icons/clipboard-check.svg';
+
+import './index.scss';
 
 type CreateGameProps = {
   onStart: () => void,
 };
 
 export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
-  const [countPlayers, setCountPlayers] = useState<number>(MIN_PLAYERS_COUNT);
+  const [playersCount, setPlayersCount] = useState<number>(MIN_PLAYERS_COUNT);
   const [playerName, setPlayerName] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [waitingForPlayers, setWaitingForPlayers] = useState(false);
   const [gameId, setGameId] = useState<string>('');
   const [gameBegins, setGameBegins] = useState(false);
+  const [gameIdCopied, setGameIdCopied] = useState<boolean>(false);
 
-  const [players, setPlayers] = useState<{ [playerName: string]: PlayerType }>({});
+  const { state, dispatch } = useStore();
+  const { players } = state.gameState;
 
-  const { dispatch } = useStore();
-  
   const getCountPlayerOptions = (): ISelectOption[] => {
     const result = [];
   
@@ -48,19 +51,11 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
   };
 
   const handleCountChange = (option: ISelectOption) => {
-    setCountPlayers(Number(option.value));
+    setPlayersCount(Number(option.value));
   };
 
   const handleInputChange = (inputValue: string) => {
-    setPlayerName(inputValue);
-  };
-
-  const setPlayersData = async (id: string) => {
-    const docRef = doc(db, DBCollectionsEnum.Games, id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setPlayers(docSnap.data().gameState.players);
-    }
+    setPlayerName(inputValue.trim());
   };
 
   const handleCreateGame = useCallback(async () => {
@@ -70,14 +65,15 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
     setError('');
     setGameBegins(true);
 
-    const iteratedPlayersList = Array.from({ length: countPlayers }, (_, k) => k);
+    const iteratedPlayersList = Array.from({ length: playersCount }, (_, k) => k);
     const randomNumber = getRandomObjects(iteratedPlayersList)[0];
-    const randomColor = getRandomObjects(playersOptions)[0].color;
+    const randomColor = getRandomObjects(playersColors)[0];
 
     // game creation
     await addDoc(collection(db, DBCollectionsEnum.Games), {
       gameState: {
-        playersCounts: countPlayers,
+        createdAt: new Date().toISOString(),
+        playersCount,
         gameIsStarted: false,
         players: {
           [playerName]: {
@@ -97,16 +93,13 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
           type: ActionTypes.SET_GAME_STATE,
           payload: { gameId: id },
         });
-        localStorage.setItem(LS_ITEM_GAME_ID, id);
-
-        // setPlayersData(id);
       })
       .catch(error => {
         console.log(error);
-        setError(String(error));
+        setError(error.message || String(error));
         setGameBegins(false);
       });
-  }, [playerName, countPlayers, dispatch]);
+  }, [playerName, playersCount, dispatch]);
 
   // game deleting
   const handleDeleteGame = useCallback(async () => {
@@ -120,6 +113,21 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
     });
   }, [dispatch, gameId]);
 
+  useEffect(() => {
+    if (gameIdCopied) {
+      setTimeout(() => {
+        setGameIdCopied(false);
+      }, 15000);
+    }
+  }, [gameIdCopied]);
+
+  const handleCopyToClipboard = useCallback(() => {
+    navigator.clipboard.writeText(gameId).then(
+      () => setGameIdCopied(true),
+      () => setGameIdCopied(false),
+    );
+  }, [gameId]);
+
   return(
     <>
       {
@@ -131,8 +139,8 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
             label="Количество игроков"
             className="new-game-modal__count-select"
             value={{
-              value: countPlayers,
-              label: String(countPlayers),
+              value: playersCount,
+              label: String(playersCount),
             }}
           />
           <Input
@@ -154,8 +162,19 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
         waitingForPlayers &&
         <div className='new-game-modal__loader-block'>
           <h2 className='new-game-modal__subtitle'>Ожидание игроков</h2>
-          <div>Поделитесь с игроками Game ID: <b>{gameId}</b></div>
-          <WaitingPlayersList players={players} />
+          <div className='new-game-modal__share'>
+            Поделитесь с игроками Game ID: <b>{gameId}</b>
+            <button
+              className='new-game-modal__copy-to-clipboard'
+              onClick={handleCopyToClipboard}
+            >
+              {!gameIdCopied ? <ClipboardIcon /> : <ClipboardCheckIcon />}
+            </button>
+          </div>
+          {
+            players &&
+            <WaitingPlayersList players={players} />
+          }
           <Loader className='new-game-modal__loader' />
           <Button onClick={handleDeleteGame} view='warning'>Удалить игру</Button>
         </div>

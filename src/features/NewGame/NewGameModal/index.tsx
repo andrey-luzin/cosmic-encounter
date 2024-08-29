@@ -10,11 +10,12 @@ import { ActionTypes } from '@/store/types';
 
 import { PlayerType } from '@/types/PlayerTypes';
 
-import './index.scss';
 import { useGameState } from '@/hooks/useGameState';
 import { CreateGame } from './createGame';
 import { JoinToGame } from './joinToGame';
 import { SelectionRaceModal } from '@/features/NewGame/SelectionRaceModal';
+
+import './index.scss';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 
@@ -75,6 +76,7 @@ export const NewGameModal: FC<NewGameModalProps> = ({
             ...playerData,
             name: playerName,
           });
+          // FIXME:
           setRaceSelectionModalIsVisible(true);
         }, 350);
       }
@@ -113,28 +115,32 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   //   )
   // }
 
+  const { gameId } = state.gameState;
+
   return(
     <>
       <Modal
         isVisible={newGameModalIsVisible}
         onClose={handleCloseMainModal}
         title='Новая игра'
+        canClose={!gameId}
       >
         <div className="new-game-modal">
           <Tabs>
-            <Tabs.Panel title='Создать игру'>
+            <Tabs.Panel title='Создать игру' disabled={Boolean(gameId)}>
               <CreateGame onStart={handleShowRaceSelection} />
             </Tabs.Panel>
-            <Tabs.Panel title='Хотсит'>
+            <Tabs.Panel title='Хотсит' disabled={Boolean(gameId)}>
               <HotseatMode onStart={handleShowRaceSelection} />
             </Tabs.Panel>
-            <Tabs.Panel title='Присоединиться к игре'>
+            <Tabs.Panel title='Присоединиться к игре' disabled={Boolean(gameId)}>
               <JoinToGame onStart={handleShowRaceSelection} />
             </Tabs.Panel>
           </Tabs>
         </div>
       </Modal>
-      {
+      {/* FIXME: */}
+      {/* {
         'players' in state.gameState && state.gameState.players &&
           Object.keys(state.gameState.players).map(player => {
             if (player === currentPlayer?.name) {
@@ -148,7 +154,7 @@ export const NewGameModal: FC<NewGameModalProps> = ({
               );
             }
           })
-      }
+      } */}
     </>
   );
 };

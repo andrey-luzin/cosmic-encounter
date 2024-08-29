@@ -61,8 +61,6 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
     setFlareRaceSrc('');
   };
 
-  console.log('state', state);
-
   return(
     <Modal
       isVisible={isVisible}

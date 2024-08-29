@@ -1,6 +1,9 @@
 import { ISelectOption } from '@/components/FormComponents/Select';
 import { PlayerColor } from '@/types/PlayerTypes';
 
+export const playersColors =
+  [PlayerColor.Yellow, PlayerColor.Blue, PlayerColor.Red, PlayerColor.Green, PlayerColor.Purple];
+
 export const playersOptions: ISelectOption[] = [
   {
     value: PlayerColor.Yellow,

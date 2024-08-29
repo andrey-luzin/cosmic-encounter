@@ -42,7 +42,7 @@ export const useGameState = () => {
 
       if (
         playersList.every(player => player.race) &&
-        playersList.length === state.gameState.playersCounts
+        playersList.length === state.gameState.playersCount
       ) {
         dispatch({
           type: ActionTypes.SET_GAME_STATE,
@@ -65,7 +65,7 @@ export const useGameState = () => {
         });
       }
     }
-  }, [dispatch, state.gameState.playersCounts]);
+  }, [dispatch, state.gameState.playersCount]);
 
   return { selectRace, startGame };
 };
