@@ -4,8 +4,6 @@ import { Modal, ModalProps } from '@/components/Modal';
 import { Button } from '@/components/FormComponents/Button';
 import { CardModal } from '@/components/CardModal';
 
-import { useStore } from '@/store';
-
 import { useGetRaceCards } from '@/hooks/useGetRaceCards';
 import { useGameState } from '@/hooks/useGameState';
 
@@ -16,7 +14,7 @@ import { FLARES_PATH, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
 import './index.scss';
 
 type SelectionRaceModalProps = Pick<ModalProps, 'isVisible' | 'onClose'> & {
-  player: Pick<PlayerType, ('name' | 'color')>,
+  player: PlayerType,
 };
 
 export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
@@ -24,21 +22,19 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   onClose,
   player,
 }) => {
-  const { state, dispatch } = useStore();
   // const { addToLog } = useGameLog();
 
   const [selectedRace, setSelectedRace] = useState<RaceType | null>(null);
-  const [races, setRaces] = useState<RaceType[]>([]);
   const [fullRaceSrc, setfullRaceSrc] = useState<string>('');
   const [flareRaceSrc, setFlareRaceSrc] = useState<string>('');
 
-  const { getRaces } = useGetRaceCards();
+  const { races, getRaces } = useGetRaceCards();
+
   const { selectRace } = useGameState();
 
   useEffect(() => {
-    const newRaces = getRaces(2);
-    setRaces(newRaces);
-  }, [getRaces, player]);
+    getRaces(2);
+  }, [getRaces]);
 
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,6 +61,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
     <Modal
       isVisible={isVisible}
       onClose={onClose}
+      canClose={false}
       title={<>Выберите расу для&nbsp;<span style={{ color: player.color}}>{player.name}</span></>}
       className='selection-race-modal'
     >

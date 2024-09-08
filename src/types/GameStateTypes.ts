@@ -10,7 +10,7 @@ export type GameStateType = {
   activePlayer: string,
   phase: Phases | null,
   gameIsStarted: boolean,
-  prepareIsDone: boolean,
+  prepareIsStarted: boolean,
   gameId: ReturnType<typeof nanoid>;
   createdAt: string;
 };

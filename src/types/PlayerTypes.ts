@@ -13,9 +13,9 @@ export type PlayerType = {
   name: string,
   color: PlayerColor,
   race?: RaceType,
-  planets: {
+  planets?: {
     id: number;
   }[],
-  cards: CosmicCardType[],
+  cards?: CosmicCardType[],
   turnOrder: number,
 };

@@ -1,7 +1,6 @@
-import { CosmicCardType, DestinyCardType } from "@/types/CardTypes";
 import { GameLogItem } from "@/types/GameLog";
 import { GameStateType } from "@/types/GameStateTypes";
-import { RaceType } from "@/types/RacesTypes";
+import { PlayerType } from "@/types/PlayerTypes";
 import { RefObject } from "react";
 
 interface SettingsState {
@@ -19,11 +18,7 @@ export interface AppState {
   gameLogIsOpen: boolean
   gameLog: GameLogItem[];
   gameState: Partial<GameStateType>;
-  decks: {
-   races: RaceType[],
-   cosmicCards: CosmicCardType[]
-   destinyCards: DestinyCardType[]
-  }
+  currentPlayer: PlayerType | null;
 }
 
 export enum ActionTypes {
@@ -33,9 +28,7 @@ export enum ActionTypes {
   INIT_LAYOUT = 'INIT_LAYOUT',
   SET_GAME_STATE = 'SET_GAME_STATE',
   RESET_GAME_STATE = 'RESET_GAME_STATE',
-  SET_RACES_DECK = 'SET_RACES_DECK',
-  SET_COSMIC_DECK = 'SET_COSMIC_DECK',
-  SET_DESTINY_DECK = 'SET_DESTINY_DECK',
+  SET_CURRENTLY_PLAYER = 'SET_CURRENTLY_PLAYER',
 }
 
 export type Action = 
@@ -45,7 +38,6 @@ export type Action =
   | { type: ActionTypes.INIT_LAYOUT; payload: LayoutState }
   | { type: ActionTypes.SET_GAME_STATE; payload: Partial<GameStateType> }
   | { type: ActionTypes.RESET_GAME_STATE }
-  | { type: ActionTypes.SET_RACES_DECK; payload: RaceType[] }
-  | { type: ActionTypes.SET_COSMIC_DECK; payload: CosmicCardType[] }
-  | { type: ActionTypes.SET_DESTINY_DECK; payload: DestinyCardType[] };
+  | { type: ActionTypes.SET_CURRENTLY_PLAYER; payload: PlayerType };
+  
 

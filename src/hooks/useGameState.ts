@@ -12,7 +12,7 @@ import { DestinyCardEnum } from "@/types/CardTypes";
 export const useGameState = () => {
   const { state, dispatch } = useStore();
   const { addToLog } = useGameLog();
-  const { getCards } = useGetCosmicCards();
+  // const { getCards } = useGetCosmicCards();
   
   const selectRace = useCallback(({ player, selectedRace }: {
     player: Pick<PlayerType, "name" | "color">,
@@ -27,14 +27,14 @@ export const useGameState = () => {
             [player.name]: {
               ...state.gameState?.players?.[player.name],
               race: selectedRace,
-              cards: getCards(8)
+              // cards: getCards(8)
             },
           },
         },
       });
       addToLog(`<span style="color: ${player.color}">${player.name}</span> выбрал расу <b>${selectedRace.name}</b>`);
     }
-  }, [addToLog, dispatch, getCards, state.gameState?.players]);
+  }, [addToLog, dispatch, state.gameState?.players]);
 
   const startGame = useCallback((players?: { [playerName: string]: PlayerType; }) => {
     if (players) {
@@ -51,18 +51,19 @@ export const useGameState = () => {
             phase: Phases.StartingTheTurn,
           },
         });
-        dispatch({
-          type: ActionTypes.SET_DESTINY_DECK,
-          payload: destinyCards.filter((card) => {
-            if (
-              card.type === DestinyCardEnum.SpecialCard ||
-              card.type === DestinyCardEnum.Joker ||
-              playersList.map(list => list.color).includes(card.color)
-            ) {
-              return card;
-            }
-          })
-        });
+        // FIXME: logic to firebase
+        // dispatch({
+        //   type: ActionTypes.SET_DESTINY_DECK,
+        //   payload: destinyCards.filter((card) => {
+        //     if (
+        //       card.type === DestinyCardEnum.SpecialCard ||
+        //       card.type === DestinyCardEnum.Joker ||
+        //       playersList.map(list => list.color).includes(card.color)
+        //     ) {
+        //       return card;
+        //     }
+        //   })
+        // });
       }
     }
   }, [dispatch, state.gameState.playersCount]);

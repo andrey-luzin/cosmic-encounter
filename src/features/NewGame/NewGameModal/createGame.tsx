@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { addDoc, deleteDoc, doc } from "firebase/firestore"; 
+import { addDoc, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore"; 
 
 import { ISelectOption, Select } from '@/components/FormComponents/Select';
 import { Button } from '@/components/FormComponents/Button';
@@ -23,6 +23,9 @@ import ClipboardIcon from '@/public/icons/clipboard.svg';
 import ClipboardCheckIcon from '@/public/icons/clipboard-check.svg';
 
 import './index.scss';
+import { racesCards } from '@/data/races-cards';
+import { cosmicCards } from '@/data/cosmic-cards';
+import { destinyCards } from '@/data/destiny-cards';
 
 type CreateGameProps = {
   onStart: () => void,
@@ -50,6 +53,30 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
     return result;
   };
 
+  useEffect(() => {
+    if (players && Object.keys(players).length === playersCount) {
+      (async () => {
+        const docRef = doc(db, DBCollectionsEnum.Games, gameId);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          
+          await updateDoc(docRef, {
+            gameState: {
+              ...docSnap.data().gameState,
+              prepareIsStarted: true,
+            } 
+          }).then(() => {
+            dispatch({
+              type: ActionTypes.SET_GAME_STATE,
+              payload: { prepareIsStarted: true },
+            });
+          });
+        }
+      })();
+    }
+  }, [dispatch, gameId, players, playersCount]);
+
   const handleCountChange = (option: ISelectOption) => {
     setPlayersCount(Number(option.value));
   };
@@ -68,6 +95,11 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
     const iteratedPlayersList = Array.from({ length: playersCount }, (_, k) => k);
     const randomNumber = getRandomObjects(iteratedPlayersList)[0];
     const randomColor = getRandomObjects(playersColors)[0];
+    const newPlayer =  {
+      name: playerName,
+      color: randomColor,
+      turnOrder: randomNumber
+    };
 
     // game creation
     await addDoc(collection(db, DBCollectionsEnum.Games), {
@@ -76,13 +108,14 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
         playersCount,
         gameIsStarted: false,
         players: {
-          [playerName]: {
-            name: playerName,
-            color: randomColor,
-            turnOrder: randomNumber
-          }
+          [playerName]: newPlayer
         }
-      } as Partial<GameStateType>
+      } as Partial<GameStateType>,
+      decks: {
+        races: racesCards.filter(card => !card.isDisable),
+        cosmicCards,
+        destinyCards
+      }
     })
       .then((ref) => {
         const { id } = ref;
@@ -92,6 +125,10 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
         dispatch({
           type: ActionTypes.SET_GAME_STATE,
           payload: { gameId: id },
+        });
+        dispatch({
+          type: ActionTypes.SET_CURRENTLY_PLAYER,
+          payload: newPlayer,
         });
       })
       .catch(error => {

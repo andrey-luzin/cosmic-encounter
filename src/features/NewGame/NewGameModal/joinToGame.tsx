@@ -9,7 +9,7 @@ import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import './index.scss';
-import { PlayerType } from '@/types/PlayerTypes';
+import { PlayerColor, PlayerType } from '@/types/PlayerTypes';
 import { GameStateType } from '@/types/GameStateTypes';
 import { getRandomObjects } from '@/helpers';
 import { playersColors } from './const';
@@ -59,20 +59,16 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
       }
       const { playersCount }  = docSnap.data().gameState;
 
-      const getDifferentPlayersList = (
-        valuesList: Required<PlayerType[keyof PlayerType][]>,
-        sign: keyof PlayerType
-      ) => {
+      const getDifferentPlayersList = <T extends keyof PlayerType>(
+        valuesList: Required<PlayerType[T][]>,
+        sign: T
+      ): PlayerType[T][] => {
         return valuesList.filter(order => {
-          const foundPlayer =
-            (Object.values(players) as Partial<PlayerType>[]).find((player) => {
-              return player[sign] === order;
+          const foundPlayer = (Object.values(players)).find((player) => {
+            return player[sign] === order;
           });
-
-          if (foundPlayer) {
-            return false;
-          }
-          return true;
+      
+          return !foundPlayer;
         });
       };
 
@@ -82,7 +78,7 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
           'turnOrder'
         );
       // turnOrder:
-      const randomTurOrder =
+      const randomTurnOrder =
         playersListByTurnOrder.length > 1 ?
           getRandomObjects(playersListByTurnOrder)[0] :
           playersListByTurnOrder[0];
@@ -98,7 +94,7 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
         [playerName]: {
           name: playerName,
           color: randomColor,
-          turnOrder: randomTurOrder
+          turnOrder: randomTurnOrder
         }
       };
 
@@ -115,15 +111,33 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
             type: ActionTypes.SET_GAME_STATE,
             payload: { gameId },
           });
+          dispatch({
+            type: ActionTypes.SET_CURRENTLY_PLAYER,
+            payload: newPlayer[playerName],
+          });
+
+          if (players && Object.keys(players).length === playersCount) {
+            console.log('join game prepareIsStarted');
+            (async () => {
+              await updateDoc(docRef, {
+                gameState: {
+                  ...docSnap.data().gameState,
+                  prepareIsStarted: true,
+                } 
+              });
+              dispatch({
+                type: ActionTypes.SET_GAME_STATE,
+                payload: { prepareIsStarted: true },
+              });
+            })();
+          }
         })
         .catch(error => {
           console.log(error);
           setError(error.message || String(error));
         });
     }
-  }, [gameId, playerName]);
-
-  console.log('state', state);
+  }, [dispatch, gameId, playerName]);
 
   return(
     <>

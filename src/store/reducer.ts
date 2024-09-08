@@ -14,12 +14,8 @@ export const reducer = (state: AppState, action: Action): AppState => {
       return { ...state, gameState: { ...state.gameState, ...action.payload} };
     case ActionTypes.RESET_GAME_STATE:
       return { ...state, gameState: {} };
-    case ActionTypes.SET_RACES_DECK:
-      return { ...state, decks: { ...state.decks, races: action.payload } };
-    case ActionTypes.SET_COSMIC_DECK:
-      return { ...state, decks: { ...state.decks, cosmicCards: action.payload } };
-    case ActionTypes.SET_DESTINY_DECK:
-      return { ...state, decks: { ...state.decks, destinyCards: action.payload } };
+    case ActionTypes.SET_CURRENTLY_PLAYER:
+      return { ...state, currentPlayer: action.payload };
     default:
       return state;
   }

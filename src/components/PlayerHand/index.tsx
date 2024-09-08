@@ -18,7 +18,7 @@ import { DestinyCardType } from '@/types/CardTypes';
 type PlayerHandProps = unknown;
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
-  const { getDestiny } = useGetDestinyCards();
+  // const { getDestiny } = useGetDestinyCards();
   const { state } = useStore();
 
   const [isFullView, setIsFullView] = useState<boolean>(false);
@@ -49,7 +49,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
   };
 
   const handleGetDestinyCard = () => {
-    setDestinyCard(getDestiny()[0]);
+    // setDestinyCard(getDestiny()[0]);
     setDestinyModalIsVisible(true);
     console.log('destinyCard', destinyCard);
   };
@@ -69,7 +69,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
           { "player-hand__cards-list--is-not-full-view": !isFullView }
         )}>
           {
-            players[activePlayer].cards.map(card => {
+            players?.[activePlayer]?.cards?.map(card => {
               const src = `/images/${COSMIC_CARDS_PATH}/${card.id}.webp`;
               return (
                 <div

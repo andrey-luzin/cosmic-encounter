@@ -1,17 +1,15 @@
-import { useStore } from "@/store";
-import { ActionTypes } from "@/store/types";
-import { useEffect, useRef } from "react";
+import { useCallback, useState } from "react";
 import { useGetCards } from "./useGetCards";
 
 export const useGetRaceCards = () => {
-  const { state } = useStore();
-  const shuffledArrayRef = useRef(state.decks.races);
+  const fetchRaces = useGetCards('races');
 
-  useEffect(() => {
-    shuffledArrayRef.current = state.decks.races;
-  }, [state.decks.races]);
+  const [races, setRaces] = useState<any[]>([]);
 
-  const getRaces = useGetCards(shuffledArrayRef, ActionTypes.SET_RACES_DECK);
+  const getRaces = useCallback(async (count = 1) => {
+    const races = await fetchRaces(count);
+    setRaces(races);
+  }, [fetchRaces]);
 
-  return { getRaces };
+  return { races, getRaces };
 };

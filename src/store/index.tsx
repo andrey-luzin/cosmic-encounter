@@ -2,9 +2,6 @@
 import React, { createContext, useContext, useReducer, ReactNode, Dispatch } from 'react';
 import { AppState, Action } from './types';
 import { reducer } from './reducer';
-import { racesCards } from '@/data/races-cards';
-import { cosmicCards } from '@/data/cosmic-cards';
-import { destinyCards } from '@/data/destiny-cards';
 
 export const initialState: AppState = {
   settings: {
@@ -16,11 +13,7 @@ export const initialState: AppState = {
   gameLogIsOpen: false,
   gameLog: [],
   gameState: {},
-  decks: {
-    races: racesCards.filter(card => !card.isDisable),
-    cosmicCards,
-    destinyCards
-  }
+  currentPlayer: null,
 };
 
 type StoreContextType = {
