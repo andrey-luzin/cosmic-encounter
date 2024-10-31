@@ -25,10 +25,7 @@ export const useGetCards = (
         if (count > 0 && shuffledArray.length) {
           const selectedCards = shuffledArray.slice(0, count);
           updateDoc(docRef, {
-            decks: {
-              ...docSnap.data().decks,
-              [deckName]: shuffledArray.slice(count)
-            }
+            [`decks.${deckName}`]: shuffledArray.slice(count)
           });
           return selectedCards;
         }

@@ -60,12 +60,8 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
-          
           await updateDoc(docRef, {
-            gameState: {
-              ...docSnap.data().gameState,
-              prepareIsStarted: true,
-            } 
+            'gameState.prepareIsStarted': true,
           }).then(() => {
             dispatch({
               type: ActionTypes.SET_GAME_STATE,

@@ -98,13 +98,9 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
         }
       };
 
-      await updateDoc(docRef,
-        {
-          gameState: {
-            ...docSnap.data().gameState,
-            players: { ...players, ...newPlayer }
-          } 
-        })
+      await updateDoc(docRef, {
+        [`gameState.players`]: { ...players, ...newPlayer }
+      })
         .then(() => {
           setWaitingForPlayers(true);
           dispatch({
@@ -120,10 +116,7 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
             console.log('join game prepareIsStarted');
             (async () => {
               await updateDoc(docRef, {
-                gameState: {
-                  ...docSnap.data().gameState,
-                  prepareIsStarted: true,
-                } 
+                'gameState.prepareIsStarted': true
               });
               dispatch({
                 type: ActionTypes.SET_GAME_STATE,

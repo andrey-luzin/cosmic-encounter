@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useGameLog } from "./useGameLog";
 import { ActionTypes } from "@/store/types";
 import { useGetCosmicCards } from "./useGetCosmicCards";
@@ -8,33 +8,56 @@ import { PlayerType } from "@/types/PlayerTypes";
 import { Phases } from "@/types/PhaseTypes";
 import { destinyCards } from "@/data/destiny-cards";
 import { DestinyCardEnum } from "@/types/CardTypes";
+import { db } from "@/firebase.config";
+import { DBCollectionsEnum } from "@/types/DatabaseTypes";
+import { doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, QueryDocumentSnapshot, updateDoc } from "firebase/firestore";
 
 export const useGameState = () => {
   const { state, dispatch } = useStore();
   const { addToLog } = useGameLog();
+  const [docRef, setDocRef] = useState<DocumentReference<DocumentData, DocumentData>>();
+  const [docSnap, setDocSnap] = useState<DocumentSnapshot<DocumentData, DocumentData>>();
   // const { getCards } = useGetCosmicCards();
-  
-  const selectRace = useCallback(({ player, selectedRace }: {
+
+  useEffect(() => {
+    const gameId = state.gameState.gameId;
+    const getDocSnap = async () => {
+      if (gameId) {
+        const ref = doc(db, DBCollectionsEnum.Games, gameId);
+        setDocRef(ref);
+        setDocSnap(await getDoc(ref));
+      }
+    };
+    if (!docSnap) {
+      getDocSnap();
+    }
+  }, [docSnap, state.gameState.gameId]);
+
+  const selectRace = useCallback(async ({ player, selectedRace }: {
     player: Pick<PlayerType, "name" | "color">,
     selectedRace: RaceType | null
   }) => {
-    if (state.gameState?.players && selectedRace) {
+    if (selectedRace && state.currentPlayer && docRef && docSnap?.exists()) {
+      const { currentPlayer } = state;
+
       dispatch({
-        type: ActionTypes.SET_GAME_STATE,
+        type: ActionTypes.SET_CURRENTLY_PLAYER,
         payload: {
-          players: {
-            ...state.gameState?.players,
-            [player.name]: {
-              ...state.gameState?.players?.[player.name],
-              race: selectedRace,
-              // cards: getCards(8)
-            },
-          },
+          ...currentPlayer,
+          race: selectedRace,
         },
       });
+
+      await updateDoc(docRef, {
+        [`gameState.players.${currentPlayer.name}`]: {
+          ...currentPlayer,
+          race: selectedRace
+        }
+      });
+
       addToLog(`<span style="color: ${player.color}">${player.name}</span> выбрал расу <b>${selectedRace.name}</b>`);
     }
-  }, [addToLog, dispatch, state.gameState?.players]);
+  }, [addToLog, dispatch, docRef, docSnap, state]);
 
   const startGame = useCallback((players?: { [playerName: string]: PlayerType; }) => {
     if (players) {

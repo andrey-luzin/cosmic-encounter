@@ -24,7 +24,6 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   onClose,
 }) => {
   const [raceSelectionModalIsVisible, setRaceSelectionModalIsVisible] = useState<boolean>(false);
-  // const [currentPlayer, setCurrentPlayer] = useState<PlayerType | null>(null);
   const [newGameModalIsVisible, setNewGameModalIsVisible] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
