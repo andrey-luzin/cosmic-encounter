@@ -16,6 +16,8 @@ import { JoinToGame } from './joinToGame';
 import { SelectionRaceModal } from '@/features/NewGame/SelectionRaceModal';
 
 import './index.scss';
+import { WaitingPlayersList } from '../WaitingPlayersList';
+import { Loader } from '@/components/Loader';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 
@@ -26,10 +28,12 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   const [raceSelectionModalIsVisible, setRaceSelectionModalIsVisible] = useState<boolean>(false);
   const [newGameModalIsVisible, setNewGameModalIsVisible] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [waitingModalIsVisible, setWaitingModalIsVisible] = useState<boolean>(false);
 
   const { startGame } = useGameState();
   const { state, dispatch } = useStore();
-  const { currentPlayer } = state;
+  const { currentPlayer, gameState } = state;
+  const { players } = gameState;
 
   useEffect(() => {
     setNewGameModalIsVisible(isVisible);
@@ -51,16 +55,16 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   }, [onClose]);
 
   useEffect(() => {
-    startGame(state.gameState.players);
-  }, [startGame, state.gameState.players]);
+    startGame(players);
+  }, [startGame, players]);
 
   useEffect(() => {
     setRaceSelectionModalIsVisible(false);
-    if (state.gameState.prepareIsStarted) {
+    if (gameState.prepareIsStarted) {
       setRaceSelectionModalIsVisible(true);
       setNewGameModalIsVisible(false);
     }
-  }, [state.gameState]);
+  }, [gameState]);
 
   const handleResetGameState = useCallback(() => {
     dispatch({
@@ -68,6 +72,22 @@ export const NewGameModal: FC<NewGameModalProps> = ({
     });
     onClose();
   }, [dispatch, onClose]);
+
+  useEffect(() => {
+    if (currentPlayer?.race && players && !newGameModalIsVisible ) {
+      setWaitingModalIsVisible(true);
+    }
+  }, [currentPlayer?.race, newGameModalIsVisible, players]);
+
+  useEffect(() => {
+    if (gameState.gameIsStarted) {
+      setWaitingModalIsVisible(false);
+    }
+  }, [gameState.gameIsStarted]);
+
+  const handleCloseWaitingModal = () => {
+    setWaitingModalIsVisible(false);
+  };
 
   // useEffect(() => {
   //   if (!isEmpty(state.gameState)) {
@@ -94,7 +114,7 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   //   )
   // }
 
-  const { gameId } = state.gameState;
+  const { gameId } = gameState;
 
   console.log('state', state);
 
@@ -121,12 +141,28 @@ export const NewGameModal: FC<NewGameModalProps> = ({
         </div>
       </Modal>
       {
-        currentPlayer &&
+        currentPlayer && !currentPlayer?.race &&
         <SelectionRaceModal
           isVisible={raceSelectionModalIsVisible}
           onClose={handleSelectRace}
           player={currentPlayer}
         />
+      }
+      {
+        <Modal
+          isVisible={waitingModalIsVisible}
+          onClose={handleCloseWaitingModal}
+          title='Ожидание игроков'
+          canClose={false}
+        >
+          <div className='new-game-modal__loader-block'>
+            {
+              players &&
+              <WaitingPlayersList players={players} />
+            }
+            <Loader className='new-game-modal__loader' />
+          </div>
+        </Modal>
       }
     </>
   );

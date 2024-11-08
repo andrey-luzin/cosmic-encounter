@@ -11,7 +11,6 @@ type WaitingPlayersListProps = {
 export const WaitingPlayersList: FC<WaitingPlayersListProps> = ({ players }) => {
   return(
     <div className="waiting-players-list">
-      <h3>Список игроков</h3>
       {
         players && 
         <ul className='waiting-players-list__player-list'>
@@ -20,8 +19,13 @@ export const WaitingPlayersList: FC<WaitingPlayersListProps> = ({ players }) => 
               <li
                 className='waiting-players-list__player'
                 key={player.name}
-                style={{ color: player.color }}
-              >{player.name}</li>
+              >
+                <span style={{ color: player.color }}>{player.name}</span>
+                {
+                  player.race &&
+                  <>&emsp;{player.race.name}</>
+                }
+              </li>
             );
           })}
         </ul>

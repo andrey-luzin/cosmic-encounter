@@ -59,37 +59,33 @@ export const useGameState = () => {
     }
   }, [addToLog, dispatch, docRef, docSnap, state]);
 
-  const startGame = useCallback((players?: { [playerName: string]: PlayerType; }) => {
+  const startGame = useCallback(async (players?: { [playerName: string]: PlayerType; }) => {
     if (players) {
       const playersList = Object.values(players);
 
       if (
         playersList.every(player => player.race) &&
-        playersList.length === state.gameState.playersCount
+        playersList.length === state.gameState.playersCount &&
+        docRef &&
+        !state.gameState.gameIsStarted
       ) {
-        dispatch({
-          type: ActionTypes.SET_GAME_STATE,
-          payload: {
-            activePlayer: playersList.find(player => player.turnOrder === 0)?.name,
-            phase: Phases.StartingTheTurn,
-          },
+        await updateDoc(docRef, {
+          'gameState.gameIsStarted': true,
+          'gameState.activePlayer': playersList.find(player => player.turnOrder === 0)?.name,
+          'gameState.phase': Phases.StartingTheTurn,
+          'decks.destinyCards': destinyCards.filter((card) => {
+            if (
+              card.type === DestinyCardEnum.SpecialCard ||
+              card.type === DestinyCardEnum.Joker ||
+              playersList.map(list => list.color).includes(card.color)
+            ) {
+              return card;
+            }
+          })
         });
-        // FIXME: logic to firebase
-        // dispatch({
-        //   type: ActionTypes.SET_DESTINY_DECK,
-        //   payload: destinyCards.filter((card) => {
-        //     if (
-        //       card.type === DestinyCardEnum.SpecialCard ||
-        //       card.type === DestinyCardEnum.Joker ||
-        //       playersList.map(list => list.color).includes(card.color)
-        //     ) {
-        //       return card;
-        //     }
-        //   })
-        // });
       }
     }
-  }, [dispatch, state.gameState.playersCount]);
+  }, [docRef, state.gameState.playersCount, state.gameState.gameIsStarted]);
 
   return { selectRace, startGame };
 };

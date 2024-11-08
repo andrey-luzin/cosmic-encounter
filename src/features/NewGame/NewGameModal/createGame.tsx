@@ -110,7 +110,6 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
       decks: {
         races: racesCards.filter(card => !card.isDisable),
         cosmicCards,
-        destinyCards
       }
     })
       .then((ref) => {

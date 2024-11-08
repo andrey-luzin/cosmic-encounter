@@ -45,6 +45,11 @@
     gap: 1.5rem;
   }
 
+  &__loader {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+  }
+
   &__subtitle {
     color: var(--color-deck-text);
   }
