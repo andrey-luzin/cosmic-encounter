@@ -1,4 +1,6 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface GameLogItem {
-  timestamp: string;
+  timestamp: string | Timestamp;
   message: string;
 }

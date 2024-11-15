@@ -35,9 +35,19 @@ const FirebaseProvider: React.FC<PropsWithChildren> = ({ children }) => {
     if (gameId) {
       unsubscribe = onSnapshot(doc(db, DBCollectionsEnum.Games, gameId), (doc) => {
         if (doc.exists()) {
+          const { gameState, decks, gameLog } = doc.data();
+
           dispatch({
             type: ActionTypes.SET_GAME_STATE,
-            payload: doc.data().gameState,
+            payload: gameState,
+          });
+          dispatch({
+            type: ActionTypes.SET_DECKS,
+            payload: decks,
+          });
+          dispatch({
+            type: ActionTypes.SET_GAMELOG,
+            payload: gameLog || []
           });
           localStorage.setItem(LS_ITEM_GAME_ID, gameId);
         }

@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { addDoc, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore"; 
+import { addDoc, deleteDoc, doc, getDoc, updateDoc, Timestamp } from "firebase/firestore"; 
 
 import { ISelectOption, Select } from '@/components/FormComponents/Select';
 import { Button } from '@/components/FormComponents/Button';
@@ -100,7 +100,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
     // game creation
     await addDoc(collection(db, DBCollectionsEnum.Games), {
       gameState: {
-        createdAt: new Date().toISOString(),
+        createdAt: Timestamp.fromDate(new Date()),
         playersCount,
         gameIsStarted: false,
         players: {
@@ -110,7 +110,8 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
       decks: {
         races: racesCards.filter(card => !card.isDisable),
         cosmicCards,
-      }
+      },
+      gameLog: [],
     })
       .then((ref) => {
         const { id } = ref;

@@ -32,19 +32,21 @@ export const GameLog: FC<GameLogProps> = () => {
     <div className={cn('game-log', {'game-log--is-visible': state.gameLogIsOpen })}>
       <h2 className='game-log__title'>Игровой лог:</h2>
       <ul className='game-log__list' ref={listRef}>
-        {state.gameLog.map((logItem, index) => (
-          <li key={index}>
-            <time
-              dateTime={logItem.timestamp}
-              title={new Date(logItem.timestamp).toLocaleString()}
-              className='game-log__time'
-            >
-              {new Date(logItem.timestamp).toLocaleTimeString()}
-            </time>
-            {' '}–{' '}
-            <span className='game-log__log-item' dangerouslySetInnerHTML={{ __html: logItem.message}} />
-          </li>
-        ))}
+        {state.gameLog.map((logItem, index) => {
+          const timestamp =
+            typeof logItem.timestamp === 'string'
+              ? new Date(logItem.timestamp)
+              : new Date(logItem.timestamp.seconds * 1000);
+
+          return (
+            <li
+              key={index}
+              className='game-log__log-item'
+              dangerouslySetInnerHTML={{ __html: logItem.message}}
+              title={timestamp.toLocaleString()}
+            />
+          );
+        })}
       </ul>
     </div>
   );

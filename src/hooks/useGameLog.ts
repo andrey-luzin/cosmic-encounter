@@ -1,20 +1,37 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { doc, arrayUnion, updateDoc, Timestamp, DocumentData, DocumentReference } from "firebase/firestore"; 
+
+import { db } from "@/firebase.config";
 import { useStore } from '@/store';
-import { ActionTypes } from '@/store/types';
+import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 
 export const useGameLog = () => {
-  const { state, dispatch } = useStore();
+  const { state } = useStore();
+  const [docRef, setDocRef] = useState<DocumentReference<DocumentData, DocumentData>>();
 
-  const addToLog = useCallback((message: string): void => {
-    const log = state.gameLog;
-    const timestamp = new Date().toISOString();
-    log.push({ timestamp, message });
+  useEffect(() => {
+    const gameId = state.gameState.gameId;
+    const getDocRef = () => {
+      if (gameId) {
+        const ref = doc(db, DBCollectionsEnum.Games, gameId);
+        setDocRef(ref);
+      }
+    };
 
-    dispatch({
-      type: ActionTypes.SET_GAMELOG,
-      payload: log,
-    });
-  }, [dispatch, state.gameLog]);
+    if (!docRef) {
+      getDocRef();
+    }
+  }, [docRef, state.gameState.gameId]);
+
+  const addToLog = useCallback(async (message: string): Promise<void> => {
+    if (docRef) {
+      const timestamp = Timestamp.fromDate(new Date());
+
+      await updateDoc(docRef, {
+        gameLog: arrayUnion({ timestamp, message })
+      });
+    }
+  }, [docRef]);
 
   const gameLog = useMemo(() => {
     return state.gameLog;

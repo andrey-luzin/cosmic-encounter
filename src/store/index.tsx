@@ -14,6 +14,11 @@ export const initialState: AppState = {
   gameLog: [],
   gameState: {},
   currentPlayer: null,
+  decks: {
+    cosmicCards: [],
+    destinyCards: [],
+    races: []
+  }
 };
 
 type StoreContextType = {

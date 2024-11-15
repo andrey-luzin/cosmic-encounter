@@ -12,6 +12,9 @@ export const reducer = (state: AppState, action: Action): AppState => {
       return { ...state, layoutRef: action.payload };
     case ActionTypes.SET_GAME_STATE:
       return { ...state, gameState: { ...state.gameState, ...action.payload} };
+    case ActionTypes.SET_DECKS:
+          return { ...state, decks: { ...state.gameState, ...action.payload} };
+
     case ActionTypes.RESET_GAME_STATE:
       return { ...state, gameState: {} };
     case ActionTypes.SET_CURRENTLY_PLAYER:

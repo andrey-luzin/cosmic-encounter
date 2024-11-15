@@ -74,10 +74,10 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   }, [dispatch, onClose]);
 
   useEffect(() => {
-    if (currentPlayer?.race && players && !newGameModalIsVisible ) {
+    if (currentPlayer?.race && players && !gameState.gameIsStarted ) {
       setWaitingModalIsVisible(true);
     }
-  }, [currentPlayer?.race, newGameModalIsVisible, players]);
+  }, [currentPlayer?.race, gameState.gameIsStarted, players]);
 
   useEffect(() => {
     if (gameState.gameIsStarted) {

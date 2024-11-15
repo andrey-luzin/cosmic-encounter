@@ -10,14 +10,13 @@ import { destinyCards } from "@/data/destiny-cards";
 import { DestinyCardEnum } from "@/types/CardTypes";
 import { db } from "@/firebase.config";
 import { DBCollectionsEnum } from "@/types/DatabaseTypes";
-import { doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, QueryDocumentSnapshot, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, Timestamp, updateDoc } from "firebase/firestore";
 
 export const useGameState = () => {
   const { state, dispatch } = useStore();
   const { addToLog } = useGameLog();
   const [docRef, setDocRef] = useState<DocumentReference<DocumentData, DocumentData>>();
   const [docSnap, setDocSnap] = useState<DocumentSnapshot<DocumentData, DocumentData>>();
-  // const { getCards } = useGetCosmicCards();
 
   useEffect(() => {
     const gameId = state.gameState.gameId;
@@ -52,10 +51,11 @@ export const useGameState = () => {
         [`gameState.players.${currentPlayer.name}`]: {
           ...currentPlayer,
           race: selectedRace
-        }
+        },
       });
-
-      addToLog(`<span style="color: ${player.color}">${player.name}</span> выбрал расу <b>${selectedRace.name}</b>`);
+      addToLog(
+        `<span style="color: ${player.color}">${player.name}</span> выбрал расу <b>${selectedRace.name}</b>`
+      );
     }
   }, [addToLog, dispatch, docRef, docSnap, state]);
 

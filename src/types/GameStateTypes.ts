@@ -1,4 +1,6 @@
 import { nanoid } from "nanoid";
+import { Timestamp } from "firebase/firestore";
+
 import { Phases } from "./PhaseTypes";
 import { PlayerType } from "./PlayerTypes";
 
@@ -12,5 +14,5 @@ export type GameStateType = {
   gameIsStarted: boolean,
   prepareIsStarted: boolean,
   gameId: ReturnType<typeof nanoid>;
-  createdAt: string;
+  createdAt: string | Timestamp;
 };
