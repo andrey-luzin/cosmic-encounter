@@ -26,6 +26,7 @@ import './index.scss';
 import { racesCards } from '@/data/races-cards';
 import { cosmicCards } from '@/data/cosmic-cards';
 import { destinyCards } from '@/data/destiny-cards';
+import { useGameState } from '@/hooks/useGameState';
 
 type CreateGameProps = {
   onStart: () => void,
@@ -41,6 +42,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
   const [gameIdCopied, setGameIdCopied] = useState<boolean>(false);
 
   const { state, dispatch } = useStore();
+  const { deleteGame } = useGameState();
   const { players } = state.gameState;
 
   const getCountPlayerOptions = (): ISelectOption[] => {
@@ -136,15 +138,11 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
 
   // game deleting
   const handleDeleteGame = useCallback(async () => {
-    const id = gameId || (localStorage.getItem(LS_ITEM_GAME_ID) as string);
-    await deleteDoc(doc(db, DBCollectionsEnum.Games, id)).then(() => {
+    deleteGame().then(() => {
       setWaitingForPlayers(false);
       setGameBegins(false);
-      dispatch({
-        type: ActionTypes.RESET_GAME_STATE,
-      });
     });
-  }, [dispatch, gameId]);
+  }, [deleteGame]);
 
   useEffect(() => {
     if (gameIdCopied) {

@@ -10,7 +10,8 @@ import { destinyCards } from "@/data/destiny-cards";
 import { DestinyCardEnum } from "@/types/CardTypes";
 import { db } from "@/firebase.config";
 import { DBCollectionsEnum } from "@/types/DatabaseTypes";
-import { arrayUnion, doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, Timestamp, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, updateDoc } from "firebase/firestore";
+import { LS_ITEM_GAME_ID } from "@/const";
 
 export const useGameState = () => {
   const { state, dispatch } = useStore();
@@ -87,5 +88,17 @@ export const useGameState = () => {
     }
   }, [docRef, state.gameState.playersCount, state.gameState.gameIsStarted]);
 
-  return { selectRace, startGame };
+  const deleteGame = useCallback(async () => {
+    const gameId = state.gameState.gameId;
+    const id = gameId || (localStorage.getItem(LS_ITEM_GAME_ID) as string);
+
+    await deleteDoc(doc(db, DBCollectionsEnum.Games, id)).then(() => {
+      dispatch({
+        type: ActionTypes.RESET_GAME_STATE,
+      });
+      localStorage.removeItem(LS_ITEM_GAME_ID);
+    });
+  }, [dispatch, state.gameState.gameId]);
+
+  return { selectRace, startGame, deleteGame };
 };

@@ -106,6 +106,8 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
     return songs.find(song => song.id === state.settings.musicSongIndex);
   }, [state.settings.musicSongIndex]);
 
+  // console.log('state', state);
+
   return(
     <>
       <Transition settingModalRef={settingModalRef} in={modalIsVisible} timeout={duration} unmountOnExit>

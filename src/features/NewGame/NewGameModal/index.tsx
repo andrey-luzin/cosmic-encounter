@@ -6,18 +6,16 @@ import { Button } from '@/components/FormComponents/Button';
 import { HotseatMode } from './hotseatMode';
 
 import { useStore } from '@/store';
-import { ActionTypes } from '@/store/types';
-
-import { PlayerType } from '@/types/PlayerTypes';
 
 import { useGameState } from '@/hooks/useGameState';
 import { CreateGame } from './createGame';
 import { JoinToGame } from './joinToGame';
 import { SelectionRaceModal } from '@/features/NewGame/SelectionRaceModal';
 
-import './index.scss';
 import { WaitingPlayersList } from '../WaitingPlayersList';
 import { Loader } from '@/components/Loader';
+
+import './index.scss';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 
@@ -30,10 +28,17 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [waitingModalIsVisible, setWaitingModalIsVisible] = useState<boolean>(false);
 
-  const { startGame } = useGameState();
-  const { state, dispatch } = useStore();
+  const { startGame, deleteGame } = useGameState();
+  const { state } = useStore();
   const { currentPlayer, gameState } = state;
   const { players } = gameState;
+
+  useEffect(() => {
+    if (gameState?.gameIsStarted && newGameModalIsVisible) {
+      console.log('setShowAlert');
+      setShowAlert(true);
+    }
+  }, [gameState?.gameIsStarted, newGameModalIsVisible]);
 
   useEffect(() => {
     setNewGameModalIsVisible(isVisible);
@@ -55,68 +60,64 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   }, [onClose]);
 
   useEffect(() => {
-    startGame(players);
-  }, [startGame, players]);
+    if (!gameState.gameIsStarted) {
+      startGame(players);
+    }
+  }, [startGame, players, gameState.gameIsStarted]);
 
   useEffect(() => {
     setRaceSelectionModalIsVisible(false);
-    if (gameState.prepareIsStarted) {
+    if (gameState.prepareIsStarted && !gameState.gameIsStarted) {
       setRaceSelectionModalIsVisible(true);
       setNewGameModalIsVisible(false);
     }
   }, [gameState]);
 
   const handleResetGameState = useCallback(() => {
-    dispatch({
-      type: ActionTypes.RESET_GAME_STATE,
+    deleteGame().then(() => {
+      onClose();
     });
-    onClose();
-  }, [dispatch, onClose]);
+  }, [deleteGame, onClose]);
 
   useEffect(() => {
-    if (currentPlayer?.race && players && !gameState.gameIsStarted ) {
+    if (currentPlayer?.race && players && !gameState.gameIsStarted) {
       setWaitingModalIsVisible(true);
     }
   }, [currentPlayer?.race, gameState.gameIsStarted, players]);
 
   useEffect(() => {
     if (gameState.gameIsStarted) {
+      console.log('onClose');
+      onClose();
       setWaitingModalIsVisible(false);
     }
-  }, [gameState.gameIsStarted]);
+  }, [gameState.gameIsStarted, onClose]);
 
   const handleCloseWaitingModal = () => {
     setWaitingModalIsVisible(false);
   };
 
-  // useEffect(() => {
-  //   if (!isEmpty(state.gameState)) {
-  //     setShowAlert(true)
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  if (showAlert) {
+    const handleCloseAlert = () => {
+      setShowAlert(false);
+    };
 
-  // TODO: add destroying of modal
-  // TODO: add reset modal
-  // if (showAlert) {
-  //   return(
-  //     <Modal
-  //       isVisible
-  //       onClose={onClose}
-  //       title='Вы уверены?'
-  //     >
-  //       <h2>Весь предыдущий прогресс сбросится</h2>
-  //       <div style={{ display: 'flex', gap: '1rem' }}>
-  //         <Button size="l" onClick={handleResetGameState}>Да</Button>
-  //         <Button size="l" onClick={onClose}>Нет</Button>
-  //       </div>
-  //     </Modal>
-  //   )
-  // }
+    return(
+      <Modal
+        isVisible
+        onClose={handleCloseAlert}
+        title='Вы уверены?'
+      >
+        <h2>Весь предыдущий прогресс сбросится</h2>
+        <div className='new-game-modal__cancel-info'>
+          <Button size="l" onClick={handleResetGameState}>Да</Button>
+          <Button size="l" onClick={handleCloseAlert}>Нет</Button>
+        </div>
+      </Modal>
+    );
+  }
 
   const { gameId } = gameState;
-
-  console.log('state', state);
 
   return(
     <>
