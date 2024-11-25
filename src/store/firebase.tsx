@@ -6,7 +6,7 @@ import { useStore } from '@/store';
 import { doc, onSnapshot, Unsubscribe } from "firebase/firestore";
 import { DBCollectionsEnum } from "@/types/DatabaseTypes";
 import { ActionTypes } from "./types";
-import { LS_ITEM_GAME_ID } from "@/const";
+import { LS_ITEM_GAME_ID, LS_ITEM_GAME_NICK } from "@/const";
 
 type User = any;
 type ContextState = { user: User };
@@ -29,7 +29,8 @@ const FirebaseProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     // subscribe if there is a game ID
-    const { gameId } = state.gameState;
+    const gameId = state.gameState.gameId || localStorage.getItem(LS_ITEM_GAME_ID);
+
     let unsubscribe: Unsubscribe = () => null;
 
     if (gameId) {
@@ -37,9 +38,19 @@ const FirebaseProvider: React.FC<PropsWithChildren> = ({ children }) => {
         if (doc.exists()) {
           const { gameState, decks, gameLog } = doc.data();
 
+          if (gameState.gameIsFinished) {
+            return () => {
+              localStorage.removeItem(LS_ITEM_GAME_ID);
+              localStorage.removeItem(LS_ITEM_GAME_NICK);
+            };
+          }
+
           dispatch({
             type: ActionTypes.SET_GAME_STATE,
-            payload: gameState,
+            payload: {
+              ...gameState,
+              gameId,
+            }
           });
           dispatch({
             type: ActionTypes.SET_DECKS,
@@ -50,6 +61,9 @@ const FirebaseProvider: React.FC<PropsWithChildren> = ({ children }) => {
             payload: gameLog || []
           });
           localStorage.setItem(LS_ITEM_GAME_ID, gameId);
+        } else {
+          localStorage.removeItem(LS_ITEM_GAME_ID);
+          localStorage.removeItem(LS_ITEM_GAME_NICK);
         }
       });
     }

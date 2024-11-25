@@ -39,7 +39,7 @@
 
   &__body {
     position: relative;
-    max-width: min(650px, 93vw);
+    max-width: min(665px, 93vw);
     margin: 1rem auto;
     background-color: var(--color-bg-main);
     @include gradientBorder;

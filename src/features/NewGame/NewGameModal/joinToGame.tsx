@@ -9,13 +9,13 @@ import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import './index.scss';
-import { PlayerColor, PlayerType } from '@/types/PlayerTypes';
+import { PlayerType } from '@/types/PlayerTypes';
 import { GameStateType } from '@/types/GameStateTypes';
 import { getRandomObjects } from '@/helpers';
 import { playersColors } from './const';
-import { LS_ITEM_GAME_ID } from '@/const';
 import { useStore } from '@/store';
 import { ActionTypes } from '@/store/types';
+import { LS_ITEM_GAME_NICK } from '@/const';
 
 type JoinToGameProps = {
   onStart: () => void,
@@ -111,6 +111,7 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
             type: ActionTypes.SET_CURRENTLY_PLAYER,
             payload: newPlayer[playerName],
           });
+          localStorage.setItem(LS_ITEM_GAME_NICK, playerName);
 
           if (players && Object.keys(players).length === playersCount) {
             (async () => {

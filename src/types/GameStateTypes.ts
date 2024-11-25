@@ -15,4 +15,5 @@ export type GameStateType = {
   prepareIsStarted: boolean,
   gameId: ReturnType<typeof nanoid>;
   createdAt: string | Timestamp;
+  gameIsFinished: boolean,
 };

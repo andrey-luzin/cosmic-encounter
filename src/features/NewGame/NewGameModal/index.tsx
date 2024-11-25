@@ -15,6 +15,7 @@ import { WaitingPlayersList } from '../WaitingPlayersList';
 import { Loader } from '@/components/Loader';
 
 import './index.scss';
+import { JoinToActiveGame } from './joinToActiveGame';
 
 type NewGameModalProps = Pick<ModalProps, 'isVisible' | 'onClose'>;
 
@@ -30,7 +31,6 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   const { state } = useStore();
   const { currentPlayer, gameState } = state;
   const { players } = gameState;
-
 
   useEffect(() => {
     setNewGameModalIsVisible(isVisible);
@@ -94,14 +94,14 @@ export const NewGameModal: FC<NewGameModalProps> = ({
       >
         <div className="new-game-modal">
           <Tabs>
-            <Tabs.Panel title='Создать игру' disabled={Boolean(gameId)}>
+            <Tabs.Panel title='Создать игру'>
               <CreateGame onStart={handleShowRaceSelection} />
             </Tabs.Panel>
-            <Tabs.Panel title='Хотсит' disabled={Boolean(gameId)}>
-              <HotseatMode onStart={handleShowRaceSelection} />
-            </Tabs.Panel>
-            <Tabs.Panel title='Присоединиться к игре' disabled={Boolean(gameId)}>
+            <Tabs.Panel title='Присоединиться к игре'>
               <JoinToGame onStart={handleShowRaceSelection} />
+            </Tabs.Panel>
+            <Tabs.Panel title='Активная игра' disabled={Boolean(!gameId)}>
+              <JoinToActiveGame />
             </Tabs.Panel>
           </Tabs>
         </div>

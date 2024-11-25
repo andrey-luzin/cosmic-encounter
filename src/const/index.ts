@@ -16,3 +16,4 @@ export const SONGS_PATHS = 'songs';
 export const DESTINIES_PATH = 'destinies';
 
 export const LS_ITEM_GAME_ID = 'CE_gameID';
+export const LS_ITEM_GAME_NICK = 'CE_nick';

@@ -11,7 +11,7 @@ import { DestinyCardEnum } from "@/types/CardTypes";
 import { db } from "@/firebase.config";
 import { DBCollectionsEnum } from "@/types/DatabaseTypes";
 import { deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, updateDoc } from "firebase/firestore";
-import { LS_ITEM_GAME_ID } from "@/const";
+import { LS_ITEM_GAME_ID, LS_ITEM_GAME_NICK } from "@/const";
 
 export const useGameState = () => {
   const { state, dispatch } = useStore();
@@ -97,8 +97,9 @@ export const useGameState = () => {
         type: ActionTypes.RESET_GAME_STATE,
       });
       localStorage.removeItem(LS_ITEM_GAME_ID);
+      localStorage.removeItem(LS_ITEM_GAME_NICK);
     });
   }, [dispatch, state.gameState.gameId]);
 
-  return { selectRace, startGame, deleteGame, docRef, docSnap };
+  return { selectRace, startGame, deleteGame };
 };

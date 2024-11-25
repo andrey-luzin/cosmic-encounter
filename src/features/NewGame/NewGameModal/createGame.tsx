@@ -13,7 +13,7 @@ import { ActionTypes } from '@/store/types';
 
 import { getRandomObjects } from '@/helpers';
 import { playersColors } from './const';
-import { LS_ITEM_GAME_ID, MAX_PLAYERS_COUNT, MIN_PLAYERS_COUNT } from '@/const';
+import { LS_ITEM_GAME_NICK, MAX_PLAYERS_COUNT, MIN_PLAYERS_COUNT } from '@/const';
 import { DBCollectionsEnum } from '@/types/DatabaseTypes';
 
 import { WaitingPlayersList } from '../WaitingPlayersList';
@@ -56,7 +56,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
   };
 
   useEffect(() => {
-    if (players && Object.keys(players).length === playersCount) {
+    if (gameId && players && Object.keys(players).length === playersCount) {
       (async () => {
         const docRef = doc(db, DBCollectionsEnum.Games, gameId);
         const docSnap = await getDoc(docRef);
@@ -128,6 +128,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
           type: ActionTypes.SET_CURRENTLY_PLAYER,
           payload: newPlayer,
         });
+        localStorage.setItem(LS_ITEM_GAME_NICK, playerName);
       })
       .catch(error => {
         console.log(error);
