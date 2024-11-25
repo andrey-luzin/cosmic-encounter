@@ -2,7 +2,6 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { Modal, ModalProps } from '@/components/Modal';
 import { Tabs } from '@/components/FormComponents/Tabs';
-import { Button } from '@/components/FormComponents/Button';
 import { HotseatMode } from './hotseatMode';
 
 import { useStore } from '@/store';
@@ -25,20 +24,13 @@ export const NewGameModal: FC<NewGameModalProps> = ({
 }) => {
   const [raceSelectionModalIsVisible, setRaceSelectionModalIsVisible] = useState<boolean>(false);
   const [newGameModalIsVisible, setNewGameModalIsVisible] = useState<boolean>(false);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
   const [waitingModalIsVisible, setWaitingModalIsVisible] = useState<boolean>(false);
 
-  const { startGame, deleteGame } = useGameState();
+  const { startGame } = useGameState();
   const { state } = useStore();
   const { currentPlayer, gameState } = state;
   const { players } = gameState;
 
-  useEffect(() => {
-    if (gameState?.gameIsStarted && newGameModalIsVisible) {
-      console.log('setShowAlert');
-      setShowAlert(true);
-    }
-  }, [gameState?.gameIsStarted, newGameModalIsVisible]);
 
   useEffect(() => {
     setNewGameModalIsVisible(isVisible);
@@ -73,12 +65,6 @@ export const NewGameModal: FC<NewGameModalProps> = ({
     }
   }, [gameState]);
 
-  const handleResetGameState = useCallback(() => {
-    deleteGame().then(() => {
-      onClose();
-    });
-  }, [deleteGame, onClose]);
-
   useEffect(() => {
     if (currentPlayer?.race && players && !gameState.gameIsStarted) {
       setWaitingModalIsVisible(true);
@@ -87,7 +73,6 @@ export const NewGameModal: FC<NewGameModalProps> = ({
 
   useEffect(() => {
     if (gameState.gameIsStarted) {
-      console.log('onClose');
       onClose();
       setWaitingModalIsVisible(false);
     }
@@ -96,26 +81,6 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   const handleCloseWaitingModal = () => {
     setWaitingModalIsVisible(false);
   };
-
-  if (showAlert) {
-    const handleCloseAlert = () => {
-      setShowAlert(false);
-    };
-
-    return(
-      <Modal
-        isVisible
-        onClose={handleCloseAlert}
-        title='Вы уверены?'
-      >
-        <h2>Весь предыдущий прогресс сбросится</h2>
-        <div className='new-game-modal__cancel-info'>
-          <Button size="l" onClick={handleResetGameState}>Да</Button>
-          <Button size="l" onClick={handleCloseAlert}>Нет</Button>
-        </div>
-      </Modal>
-    );
-  }
 
   const { gameId } = gameState;
 

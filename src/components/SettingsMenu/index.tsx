@@ -11,6 +11,8 @@ import { ActionTypes } from '@/store/types';
 import { Button } from '../FormComponents/Button';
 import { songs } from '@/data/songs';
 import { NewGameModal } from '@/features/NewGame/NewGameModal';
+import { Modal } from '../Modal';
+import { useGameState } from '@/hooks/useGameState';
 
 type SettingsMenuProps = {
   isVisible: boolean,
@@ -31,10 +33,15 @@ const transitionStyles = {
 
 export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
   const { state, dispatch } = useStore();
+  const { deleteGame } = useGameState();
+
   const settingModalRef = useRef(null);
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(isVisible);
   const [showFullScreen, toggleShowFullScreen] = useToggle(false);
   const [newGameModalIsVisible, setNewGameModalIsVisible] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+
+  const { gameState } = state;
 
   const handleFullScreen = useCallback((val?: boolean) => {
     toggleShowFullScreen(val || !showFullScreen);
@@ -77,7 +84,11 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
   }, [dispatch, state]);
 
   const handleNewGameClick = (isVisible: boolean) => {
-    setNewGameModalIsVisible(isVisible);
+    if (gameState?.gameIsStarted) {
+      setShowAlert(true);
+    } else {
+      setNewGameModalIsVisible(isVisible);
+    }
   };
 
   const turnMusic = useCallback(() => {
@@ -106,8 +117,18 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
     return songs.find(song => song.id === state.settings.musicSongIndex);
   }, [state.settings.musicSongIndex]);
 
-  // console.log('state', state);
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
 
+  const handleResetGameState = useCallback(() => {
+    deleteGame().then(() => {
+      handleCloseAlert();
+    });
+  }, [deleteGame]);
+
+  console.log('state', state);
+  
   return(
     <>
       <Transition settingModalRef={settingModalRef} in={modalIsVisible} timeout={duration} unmountOnExit>
@@ -155,12 +176,21 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
           </div>
         )}
       </Transition>
-      {
-        <NewGameModal 
-          isVisible={newGameModalIsVisible}
-          onClose={() => handleNewGameClick(false)}
-        />
-      }
+      <NewGameModal 
+        isVisible={newGameModalIsVisible}
+        onClose={() => setNewGameModalIsVisible(false)}
+      />
+      <Modal
+        isVisible={showAlert}
+        onClose={() => handleCloseAlert()}
+        title='Вы уверены?'
+      >
+        <h2>Весь предыдущий прогресс сбросится</h2>
+        <div className='new-game-modal__cancel-info'>
+          <Button size="l" onClick={handleResetGameState}>Да</Button>
+          <Button size="l" onClick={() => handleCloseAlert()}>Нет</Button>
+        </div>
+      </Modal>
     </>
   );
 };

@@ -113,7 +113,6 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
           });
 
           if (players && Object.keys(players).length === playersCount) {
-            console.log('join game prepareIsStarted');
             (async () => {
               await updateDoc(docRef, {
                 'gameState.prepareIsStarted': true

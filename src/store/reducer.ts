@@ -1,3 +1,4 @@
+import { initialState } from '.';
 import { AppState, Action, ActionTypes } from './types';
 
 export const reducer = (state: AppState, action: Action): AppState => {
@@ -16,7 +17,13 @@ export const reducer = (state: AppState, action: Action): AppState => {
           return { ...state, decks: { ...state.gameState, ...action.payload} };
 
     case ActionTypes.RESET_GAME_STATE:
-      return { ...state, gameState: {} };
+      return {
+        ...state,
+        gameState: initialState.gameState,
+        currentPlayer: initialState.currentPlayer,
+        gameLog: initialState.gameLog,
+        decks: initialState.decks,
+      };
     case ActionTypes.SET_CURRENTLY_PLAYER:
       return { ...state, currentPlayer: action.payload };
     default:

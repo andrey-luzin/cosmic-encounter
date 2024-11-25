@@ -47,7 +47,7 @@ export const useGameState = () => {
           race: selectedRace,
         },
       });
-
+      
       await updateDoc(docRef, {
         [`gameState.players.${currentPlayer.name}`]: {
           ...currentPlayer,
@@ -100,5 +100,5 @@ export const useGameState = () => {
     });
   }, [dispatch, state.gameState.gameId]);
 
-  return { selectRace, startGame, deleteGame };
+  return { selectRace, startGame, deleteGame, docRef, docSnap };
 };

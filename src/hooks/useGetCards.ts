@@ -18,7 +18,6 @@ export const useGetCards = (
       const docRef = doc(db, DBCollectionsEnum.Games, gameId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-
         const deck = docSnap.data().decks[deckName];
 
         const shuffledArray = getRandomObjects([...deck]);
