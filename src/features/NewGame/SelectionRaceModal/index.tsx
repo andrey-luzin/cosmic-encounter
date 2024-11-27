@@ -22,8 +22,6 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   onClose,
   player,
 }) => {
-  // const { addToLog } = useGameLog();
-
   const [selectedRace, setSelectedRace] = useState<RaceType | null>(null);
   const [fullRaceSrc, setfullRaceSrc] = useState<string>('');
   const [flareRaceSrc, setFlareRaceSrc] = useState<string>('');
