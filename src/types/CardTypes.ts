@@ -1,6 +1,12 @@
 import { Phases } from "./PhaseTypes";
 import { PlayerColor } from "./PlayerTypes";
 
+export enum CardTypes {
+  CosmicCards = 'cosmicCards',
+  Races = 'races',
+  DestinyCards = 'destinyCards',
+}
+
 export enum CosmicCardsEnum {
   Encounter = 'encounter',
   Artifact = 'artifact',

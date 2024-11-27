@@ -1,14 +1,12 @@
 import { db } from "@/firebase.config";
 import { getRandomObjects } from "@/helpers";
 import { useStore } from "@/store";
-import { Action, ActionTypes } from "@/store/types";
+import { CardTypes } from "@/types/CardTypes";
 import { DBCollectionsEnum } from "@/types/DatabaseTypes";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { MutableRefObject, useCallback } from "react";
+import { useCallback } from "react";
 
-export const useGetCards = (
-  deckName: 'races' | 'cosmicCards' | 'destinyCards'
-) => {
+export const useGetCards = (deckName: CardTypes) => {
   const { state } = useStore();
 
   const { gameId } = state.gameState;

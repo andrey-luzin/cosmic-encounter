@@ -2,7 +2,6 @@ import { useStore } from "@/store";
 import { useCallback, useEffect, useState } from "react";
 import { useGameLog } from "./useGameLog";
 import { ActionTypes } from "@/store/types";
-import { useGetCosmicCards } from "./useGetCosmicCards";
 import { RaceType } from "@/types/RacesTypes";
 import { PlayerType } from "@/types/PlayerTypes";
 import { Phases } from "@/types/PhaseTypes";
