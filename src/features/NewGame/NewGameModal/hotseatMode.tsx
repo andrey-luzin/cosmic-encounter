@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
+import { useI18n } from '@/i18n';
 import { nanoid } from 'nanoid';
 import isEmpty from 'lodash/isEmpty';
 
@@ -26,6 +27,7 @@ type HotseatModeProps = {
 };
 
 export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
+  const { t } = useI18n();
   const { state, dispatch } = useStore();
 
   const [fieldGroups, setFieldGroups] = useState<FieldGroupProps[]>([
@@ -41,10 +43,10 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
 
     // TODO: return error checking
     // if (!inputValues.every(value => value)) {
-    //   return setError("Заполнены не все имена игроков");
+    //   return setError(t('errors.notAllNames'));
     // }
     // if (!(new Set(inputValues).size === inputValues.length)) {
-    //   return setError("Дубли в именах игроков");
+    //   return setError(t('errors.duplicateNames'));
     // }
     setError('');
     onStart();
@@ -119,7 +121,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
         <Select
           onChange={(e) => e && handleOptionChange(e as ISelectOption)}
           options={getAvailableOptions || playersOptions}
-          label="Цвет игрока"
+          label={t('newGame.playerColor')}
           className="new-game-modal__field-select"
           {
             ...group.selectedOption && {
@@ -127,7 +129,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
             }
           }
         />
-        <Input label='Имя игрока' onInput={(e) => handleInputChange(e.target.value)} />
+        <Input label={t('newGame.playerName')} onInput={(e) => handleInputChange(e.target.value)} />
         {
           fieldGroups.findIndex(initGroup => initGroup === group) >= MIN_PLAYERS_COUNT &&
           <Button onClick={handleRemoveBlock} view="warning" size='xs'>
@@ -145,7 +147,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
         className='new-game-modal__add-btn'
         size='s'
         disabled={fieldGroups.length >= MAX_PLAYERS_COUNT}
-      >Добавить игрока</Button>
+      >{t('newGame.addPlayer')}</Button>
       {fieldGroups.map((group) => {
         return (
           <React.Fragment key={group.id}>
@@ -156,8 +158,7 @@ export const HotseatMode: FC<HotseatModeProps> = ({ onStart }) => {
       {
         error && <p className='new-game-modal__error'>{error}</p>
       }
-      <Button onClick={handleHotseatStart}>Начать игру</Button>
+      <Button onClick={handleHotseatStart}>{t('newGame.startGame')}</Button>
     </>
   );
 };
-

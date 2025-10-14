@@ -3,34 +3,34 @@ import { Phases } from "@/types/PhaseTypes";
 export const steps = [
   {
     phase: Phases.StartingTheTurn,
-    name: 'Начало хода',
+    name: 'Start Turn',
   },
   {
     phase: Phases.Regroup,
-    name: 'Перегруппировка',
+    name: 'Regroup',
   },
   {
     phase: Phases.Destiny,
-    name: 'Судьба',
+    name: 'Destiny',
   },
   {
     phase: Phases.Launch,
-    name: 'Запуск',
+    name: 'Launch',
   },
   {
     phase: Phases.Alliance,
-    name: 'Союзы',
+    name: 'Alliance',
   },
   {
     phase: Phases.Planning,
-    name: 'Планирование',
+    name: 'Planning',
   },
   {
     phase: Phases.Reveal,
-    name: 'Раскрытие',
+    name: 'Reveal',
   },
   {
     phase: Phases.Resolution,
-    name: 'Результат',
+    name: 'Resolution',
   },
 ];

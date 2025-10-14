@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useState } from 'react';
+import { useI18n } from '@/i18n';
 
 import { Input } from '@/components/FormComponents/Input';
 import { Button } from '@/components/FormComponents/Button';
@@ -22,6 +23,7 @@ type JoinToGameProps = {
 };
 
 export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
+  const { t } = useI18n();
   const [error, setError] = useState<string>('');
   const [playerName, setPlayerName] = useState<string>('');
   const [gameId, setGameId] = useState<string>('');
@@ -42,14 +44,14 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
     setError('');
 
     if (!playerName) {
-      return setError("Не заполнено имя игрока");
+      return setError(t('errors.emptyPlayerName'));
     }
 
     const docRef = doc(db, DBCollectionsEnum.Games, gameId);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
-      return setError("Такой игры нет");
+      return setError(t('errors.gameNotFound'));
     }
     if (docSnap.exists()) {
       // control clearing of LS
@@ -58,7 +60,7 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
       const { players }: { players: GameStateType['players'] } = docSnap.data().gameState;
 
       if (Object.keys(players).find(player =>  player === playerName)) {
-        return setError('Такое имя игрока уже занято');
+        return setError(t('errors.nameTaken'));
       }
       const { playersCount }  = docSnap.data().gameState;
 
@@ -141,12 +143,12 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
         !waitingForPlayers &&
         <form onSubmit={e => e.preventDefault()} className='new-game-modal__form'>
           <Input
-            label='ID игры'
+            label='Game ID'
             onInput={(e) => handleGameIDChange(e.target.value)}
             className='new-game-modal__input'
           />
           <Input
-            label='Имя игрока'
+            label={t('newGame.playerName')}
             onInput={(e) => handleInputChange(e.target.value)}
             className='new-game-modal__input'
           />
@@ -156,13 +158,13 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
             onClick={handleJoin}
             type="submit"
             className='new-game-modal__btn'
-          >Присоединиться к игре</Button>
+          >{t('newGame.join')}</Button>
         </form>
       }
       {
         waitingForPlayers &&
         <div className='new-game-modal__loader-block'>
-          <h2 className='new-game-modal__subtitle'>Ожидание игроков</h2>
+          <h2 className='new-game-modal__subtitle'>{t('newGame.waitingPlayers')}</h2>
           {
             players &&
             <WaitingPlayersList players={players} />
@@ -173,4 +175,3 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
     </>
   );
 };
-

@@ -1,5 +1,6 @@
 "use client";
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { useI18n } from '@/i18n';
 import cx from 'classnames';
 
 import { CardModal } from '../CardModal';
@@ -19,6 +20,7 @@ import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
 type PlayerHandProps = unknown;
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
+  const { t } = useI18n();
   // const { getDestiny } = useGetDestinyCards();
   const { cosmicCards, getCosmicCards } = useGetCosmicCards();
   const { state } = useStore();
@@ -96,7 +98,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
                   {
                     activePlayer &&
                     <div className="player-hand__play-btn-wrapper">
-                      <Button className="player-hand__play-btn" size='xs'>Разыграть</Button>
+                      <Button className="player-hand__play-btn" size='xs'>{t('cards.play')}</Button>
                     </div>
                   }
                 </div>
@@ -117,7 +119,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
           className="player-hand__event-button"
           size="xs"
           onClick={handleGetDestinyCard}
-        >Взять карты судьбы</Button>
+        >{t('cards.takeDestiny')}</Button>
       </div>
       <CardModal src={hoveredSrc} isVisible={Boolean(hoveredSrc)} clientX={clientX} />
       {

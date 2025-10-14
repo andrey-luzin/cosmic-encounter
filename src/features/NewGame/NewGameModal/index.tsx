@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { useI18n } from '@/i18n';
 
 import { Modal, ModalProps } from '@/components/Modal';
 import { Tabs } from '@/components/FormComponents/Tabs';
@@ -23,6 +24,7 @@ export const NewGameModal: FC<NewGameModalProps> = ({
   isVisible,
   onClose,
 }) => {
+  const { t } = useI18n();
   const [raceSelectionModalIsVisible, setRaceSelectionModalIsVisible] = useState<boolean>(false);
   const [newGameModalIsVisible, setNewGameModalIsVisible] = useState<boolean>(false);
   const [waitingModalIsVisible, setWaitingModalIsVisible] = useState<boolean>(false);
@@ -89,18 +91,18 @@ export const NewGameModal: FC<NewGameModalProps> = ({
       <Modal
         isVisible={newGameModalIsVisible}
         onClose={handleCloseMainModal}
-        title='Новая игра'
+        title={t('newGame.title')}
         canClose={!gameId}
       >
         <div className="new-game-modal">
           <Tabs>
-            <Tabs.Panel title='Создать игру'>
+            <Tabs.Panel title={t('newGame.create')}>
               <CreateGame onStart={handleShowRaceSelection} />
             </Tabs.Panel>
-            <Tabs.Panel title='Присоединиться к игре'>
+            <Tabs.Panel title={t('newGame.join')}>
               <JoinToGame onStart={handleShowRaceSelection} />
             </Tabs.Panel>
-            <Tabs.Panel title='Активная игра' disabled={Boolean(!gameId)}>
+            <Tabs.Panel title={t('newGame.activeGame')} disabled={Boolean(!gameId)}>
               <JoinToActiveGame />
             </Tabs.Panel>
           </Tabs>
@@ -118,7 +120,7 @@ export const NewGameModal: FC<NewGameModalProps> = ({
         <Modal
           isVisible={waitingModalIsVisible}
           onClose={handleCloseWaitingModal}
-          title='Ожидание игроков'
+          title={t('newGame.waitingPlayers')}
           canClose={false}
         >
           <div className='new-game-modal__loader-block'>

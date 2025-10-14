@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useI18n } from '@/i18n';
 
 import { PlayerType } from '@/types/PlayerTypes';
 
@@ -9,6 +10,7 @@ type WaitingPlayersListProps = {
 };
 
 export const WaitingPlayersList: FC<WaitingPlayersListProps> = ({ players }) => {
+  const { t } = useI18n();
   return(
     <div className="waiting-players-list">
       {
@@ -21,10 +23,7 @@ export const WaitingPlayersList: FC<WaitingPlayersListProps> = ({ players }) => 
                 key={player.name}
               >
                 <span style={{ color: player.color }}>{player.name}</span>
-                {
-                  player.race &&
-                  <>&emsp;{player.race.name}</>
-                }
+                {player.race && <>&emsp;{t(`races.${player.race.id}`)}</>}
               </li>
             );
           })}

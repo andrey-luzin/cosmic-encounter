@@ -30,7 +30,8 @@ export const Select: FC<SelectProps> = ({ label, options, onChange, className, v
       <ReactSelect
         onChange={onChange}
         options={options}
-        defaultValue={value || options[0]}
+        value={value}
+        defaultValue={!value ? options[0] : undefined}
         styles={styles}
         isSearchable={false}
       />

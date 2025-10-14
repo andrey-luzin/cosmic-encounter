@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useI18n } from '@/i18n';
 
 import { Modal, ModalProps } from '@/components/Modal';
 import { DestinyCardEnum, DestinyCardType } from '@/types/CardTypes';
@@ -19,6 +20,7 @@ export const DestinyCardModal: FC<SelectionRaceModalProps> = ({
   onClose,
   destinyCard
 }) => {
+  const { t } = useI18n();
   const { state } = useStore();
 
   const { gameState } = state;
@@ -40,7 +42,7 @@ export const DestinyCardModal: FC<SelectionRaceModalProps> = ({
   const AttackButton = ({ player }: { player: PlayerType } ) => {
     return (
       <Button className="destiny-card-modal__button" onClick={() => handleAttackPlayer(player)}>
-        Атаковать игрока <span style={{ color: player.color}}>{player.name}</span>
+        {t('destiny.attackPlayer')} <span style={{ color: player.color}}>{player.name}</span>
       </Button>
     );
   };
@@ -53,7 +55,7 @@ export const DestinyCardModal: FC<SelectionRaceModalProps> = ({
     <Modal
       isVisible={isVisible}
       onClose={onClose}
-      title={"Выберите розыгрыш карты"}
+      title={t('destiny.chooseAction')}
       className='destiny-card-modal'
       canClose={false}
     >
@@ -106,10 +108,10 @@ export const DestinyCardModal: FC<SelectionRaceModalProps> = ({
             && destinyCard.color === players[activePlayer]?.color &&
             <>
               <Button className="destiny-card-modal__button" onClick={() => handleRestoreColony()}>
-                Восстановить домашнюю колонию
+                {t('destiny.restoreHomeColony')}
               </Button>
               <Button className="destiny-card-modal__button" onClick={() => handleGetNewDestinyCard()}>
-                Взять новую карту
+                {t('destiny.takeNewCard')}
               </Button>
             </>
           }

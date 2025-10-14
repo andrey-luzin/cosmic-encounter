@@ -13,6 +13,8 @@ import { songs } from '@/data/songs';
 import { NewGameModal } from '@/features/NewGame/NewGameModal';
 import { Modal } from '../Modal';
 import { useGameState } from '@/hooks/useGameState';
+import { useI18n } from '@/i18n';
+import { ISelectOption, Select } from '@/components/FormComponents/Select';
 
 type SettingsMenuProps = {
   isVisible: boolean,
@@ -34,6 +36,7 @@ const transitionStyles = {
 export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
   const { state, dispatch } = useStore();
   const { deleteGame } = useGameState();
+  const { t } = useI18n();
 
   const settingModalRef = useRef(null);
   const [modalIsVisible, setModalIsVisible] = useState<boolean>(isVisible);
@@ -127,6 +130,14 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
     });
   }, [deleteGame]);
 
+  const handleLanguageChange = useCallback((opt: ISelectOption | null) => {
+    if (!opt) return;
+    dispatch({
+      type: ActionTypes.SET_SETTINGS,
+      payload: { ...state.settings, language: String(opt.value) },
+    });
+  }, [dispatch, state.settings]);
+
   console.log('state', state);
   
   return(
@@ -141,15 +152,24 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
             }}
           >
             <header className="settings-menu__header">
-              <h2>Настройки</h2>
+              <h2>{t('settings.title')}</h2>
               <button className="settings-menu__close-btn" onClick={handleOnClose}>
                 <CloseIcon />
               </button>
             </header>
             <div className="settings-menu__children">
-              <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>Полный экран</Checkbox>
-              <Checkbox checked={state.settings.animation} onChange={changeAnimation}>Анимации</Checkbox>
-              <Checkbox checked={state.settings.musicIsOn} onChange={turnMusic}>Звуки космоса</Checkbox>
+              <Checkbox checked={isFullscreen} onChange={() => handleFullScreen()}>{t('settings.fullscreen')}</Checkbox>
+              <Checkbox checked={state.settings.animation} onChange={changeAnimation}>{t('settings.animations')}</Checkbox>
+              <Checkbox checked={state.settings.musicIsOn} onChange={turnMusic}>{t('settings.sounds')}</Checkbox>
+              <Select
+                label={t('settings.language')}
+                options={[
+                  { label: 'English', value: 'en' },
+                  { label: 'Русский', value: 'ru' },
+                ] as ISelectOption[]}
+                value={{ label: state.settings.language === 'ru' ? 'Русский' : 'English', value: state.settings.language } as ISelectOption}
+                onChange={(e) => handleLanguageChange(e as ISelectOption | null)}
+              />
               {
                 state.settings.musicIsOn &&
                 <>
@@ -165,13 +185,13 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
                   {
                     state.settings.musicSongIndex &&
                     <div className='settings-menu__song-wrapper'>
-                      <span className='settings-menu__song-source'>Source:</span>
+                      <span className='settings-menu__song-source'>{t('settings.source')}</span>
                       <a className='settings-menu__song-name link' target='_blank' href={currentSong?.link}>{currentSong?.name}</a>
                     </div>
                   }
                 </>
               }
-              <Button className='settings-menu__new-game-btn' onClick={() => handleNewGameClick(true)}>Новая игра</Button>
+              <Button className='settings-menu__new-game-btn' onClick={() => handleNewGameClick(true)}>{t('settings.newGame')}</Button>
             </div>
           </div>
         )}
@@ -183,12 +203,12 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ isVisible, onClose }) => {
       <Modal
         isVisible={showAlert}
         onClose={() => handleCloseAlert()}
-        title='Вы уверены?'
+        title={t('modal.confirmTitle')}
       >
-        <h2>Весь предыдущий прогресс сбросится</h2>
+        <h2>{t('modal.progressReset')}</h2>
         <div className='new-game-modal__cancel-info'>
-          <Button size="l" onClick={handleResetGameState}>Да</Button>
-          <Button size="l" onClick={() => handleCloseAlert()}>Нет</Button>
+          <Button size="l" onClick={handleResetGameState}>{t('common.yes')}</Button>
+          <Button size="l" onClick={() => handleCloseAlert()}>{t('common.no')}</Button>
         </div>
       </Modal>
     </>

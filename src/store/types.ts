@@ -10,6 +10,7 @@ interface SettingsState {
   musicIsOn: boolean,
   musicSongIndex?: number,
   volume: number,
+  language: string,
 }
 
 type LayoutState = RefObject<Element> | null;

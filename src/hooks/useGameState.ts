@@ -11,10 +11,12 @@ import { db } from "@/firebase.config";
 import { DBCollectionsEnum } from "@/types/DatabaseTypes";
 import { deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, updateDoc } from "firebase/firestore";
 import { LS_ITEM_GAME_ID, LS_ITEM_GAME_NICK } from "@/const";
+import { useI18n } from "@/i18n";
 
 export const useGameState = () => {
   const { state, dispatch } = useStore();
   const { addToLog } = useGameLog();
+  const { t } = useI18n();
   const [docRef, setDocRef] = useState<DocumentReference<DocumentData, DocumentData>>();
   const [docSnap, setDocSnap] = useState<DocumentSnapshot<DocumentData, DocumentData>>();
 
@@ -54,7 +56,7 @@ export const useGameState = () => {
         },
       });
       addToLog(
-        `<span style="color: ${player.color}">${player.name}</span> выбрал расу <b>${selectedRace.name}</b>`
+        `<span style="color: ${player.color}">${player.name}</span> йй${t('log.choseRace')} <b>${t(`races.${selectedRace.id}`)}</b>`
       );
     }
   }, [addToLog, dispatch, docRef, docSnap, state]);

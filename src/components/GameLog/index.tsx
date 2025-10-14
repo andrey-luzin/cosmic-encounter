@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
+import { useI18n } from '@/i18n';
 import cn from 'classnames';
 
 import { useStore } from '@/store';
@@ -9,6 +10,7 @@ import './index.scss';
 type GameLogProps = unknown;
 
 export const GameLog: FC<GameLogProps> = () => {
+  const { t } = useI18n();
   const { state } = useStore();
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -30,7 +32,7 @@ export const GameLog: FC<GameLogProps> = () => {
 
   return(
     <div className={cn('game-log', {'game-log--is-visible': state.gameLogIsOpen })}>
-      <h2 className='game-log__title'>Игровой лог:</h2>
+      <h2 className='game-log__title'>{t('log.title')}</h2>
       <ul className='game-log__list' ref={listRef}>
         {state.gameLog.map((logItem, index) => {
           const timestamp =

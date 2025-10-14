@@ -27,6 +27,7 @@ import { racesCards } from '@/data/races-cards';
 import { cosmicCards } from '@/data/cosmic-cards';
 import { destinyCards } from '@/data/destiny-cards';
 import { useGameState } from '@/hooks/useGameState';
+import { useI18n } from '@/i18n';
 
 type CreateGameProps = {
   onStart: () => void,
@@ -44,6 +45,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
   const { state, dispatch } = useStore();
   const { deleteGame } = useGameState();
   const { players } = state.gameState;
+  const { t } = useI18n();
 
   const getCountPlayerOptions = (): ISelectOption[] => {
     const result = [];
@@ -85,7 +87,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
 
   const handleCreateGame = useCallback(async () => {
     if (!playerName) {
-      return setError("Не заполнено имя игрока");
+      return setError(t('errors.emptyPlayerName'));
     }
     setError('');
     setGameBegins(true);
@@ -171,7 +173,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
           <Select
             onChange={(e) => e && handleCountChange(e as ISelectOption)}
             options={getCountPlayerOptions()}
-            label="Количество игроков"
+            label={t('newGame.playersCount')}
             className="new-game-modal__count-select"
             value={{
               value: playersCount,
@@ -179,7 +181,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
             }}
           />
           <Input
-            label='Имя игрока'
+            label={t('newGame.playerName')}
             onInput={(e) => handleInputChange(e.target.value)}
             className='new-game-modal__input'
           />
@@ -190,15 +192,15 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
             onClick={handleCreateGame}
             type="submit"
             className='new-game-modal__btn'
-          >Создать игру</Button>
+          >{t('newGame.create')}</Button>
         </form>
       }
       {
         waitingForPlayers &&
         <div className='new-game-modal__loader-block'>
-          <h2 className='new-game-modal__subtitle'>Ожидание игроков</h2>
+          <h2 className='new-game-modal__subtitle'>{t('newGame.waitingPlayers')}</h2>
           <div className='new-game-modal__share'>
-            Поделитесь с игроками Game ID: <b>{gameId}</b>
+            {t('newGame.shareGameId')}: <b>{gameId}</b>
             <button
               className='new-game-modal__copy-to-clipboard'
               onClick={handleCopyToClipboard}
@@ -211,7 +213,7 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
             <WaitingPlayersList players={players} />
           }
           <Loader className='new-game-modal__loader' />
-          <Button onClick={handleDeleteGame} view='warning'>Удалить игру</Button>
+          <Button onClick={handleDeleteGame} view='warning'>{t('newGame.delete')}</Button>
         </div>
       }
     </>

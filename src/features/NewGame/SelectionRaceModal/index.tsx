@@ -10,6 +10,7 @@ import { useGameState } from '@/hooks/useGameState';
 import { RaceType } from '@/types/RacesTypes';
 import { PlayerType } from '@/types/PlayerTypes';
 import { FLARES_PATH, RACES_PATH, RACES_PREVIEW_PATH } from '@/const';
+import { useI18n } from '@/i18n';
 
 import './index.scss';
 
@@ -25,6 +26,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
   const [selectedRace, setSelectedRace] = useState<RaceType | null>(null);
   const [fullRaceSrc, setfullRaceSrc] = useState<string>('');
   const [flareRaceSrc, setFlareRaceSrc] = useState<string>('');
+  const { t } = useI18n();
 
   const { races, getRaces } = useGetRaceCards();
 
@@ -60,7 +62,10 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
       isVisible={isVisible}
       onClose={onClose}
       canClose={false}
-      title={<>Выберите расу для&nbsp;<span style={{ color: player.color}}>{player.name}</span></>}
+      title={<>
+        {t('race.selectTitlePrefix')}
+        &nbsp;<span style={{ color: player.color}}>{player.name}</span>
+      </>}
       className='selection-race-modal'
     >
       <form className="selection-race-modal__inner" onSubmit={handleSubmit}>
@@ -88,7 +93,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
                     onPointerEnter={() => handleRaceHoverEnter(race)}
                     onPointerLeave={handleRaceHoverLeave}
                   />
-                  <span className='selection-race-modal__race-name'>{race.name}</span>
+                  <span className='selection-race-modal__race-name'>{t(`races.${race.id}`)}</span>
                 </label>
               );
             })
@@ -99,7 +104,7 @@ export const SelectionRaceModal: FC<SelectionRaceModalProps> = ({
           type="submit"
           className='selection-race-modal__start-btn'
           disabled={!selectedRace}
-        >Начать</Button>
+        >{t('common.start')}</Button>
       </form>
       <CardModal
         src={fullRaceSrc}

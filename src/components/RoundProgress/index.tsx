@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useI18n } from '@/i18n';
 import cx from 'classnames';
 
 import { SettingsMenu } from '../SettingsMenu';
@@ -16,6 +17,7 @@ import { steps } from './const';
 type RoundProgressProps = unknown;
 
 export const RoundProgress: FC<RoundProgressProps> = () => {
+  const { t } = useI18n();
   const divRef = useRef<HTMLDivElement>(null);
   const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(true);
   const { state, dispatch } = useStore();
@@ -51,7 +53,7 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
         <button
           className="round-progress__tool-btn"
           onClick={handleLogClick}
-          title='Лог'
+          title={t('log.titleShort')}
         >
           <QueueListIcon className={cx(
             "round-progress__tool-icon",
@@ -61,7 +63,7 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
         </button>
       </span>
       <div className="round-progress__current-player" title={activePlayer}>
-        Активный игрок:
+        {t('round.activePlayer')}
         <span
           className="round-progress__player-name"
           style={{ color: players && activePlayer && players[activePlayer].color }}
@@ -76,8 +78,8 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
                   "round-progress__step", 
                   { "round-progress__step--is-active": state.gameState.phase === step.phase }
                 )}
-                key={step.name}
-              >{step.name}</span>
+                key={step.phase}
+              >{t(`phases.${step.phase}`)}</span>
             );
           })
         }
@@ -85,7 +87,7 @@ export const RoundProgress: FC<RoundProgressProps> = () => {
       <button
         className="round-progress__tool-btn"
         onClick={() => handleSettingsClick(true)}
-        title='Настройки'
+        title={t('settings.title')}
       >
         <CogIcon className="round-progress__tool-icon round-progress__tool-icon--animation" />
       </button>

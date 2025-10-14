@@ -7,6 +7,7 @@ import { Spaceship } from '../Spaceship';
 import { ItemTypes, DropStateType } from '@/types/DnDTypes';
 import { PlayerType,  } from '@/types/PlayerTypes';
 import { useGameLog } from '@/hooks/useGameLog';
+import { useI18n } from '@/i18n';
 
 import './index.scss';
 
@@ -28,6 +29,7 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
   spaceshipsCount = 0,
 }) => {
   const { addToLog } = useGameLog();
+  const { t } = useI18n();
   const [spaceshipsGroup, setSpaceshipsGroup] = useState<({ count: number, color?: PlayerType['color']})[]>(
     [{ count: spaceshipsCount, color }]
   );
@@ -50,7 +52,7 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
     currentColor: PlayerType['color'],
     currentPlayerName: PlayerType['name']
   ) => {
-    addToLog(`<span style='color: ${currentColor}'>Игрок</span> передвинул корабль`);
+    addToLog(`<span style='color: ${currentColor}'>${t('common.player')}</span> ${t('log.movedShip')}`);
     let updatedSpaceshipsGroup = [];
 
     if (spaceshipsGroup.find(group => group.color === currentColor)) {
@@ -123,4 +125,3 @@ export const SpaceshipContainer: FC<SpaceshipContainerProps> = ({
     </div>
   );
 };
-
