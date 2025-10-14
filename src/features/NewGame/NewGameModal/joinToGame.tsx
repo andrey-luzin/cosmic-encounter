@@ -52,6 +52,9 @@ export const JoinToGame: FC<JoinToGameProps> = ({ onStart }) => {
       return setError("Такой игры нет");
     }
     if (docSnap.exists()) {
+      // control clearing of LS
+      localStorage.removeItem(LS_ITEM_GAME_NICK);
+
       const { players }: { players: GameStateType['players'] } = docSnap.data().gameState;
 
       if (Object.keys(players).find(player =>  player === playerName)) {

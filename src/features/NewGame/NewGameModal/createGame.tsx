@@ -90,6 +90,9 @@ export const CreateGame: FC<CreateGameProps> = ({ onStart }) => {
     setError('');
     setGameBegins(true);
 
+    // control clearing of LS
+    localStorage.removeItem(LS_ITEM_GAME_NICK);
+
     const iteratedPlayersList = Array.from({ length: playersCount }, (_, k) => k);
     const randomNumber = getRandomObjects(iteratedPlayersList)[0];
     const randomColor = getRandomObjects(playersColors)[0];

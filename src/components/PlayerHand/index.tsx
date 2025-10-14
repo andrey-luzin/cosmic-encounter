@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import cx from 'classnames';
 
 import { CardModal } from '../CardModal';
@@ -14,11 +14,13 @@ import { Button } from '../FormComponents/Button';
 import { DestinyCardModal } from '@/features/NewGame/DestinyCardModal';
 import { useGetDestinyCards } from '@/hooks/useGetDestinyCards';
 import { DestinyCardType } from '@/types/CardTypes';
+import { useGetCosmicCards } from '@/hooks/useGetCosmicCards';
 
 type PlayerHandProps = unknown;
 
 export const PlayerHand: FC<PlayerHandProps> = () => {
   // const { getDestiny } = useGetDestinyCards();
+  const { cosmicCards, getCosmicCards } = useGetCosmicCards();
   const { state } = useStore();
 
   const [isFullView, setIsFullView] = useState<boolean>(false);
@@ -26,6 +28,12 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
   const [clientX, setClientX] = useState<number>(0);
   const [destinyModalIsVisible, setDestinyModalIsVisible] = useState<boolean>(false);
   const [destinyCard, setDestinyCard] = useState<DestinyCardType | null>(null);
+
+  useEffect(() => {
+    if (state.gameState.gameIsStarted) {
+      getCosmicCards(8);
+    }
+  }, [getCosmicCards, state.gameState.gameIsStarted]);
 
   const handleArrowClick = useCallback(() => {
     setIsFullView(!isFullView);
@@ -61,6 +69,8 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
     return null;
   }
 
+  console.log('cosmicCards', cosmicCards);
+
   return(
     <>
       <div className="player-hand">
@@ -69,7 +79,7 @@ export const PlayerHand: FC<PlayerHandProps> = () => {
           { "player-hand__cards-list--is-not-full-view": !isFullView }
         )}>
           {
-            players?.[activePlayer]?.cards?.map(card => {
+            cosmicCards?.length && cosmicCards.map(card => {
               const src = `/images/${COSMIC_CARDS_PATH}/${card.id}.webp`;
               return (
                 <div

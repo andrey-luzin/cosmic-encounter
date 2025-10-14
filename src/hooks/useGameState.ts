@@ -6,7 +6,7 @@ import { RaceType } from "@/types/RacesTypes";
 import { PlayerType } from "@/types/PlayerTypes";
 import { Phases } from "@/types/PhaseTypes";
 import { destinyCards } from "@/data/destiny-cards";
-import { DestinyCardEnum } from "@/types/CardTypes";
+import { CosmicCardType, DestinyCardEnum } from "@/types/CardTypes";
 import { db } from "@/firebase.config";
 import { DBCollectionsEnum } from "@/types/DatabaseTypes";
 import { deleteDoc, doc, DocumentData, DocumentReference, DocumentSnapshot, getDoc, updateDoc } from "firebase/firestore";
@@ -100,5 +100,18 @@ export const useGameState = () => {
     });
   }, [dispatch, state.gameState.gameId]);
 
-  return { selectRace, startGame, deleteGame };
+  const setPlayerCosmicHand = useCallback(async (cosmicCards: CosmicCardType[]) => {
+    const { currentPlayer } = state;
+
+    if (currentPlayer && docRef && docSnap?.exists()) {
+      await updateDoc(docRef, {
+        [`gameState.players.${currentPlayer.name}`]: {
+          ...currentPlayer,
+          cosmicCards
+        },
+      });
+    }
+  }, [docRef, docSnap, state]);
+
+  return { selectRace, startGame, deleteGame, setPlayerCosmicHand };
 };
