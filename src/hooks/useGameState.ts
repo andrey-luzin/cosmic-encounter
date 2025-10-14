@@ -56,7 +56,7 @@ export const useGameState = () => {
         },
       });
       addToLog(
-        `<span style="color: ${player.color}">${player.name}</span> йй${t('log.choseRace')} <b>${t(`races.${selectedRace.id}`)}</b>`
+        `<span style="color: ${player.color}">${player.name}</span> ${t('log.choseRace')} <b>${t(`races.${selectedRace.id}`)}</b>`
       );
     }
   }, [addToLog, dispatch, docRef, docSnap, state]);
